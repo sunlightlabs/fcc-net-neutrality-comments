@@ -3,16 +3,21 @@ import json
 import sys
 import os
 
-def gposttl(utterance):
+def gposttl(utterance, identifier="no_id"):
     p = subprocess.Popen(['gposttl','--silent'], stdout=subprocess.PIPE, stdin=subprocess.PIPE)
-    out = p.communicate(utterance)
-    if len(out) > 1:
-        tokens = [a.replace('\t','|') 
-                  for a in out[0].split('\n') 
-                  if len(a) > 0]
-        return tokens
+    (out, error) = p.communicate(utterance)
+    if p.returncode != '0':
+        if len(out) > 1:
+            tokens = [a.replace('\t','|') 
+                      for a in out.split('\n') 
+                      if len(a) > 0]
+            return tokens
+        else:
+            raise Exception('Error: no text to parse')
     else:
-        raise Exception('#Error: no text to parse')
+        msg = str(error)
+        code = str(p.returncode)
+        raise Exception(': '.join([identifier, code, msg]))
 
 def tag_content(s):
     tagged_content = ' '.join(gposttl(s))
