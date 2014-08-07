@@ -4,6 +4,7 @@ import sys
 import os
 
 def gposttl(utterance, identifier="no_id"):
+    utterance = utterance.replace('\t',' ')
     p = subprocess.Popen(['gposttl','--silent'], stdout=subprocess.PIPE, stdin=subprocess.PIPE)
     (out, error) = p.communicate(utterance.encode('utf8'))
     if p.returncode != '0':
