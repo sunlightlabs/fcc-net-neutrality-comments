@@ -4,9 +4,8 @@ import sys
 import os
 
 def gposttl(utterance):
-    command = 'echo "%s" | gposttl --silent'%utterance
-    p = subprocess.Popen(command,shell=True,stdout=subprocess.PIPE)
-    out = p.communicate()
+    p = subprocess.Popen(['gposttl','--silent'], stdout=subprocess.PIPE, stdin=subprocess.PIPE)
+    out = p.communicate(utterance)
     if len(out) > 1:
         tokens = [a.replace('\t','|') 
                   for a in out[0].split('\n') 
