@@ -5,7 +5,7 @@ import os
 
 def gposttl(utterance, identifier="no_id"):
     p = subprocess.Popen(['gposttl','--silent'], stdout=subprocess.PIPE, stdin=subprocess.PIPE)
-    (out, error) = p.communicate(utterance)
+    (out, error) = p.communicate(utterance.encode('utf8'))
     if p.returncode != '0':
         if len(out) > 1:
             out = out.decode('utf8')
