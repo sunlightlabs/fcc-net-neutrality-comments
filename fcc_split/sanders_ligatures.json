@@ -1,0 +1,1454 @@
+[
+    [
+        " de ", 
+        "tide "
+    ], 
+    [
+        " er ", 
+        "tier "
+    ], 
+    [
+        " ered", 
+        "tiered"
+    ], 
+    [
+        " ers", 
+        "tiers"
+    ], 
+    [
+        " l ", 
+        "til "
+    ], 
+    [
+        " l ng", 
+        "tilting"
+    ], 
+    [
+        " ll ", 
+        "till "
+    ], 
+    [
+        " mes ", 
+        "times "
+    ], 
+    [
+        "a ack", 
+        "attack"
+    ], 
+    [
+        "a acking", 
+        "attacking"
+    ], 
+    [
+        "a emp ng", 
+        "attempting"
+    ], 
+    [
+        "a empt", 
+        "attempt"
+    ], 
+    [
+        "a empted", 
+        "attempted"
+    ], 
+    [
+        "a empts", 
+        "attempts"
+    ], 
+    [
+        "a en on", 
+        "attention"
+    ], 
+    [
+        "a er", 
+        "after"
+    ], 
+    [
+        "a ributed", 
+        "attributed"
+    ], 
+    [
+        "abdica ng", 
+        "abdicating"
+    ], 
+    [
+        "ac ng", 
+        "acting"
+    ], 
+    [
+        "ac on", 
+        "action"
+    ], 
+    [
+        "ac ons", 
+        "actions"
+    ], 
+    [
+        "ac ve", 
+        "active"
+    ], 
+    [
+        "accep ng", 
+        "accepting"
+    ], 
+    [
+        "acquisi on", 
+        "acquisition"
+    ], 
+    [
+        "addi onal", 
+        "additional"
+    ], 
+    [
+        "addi onally", 
+        "additionally"
+    ], 
+    [
+        "administra on", 
+        "administration"
+    ], 
+    [
+        "adver sing", 
+        "advertising"
+    ], 
+    [
+        "alterna ve", 
+        "alternative"
+    ], 
+    [
+        "an quated", 
+        "antiquated"
+    ], 
+    [
+        "an thesis", 
+        "antithesis"
+    ], 
+    [
+        "anima on", 
+        "animation"
+    ], 
+    [
+        "antagonis c", 
+        "antagonistic"
+    ], 
+    [
+        "applica ons", 
+        "applications"
+    ], 
+    [
+        "ar cle", 
+        "article"
+    ], 
+    [
+        "ar sts", 
+        "artists"
+    ], 
+    [
+        "assifica on", 
+        "assification"
+    ], 
+    [
+        "bas on", 
+        "bastion"
+    ], 
+    [
+        "be er", 
+        "better"
+    ], 
+    [
+        "be erment", 
+        "betterment"
+    ], 
+    [
+        "beau ful", 
+        "beautiful"
+    ], 
+    [
+        "benefi ng", 
+        "benefitting"
+    ], 
+    [
+        "bi erly", 
+        "bitterly"
+    ], 
+    [
+        "bo om", 
+        "bottom"
+    ], 
+    [
+        "boyco ", 
+        "boycott"
+    ], 
+    [
+        "broadcas ng", 
+        "broadcasting"
+    ],  
+    [
+        "capabili es", 
+        "capabilities"
+    ], 
+    [
+        "ci es", 
+        "cities"
+    ], 
+    [
+        "ci zen", 
+        "citizen"
+    ], 
+    [
+        "ci zenry", 
+        "citizenry"
+    ], 
+    [
+        "ci zens", 
+        "citizens"
+    ], 
+    [
+        "circula ng", 
+        "circulating"
+    ], 
+    [
+        "circula on", 
+        "circulation"
+    ], 
+    [
+        "civiliza on", 
+        "civilization"
+    ], 
+    [
+        "classifica on", 
+        "classification"
+    ], 
+    [
+        "collec ve", 
+        "collective"
+    ], 
+    [
+        "collec vely", 
+        "collectively"
+    ], 
+    [
+        "commi ed", 
+        "committed"
+    ], 
+    [
+        "communi es", 
+        "communities"
+    ], 
+    [
+        "communica ng", 
+        "communicating"
+    ], 
+    [
+        "communica on", 
+        "communication"
+    ], 
+    [
+        "communica ons", 
+        "communications"
+    ], 
+    [
+        "compe ng", 
+        "competing"
+    ], 
+    [
+        "compe on", 
+        "competition"
+    ], 
+    [
+        "compe tors", 
+        "competitors"
+    ], 
+    [
+        "compe ve", 
+        "competitive"
+    ], 
+    [
+        "con nually", 
+        "continually"
+    ], 
+    [
+        "con nuance", 
+        "continuance"
+    ], 
+    [
+        "con nue", 
+        "continue"
+    ], 
+    [
+        "con nued", 
+        "continued"
+    ], 
+    [
+        "con nues", 
+        "continues"
+    ], 
+    [
+        "con nuing", 
+        "continuing"
+    ], 
+    [
+        "con nuous", 
+        "continuous"
+    ], 
+    [
+        "concentra on", 
+        "concentration"
+    ], 
+    [
+        "concentra ons", 
+        "concentrations"
+    ], 
+    [
+        "concep on", 
+        "conception"
+    ], 
+    [
+        "condi on", 
+        "condition"
+    ], 
+    [
+        "connec ng", 
+        "connecting"
+    ], 
+    [
+        "connec on", 
+        "connection"
+    ], 
+    [
+        "connec ons", 
+        "connections"
+    ], 
+    [
+        "connec vity", 
+        "connectivity"
+    ], 
+    [
+        "cons tu on", 
+        "constitution"
+    ], 
+    [
+        "cons tu onal", 
+        "constitutional"
+    ], 
+    [
+        "cons tu onally", 
+        "constitutionally"
+    ], 
+    [
+        "considera on", 
+        "consideration"
+    ], 
+    [
+        "considera ons", 
+        "considerations"
+    ], 
+    [
+        "consolida on", 
+        "consolidation"
+    ], 
+    [
+        "constric ng", 
+        "constricting"
+    ], 
+    [
+        "consulta on", 
+        "consultation"
+    ], 
+    [
+        "conten on", 
+        "contention"
+    ], 
+    [
+        "contribu on", 
+        "contribution"
+    ], 
+    [
+        "contribu ons", 
+        "contributions"
+    ], 
+    [
+        "coopera ve", 
+        "cooperative"
+    ], 
+    [
+        "corona ons", 
+        "coronations"
+    ], 
+    [
+        "corpera ons", 
+        "corperations"
+    ], 
+    [
+        "corpora on", 
+        "corporation"
+    ], 
+    [
+        "corpora ons", 
+        "corporations"
+    ], 
+    [
+        "corpora sm", 
+        "corporatism"
+    ], 
+    [
+        "corpora sts", 
+        "corporatists"
+    ], 
+    [
+        "corrup ng", 
+        "corrupting"
+    ], 
+    [
+        "corrup on", 
+        "corruption"
+    ], 
+    [
+        "corrup ve", 
+        "corruptive"
+    ], 
+    [
+        "corrupora ons", 
+        "corruporations"
+    ], 
+    [
+        " cra ", 
+        " craft"
+    ], 
+    [
+        "crea ng", 
+        "creating"
+    ], 
+    [
+        "crea on", 
+        "creation"
+    ], 
+    [
+        "crea ve", 
+        "creative"
+    ], 
+    [
+        "crea vity", 
+        "creativity"
+    ], 
+    [
+        "cri cal", 
+        "critical"
+    ], 
+    [
+        "cri cally", 
+        "critically"
+    ], 
+    [
+        "cri cism", 
+        "criticism"
+    ], 
+    [
+        "cu ng", 
+        "cutting"
+    ], 
+    [
+        "deba ng", 
+        "debating"
+    ], 
+    [
+        "democra c", 
+        "democratic"
+    ], 
+    [
+        "despo sm", 
+        "despotism"
+    ], 
+    [
+        "destruc on", 
+        "destruction"
+    ], 
+    [
+        "devasta ng", 
+        "devastating"
+    ], 
+    [
+        "devia on", 
+        "deviation"
+    ], 
+    [
+        "direc on", 
+        "direction"
+    ], 
+    [
+        "dis nc on", 
+        "distinction"
+    ], 
+    [
+        "dis nctly", 
+        "distinctly"
+    ], 
+    [
+        "discrimina ng", 
+        "discriminating"
+    ], 
+    [
+        "discrimina on", 
+        "discrimination"
+    ], 
+    [
+        "disgus ng", 
+        "disgusting"
+    ], 
+    [
+        "dissemina on", 
+        "dissemination"
+    ], 
+    [
+        "distor on", 
+        "distortion"
+    ],  
+    [
+        "distribu on", 
+        "distribution"
+    ], 
+    [
+        "domina on", 
+        "domination"
+    ], 
+    [
+        "dona ons", 
+        "donations"
+    ], 
+    [
+        " dra ", 
+        " draft"
+    ], 
+    [
+        "dra ed", 
+        "drafted"
+    ], 
+    [
+        "du es", 
+        "duties"
+    ], 
+    [
+        "educa on", 
+        "education"
+    ], 
+    [
+        "educa onal", 
+        "educational"
+    ], 
+    [
+        "elec ons", 
+        "elections"
+    ], 
+    [
+        "eli st", 
+        "elitist"
+    ], 
+    [
+        "elimina ng", 
+        "eliminating"
+    ], 
+    [
+        "elimina on", 
+        "elimination"
+    ], 
+    [
+        "en re", 
+        "entire"
+    ], 
+    [
+        "en rely", 
+        "entirely"
+    ], 
+    [
+        "en tled", 
+        "entitled"
+    ], 
+    [
+        "en ty", 
+        "entity"
+    ], 
+    [
+        "essen al", 
+        "essential"
+    ], 
+    [
+        "essen ally", 
+        "essentially"
+    ], 
+    [
+        "evalua on", 
+        "evaluation"
+    ], 
+    [
+        "exis ng", 
+        "existing"
+    ], 
+    [
+        "extor ng", 
+        "extorting"
+    ], 
+    [
+        "extor on", 
+        "extortion"
+    ], 
+    [
+        "fantas c", 
+        "fantastic"
+    ], 
+    [
+        "fer liza on", 
+        "fertilization"
+    ], 
+    [
+        "figh ng", 
+        "fighting"
+    ], 
+    [
+        "finger ps", 
+        "fingertips"
+    ], 
+    [
+        "forma on", 
+        "formation"
+    ], 
+    [
+        "founda on", 
+        "foundation"
+    ], 
+    [
+        "fron er", 
+        "frontier"
+    ], 
+    [
+        "func on", 
+        "function"
+    ], 
+    [
+        "func onal", 
+        "functional"
+    ], 
+    [
+        "ge ng", 
+        "getting"
+    ], 
+    [
+        "genera on", 
+        "generation"
+    ], 
+    [
+        "genera ons", 
+        "generations"
+    ], 
+    [
+        " gi ", 
+        " gift"
+    ], 
+    [
+        "gigan c", 
+        "gigantic"
+    ], 
+    [
+        "globaliza on", 
+        "globaltization"
+    ], 
+    [
+        "go en", 
+        "gotten"
+    ], 
+    [
+        "gu ng", 
+        "gutting"
+    ],  
+    [
+        "hi ng", 
+        "hitting"
+    ], 
+    [
+        "hur ng", 
+        "hurting"
+    ], 
+    [
+        "iden fiers", 
+        "identifiers"
+    ], 
+    [
+        "imagina ons", 
+        "imaginations"
+    ], 
+    [
+        "immorali es", 
+        "immoralities"
+    ], 
+    [
+        "impera ve", 
+        "imperative"
+    ], 
+    [
+        "implementa on", 
+        "implementation"
+    ], 
+    [
+        "in mida ng", 
+        "intimidating"
+    ], 
+    [
+        "incen ve", 
+        "incentive"
+    ], 
+    [
+        "incompa ble", 
+        "incompatible"
+    ], 
+    [
+        "influen al", 
+        "influential"
+    ], 
+    [
+        "informa on", 
+        "information"
+    ], 
+    [
+        "inhibi ng", 
+        "inhibiting"
+    ], 
+    [
+        "ini a ve",
+        "initiative"
+    ],
+    [
+        "injus ce", 
+        "injustice"
+    ], 
+    [
+        "injus ces", 
+        "injustices"
+    ], 
+    [
+        "innova on", 
+        "innovation"
+    ], 
+    [
+        "innova ons", 
+        "innovations"
+    ], 
+    [
+        "innova ve", 
+        "innovative"
+    ], 
+    [
+        "ins tu on", 
+        "institution"
+    ], 
+    [
+        "ins tu ons", 
+        "instutions"
+    ], 
+    [
+        "inten ons", 
+        "intentions"
+    ], 
+    [
+        "interna onal", 
+        "international"
+    ], 
+    [
+        "interpreta on", 
+        "interpretation"
+    ], 
+    [
+        "interrup on", 
+        "interruption"
+    ], 
+    [
+        "introduc on", 
+        "introduction"
+    ], 
+    [
+        "inven on", 
+        "invention"
+    ], 
+    [
+        "inven ons", 
+        "inventions"
+    ], 
+    [
+        "jus ce", 
+        "justice"
+    ], 
+    [
+        "jus fy", 
+        "justify"
+    ], 
+    [
+        " le ", 
+        " left"
+    ], 
+    [
+        "le er", 
+        "letter"
+    ], 
+    [
+        "le ng", 
+        "letting"
+    ], 
+    [
+        "legisla ng", 
+        "legislating"
+    ], 
+    [
+        "legisla on", 
+        "legislation"
+    ], 
+    [
+        "legisla ve", 
+        "legislative"
+    ], 
+    [
+        "li le", 
+        "little"
+    ], 
+    [
+        "life me", 
+        "lifetime"
+    ], 
+    [
+        "limi ng", 
+        "limiting"
+    ], 
+    [
+        "ma er", 
+        "matter"
+    ], 
+    [
+        "ma ers", 
+        "matters"
+    ],  
+    [
+        "manifesta on", 
+        "manifestation"
+    ], 
+    [
+        "marke ng", 
+        "marketing"
+    ], 
+    [
+        "misinterpreta on", 
+        "misinterpretation"
+    ], 
+    [
+        "mone za on", 
+        "monetization"
+    ], 
+    [
+        "mone ze", 
+        "monetize"
+    ], 
+    [
+        "monopolis c", 
+        "monopolistic"
+    ], 
+    [
+        "monopoliza on", 
+        "monopolization"
+    ], 
+    [
+        "mul billion", 
+        "multibillion"
+    ], 
+    [
+        "mul na onal", 
+        "multinational"
+    ], 
+    [
+        "na on", 
+        "nation"
+    ], 
+    [
+        "na onal", 
+        "national"
+    ], 
+    [
+        "na ons", 
+        "nations"
+    ], 
+    [
+        "necessi es", 
+        "necessities"
+    ], 
+    [
+        "nega ve", 
+        "negative"
+    ], 
+    [
+        "nega vely", 
+        "negatively"
+    ], 
+    [
+        "nego a ng", 
+        "negotiating"
+    ], 
+    [
+        "no ceable", 
+        "noticeable"
+    ], 
+    [
+        "no ced", 
+        "noticed"
+    ], 
+    [
+        "nondiscrimina on", 
+        "nondiscrimination"
+    ], 
+    [
+        " o en", 
+        " often"
+    ], 
+    [
+        "objec vely", 
+        "objectively"
+    ], 
+    [
+        "op c", 
+        "optic"
+    ], 
+    [
+        "op cs", 
+        "optics"
+    ], 
+    [
+        "op on", 
+        "option"
+    ], 
+    [
+        "op ons", 
+        "options"
+    ], 
+    [
+        "opera ons", 
+        "operations"
+    ], 
+    [
+        "opportuni es", 
+        "opportunities"
+    ], 
+    [
+        "ora on", 
+        "oration"
+    ], 
+    [
+        "ora ons", 
+        "orations"
+    ], 
+    [
+        "organiza on", 
+        "organization"
+    ], 
+    [
+        "organiza ons", 
+        "organizations"
+    ], 
+    [
+        "ova on", 
+        "ovation"
+    ], 
+    [
+        "par cipa on", 
+        "participation"
+    ], 
+    [
+        "par cipate", 
+        "participate"
+    ], 
+    [
+        "par cular", 
+        "particular"
+    ], 
+    [
+        "par cularly", 
+        "particularly"
+    ], 
+    [
+        "par es", 
+        "parties"
+    ], 
+    [
+        "par san", 
+        "partisan"
+    ], 
+    [
+        "penetra ng", 
+        "penetrating"
+    ], 
+    [
+        "per cular", 
+        "perticular"
+    ], 
+    [
+        "perpetra on", 
+        "perpetration"
+    ], 
+    [
+        "pla orm", 
+        "platform"
+    ], 
+    [
+        "plutocra c", 
+        "plutocratic"
+    ], 
+    [
+        "poin ng", 
+        "pointing"
+    ], 
+    [
+        "poli c", 
+        "politic"
+    ], 
+    [
+        "poli cal", 
+        "political"
+    ], 
+    [
+        "poli cian", 
+        "politician"
+    ], 
+    [
+        "poli cians", 
+        "politicians"
+    ], 
+    [
+        "poli cs", 
+        "politics"
+    ], 
+    [
+        "popula on", 
+        "population"
+    ], 
+    [
+        "por on", 
+        "portion"
+    ], 
+    [
+        "por ons", 
+        "portions"
+    ], 
+    [
+        "pos ng", 
+        "positing"
+    ], 
+    [
+        "posi on", 
+        "position"
+    ], 
+    [
+        "posi ve", 
+        "positive"
+    ], 
+    [
+        "poten al", 
+        "potential"
+    ], 
+    [
+        "prac cally", 
+        "practically"
+    ], 
+    [
+        "prac ce", 
+        "practice"
+    ], 
+    [
+        "prac ced", 
+        "practiced"
+    ], 
+    [
+        "prac ces", 
+        "practices"
+    ], 
+    [
+        "preferen a", 
+        "preferential"
+    ], 
+    [
+        "preferen al", 
+        "preferential"
+    ], 
+    [
+        "prin ng", 
+        "printing"
+    ], 
+    [
+        "priori ze", 
+        "prioritize"
+    ], 
+    [
+        "priori zed", 
+        "prioritized"
+    ], 
+    [
+        "priori zing", 
+        "prioritizing"
+    ], 
+    [
+        "produc on", 
+        "production"
+    ], 
+    [
+        "prohibi ng", 
+        "prohibiting"
+    ], 
+    [
+        "prohibi vely", 
+        "prohibitively"
+    ], 
+    [
+        "prolifera on", 
+        "proliferation"
+    ], 
+    [
+        "proper es", 
+        "properties"
+    ], 
+    [
+        "proposi on", 
+        "proposition"
+    ], 
+    [
+        "protec ng", 
+        "protecting"
+    ], 
+    [
+        "protec on", 
+        "protection"
+    ], 
+    [
+        "protec ons", 
+        "protections"
+    ], 
+    [
+        "pu ng", 
+        "putting"
+    ], 
+    [
+        "ques on", 
+        "question"
+    ], 
+    [
+        "ques ons", 
+        "questions"
+    ], 
+    [
+        "ra ng", 
+        "rating"
+    ], 
+    [
+        "ra ngs", 
+        "ratings"
+    ], 
+    [
+        "ra onaliza ons", 
+        "rationalizations"
+    ], 
+    [
+        "ra onalized", 
+        "rationalized"
+    ], 
+    [
+        "ra ons", 
+        "rations"
+    ], 
+    [
+        "ramifica ons", 
+        "ramifications"
+    ], 
+    [
+        "recrea on", 
+        "recreation"
+    ], 
+    [
+        "regre able", 
+        "regrettable"
+    ], 
+    [
+        "regula on", 
+        "regulation"
+    ], 
+    [
+        "regula ons", 
+        "regulations"
+    ], 
+    [
+        "rela onship", 
+        "relationship"
+    ], 
+    [
+        "rela vely", 
+        "relatively"
+    ], 
+    [
+        "representa ve", 
+        "representative"
+    ], 
+    [
+        "representa ves", 
+        "representatives"
+    ], 
+    [
+        "resigna on", 
+        "resignation"
+    ], 
+    [
+        "resor ng", 
+        "resorting"
+    ], 
+    [
+        "respec ully", 
+        "respectfully"
+    ], 
+    [
+        "restric ng", 
+        "restricting"
+    ], 
+    [
+        "restric on", 
+        "restriction"
+    ], 
+    [
+        "restric ons", 
+        "restrictions"
+    ], 
+    [
+        "restric ve", 
+        "restrictive"
+    ], 
+    [
+        "revolu on", 
+        "revolution"
+    ], 
+    [
+        "revolu onary", 
+        "revolutionary"
+    ], 
+    [
+        "revolu onized", 
+        "revolutionized"
+    ], 
+    [
+        "righ ully", 
+        "rightfully"
+    ], 
+    [
+        "rou ng", 
+        "routing"
+    ], 
+    [
+        "s cking", 
+        "sticking"
+    ], 
+    [
+        "s fel", 
+        "stifel"
+    ], 
+    [
+        "s fle", 
+        "stifle"
+    ], 
+    [
+        "s fled", 
+        "stifled"
+    ], 
+    [
+        "s fling", 
+        "stifling"
+    ], 
+    [
+        "s ll", 
+        "still"
+    ], 
+    [
+        "s mula ng", 
+        "stimulating"
+    ], 
+    [
+        "s mulates", 
+        "stimulates"
+    ], 
+    [
+        "s nking", 
+        "stinking"
+    ], 
+    [
+        "sa re", 
+        "satire"
+    ], 
+    [
+        "se ng", 
+        "setting"
+    ], 
+    [
+        "segrega on", 
+        "segregation"
+    ], 
+    [
+        "separa on", 
+        "separation"
+    ], 
+    [
+        "situa on", 
+        "situation"
+    ], 
+    [
+        "so ware", 
+        "software"
+    ], 
+    [
+        "socie es", 
+        "societies"
+    ], 
+    [
+        "solu on", 
+        "solution"
+    ], 
+    [
+        "sta on", 
+        "station"
+    ], 
+    [
+        "sta ons", 
+        "stations"
+    ], 
+    [
+        "stagna on", 
+        "stagnation"
+    ], 
+    [
+        "star ng", 
+        "starting"
+    ], 
+    [
+        "stra fy", 
+        "stratify"
+    ], 
+    [
+        "submi ed", 
+        "submitted"
+    ], 
+    [
+        "subscrip on", 
+        "subscription"
+    ], 
+    [
+        "substan al", 
+        "substantial"
+    ], 
+    [
+        "subver ng", 
+        "subverting"
+    ], 
+    [
+        "suppor ng", 
+        "supporting"
+    ], 
+    [
+        "telecommunica ons", 
+        "telecommunications"
+    ], 
+    [
+        "termina on", 
+        "termination"
+    ], 
+    [
+        "thro le", 
+        "throttle"
+    ], 
+    [
+        "thro led", 
+        "throttled"
+    ], 
+    [
+        "thro ling", 
+        "throttling"
+    ], 
+    [
+        "trac on", 
+        "traction"
+    ], 
+    [
+        "tradi on", 
+        "tradition"
+    ], 
+    [
+        "tradi onal", 
+        "traditional"
+    ], 
+    [
+        "transac ons", 
+        "transactions"
+    ], 
+    [
+        "transmi ed", 
+        "transmitted"
+    ], 
+    [
+        "transmi ng", 
+        "transmitting"
+    ], 
+    [
+        "transporta on", 
+        "transportation"
+    ], 
+    [
+        "u li es", 
+        "utilities"
+    ], 
+    [
+        "u lity", 
+        "utility"
+    ], 
+    [
+        "u lizes", 
+        "utilizes"
+    ], 
+    [
+        "ul mately", 
+        "ultimately"
+    ], 
+    [
+        "un l", 
+        "until"
+    ], 
+    [
+        "unfe ered", 
+        "unfettered"
+    ], 
+    [
+        "universi es", 
+        "universities"
+    ], 
+    [
+        "ves ge", 
+        "vestige"
+    ], 
+    [
+        "ves ges", 
+        "vestiges"
+    ], 
+    [
+        "viola on", 
+        "violation"
+    ], 
+    [
+        "wan ng", 
+        "wanting"
+    ], 
+    [
+        "was ng", 
+        "wasting"
+    ], 
+    [
+        "wri en", 
+        "written"
+    ], 
+    [
+        "wri ng", 
+        "writing"
+    ]
+]
