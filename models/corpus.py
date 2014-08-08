@@ -12,23 +12,26 @@ class LazyCorpus(object):
         else:
             self.tokenizer = tokenizer
         if dictionary:
-            self.next = self._iter_bow
+            self.dictionary = dictionary
+            self.return_doctext = self._return_bow
+        else:
+            self.return_doctext = self._return_tokens
         self.documents = []
 
     def __len__(self):
         return len(self._document_list)
 
     def __iter__(self):
-        return self
+        for doc in self.documents:
+            doctext = self.extract_doctext(doc)
+            yield self.return_doctext(doctext)
 
-    def next(self):
-        doc = self.documents.next()
-        doctext = self.extract_doctext(doc)
+    def _return_tokens(self, doctext):
         return self.tokenizer.tokenize(doctext)
 
-    def _iter_bow(self):
-        doc = self.extract_doctext(self.documents.next())
-        return self.dictionary.doc2bow(self.tokenizer.tokenize(doc))
+    def _return_bow(self, doctext):
+        doctext = self.extract_doctext(self.documents.next())
+        return self.dictionary.doc2bow(self.tokenizer.tokenize(doctext))
 
     def extract_doctext(self, file_loc):
         raise NotImplementedError
@@ -53,7 +56,7 @@ class LazyCorpus(object):
     @dictionary.setter
     def dictionary(self, new_dictionary):
         self._dictionary = new_dictionary
-        self.next = self._iter_bow
+        self.return_doctext = self._return_bow
 
     @property
     def tokenizer(self):
@@ -78,7 +81,7 @@ class LazyJSONCorpus(LazyCorpus):
 
     def __init__(self, tokenizer=None, dictionary=None, path_to_text='text'):
         self.path_to_text = path_to_text
-        super(LazyJSONCorpus, self).__init__(tokenizer)
+        super(LazyJSONCorpus, self).__init__(tokenizer, dictionary)
 
     def extract_doctext(self, file_loc):
         with open(file_loc, 'r') as file_in:
