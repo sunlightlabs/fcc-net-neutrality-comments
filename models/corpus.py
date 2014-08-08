@@ -22,8 +22,9 @@ class LazyCorpus(object):
         return self
 
     def next(self):
-        doc = self.extract_doctext(self.documents.next())
-        return self.tokenizer.tokenize(doc)
+        doc = self.documents.next()
+        doctext = self.extract_doctext(doc)
+        return self.tokenizer.tokenize(doctext)
 
     def _iter_bow(self):
         doc = self.extract_doctext(self.documents.next())
