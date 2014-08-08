@@ -1,31 +1,33 @@
 import json
 from glob import glob
 
-from gensim.corpora import Dictionary
-
 from .tokenizer import DefaultTokenizer
 
 
 class LazyCorpus(object):
 
-    def __init__(self, tokenizer=None):
+    def __init__(self, tokenizer=None, dictionary=None):
         if not tokenizer:
             self.tokenizer = DefaultTokenizer()
         else:
             self.tokenizer = tokenizer
-        self._dictionary = False
+        if dictionary:
+            self.next = self._iter_bow
         self.documents = []
-        self.dictionary_tokenizer_match = False
 
     def __len__(self):
         return len(self._document_list)
 
     def __iter__(self):
+        return self
+
+    def next(self):
         doc = self.extract_doctext(self.documents.next())
-        if self.tokenizer:
-            yield self.dictionary.doc2bow(self.tokenizer.tokenize(doc))
-        else:
-            yield self.dictionary.doc2bow(doc.rstrip().lower().split())
+        return self.tokenizer.tokenize(doc)
+
+    def _iter_bow(self):
+        doc = self.extract_doctext(self.documents.next())
+        return self.dictionary.doc2bow(self.tokenizer.tokenize(doc))
 
     def extract_doctext(self, file_loc):
         raise NotImplementedError
@@ -50,10 +52,7 @@ class LazyCorpus(object):
     @dictionary.setter
     def dictionary(self, new_dictionary):
         self._dictionary = new_dictionary
-
-    @dictionary.deleter
-    def dictionary(self):
-        del self._dictionary
+        self.next = self._iter_bow
 
     @property
     def tokenizer(self):
@@ -62,7 +61,6 @@ class LazyCorpus(object):
     @tokenizer.setter
     def tokenizer(self, new_tokenizer):
         self._tokenizer = new_tokenizer
-        self.dictionary_tokenizer_match = False
 
     @tokenizer.deleter
     def tokenizer(self):
@@ -77,7 +75,7 @@ class LazyCorpus(object):
 
 class LazyJSONCorpus(LazyCorpus):
 
-    def __init__(self, tokenizer=None, path_to_text='text'):
+    def __init__(self, tokenizer=None, dictionary=None, path_to_text='text'):
         self.path_to_text = path_to_text
         super(LazyJSONCorpus, self).__init__(tokenizer)
 
