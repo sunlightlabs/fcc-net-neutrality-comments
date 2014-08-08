@@ -1,31 +1,37 @@
+import sys
 import json
 from glob import glob
-
-from gensim.corpora import Dictionary
 
 from .tokenizer import DefaultTokenizer
 
 
 class LazyCorpus(object):
 
-    def __init__(self, tokenizer=None):
+    def __init__(self, tokenizer=None, dictionary=None):
         if not tokenizer:
             self.tokenizer = DefaultTokenizer()
         else:
             self.tokenizer = tokenizer
-        self._dictionary = False
+        if dictionary:
+            self.dictionary = dictionary
+            self.return_doctext = self._return_bow
+        else:
+            self.return_doctext = self._return_tokens
         self.documents = []
-        self.dictionary_tokenizer_match = False
 
     def __len__(self):
         return len(self._document_list)
 
     def __iter__(self):
-        doc = self.extract_doctext(self.documents.next())
-        if self.tokenizer:
-            yield self.dictionary.doc2bow(self.tokenizer.tokenize(doc))
-        else:
-            yield self.dictionary.doc2bow(doc.rstrip().lower().split())
+        for doc in self.documents:
+            doctext = self.extract_doctext(doc)
+            yield self.return_doctext(doctext)
+
+    def _return_tokens(self, doctext):
+        return self.tokenizer.tokenize(doctext)
+
+    def _return_bow(self, doctext):
+        return self.dictionary.doc2bow(self.tokenizer.tokenize(doctext))
 
     def extract_doctext(self, file_loc):
         raise NotImplementedError
@@ -50,10 +56,7 @@ class LazyCorpus(object):
     @dictionary.setter
     def dictionary(self, new_dictionary):
         self._dictionary = new_dictionary
-
-    @dictionary.deleter
-    def dictionary(self):
-        del self._dictionary
+        self.return_doctext = self._return_bow
 
     @property
     def tokenizer(self):
@@ -62,7 +65,6 @@ class LazyCorpus(object):
     @tokenizer.setter
     def tokenizer(self, new_tokenizer):
         self._tokenizer = new_tokenizer
-        self.dictionary_tokenizer_match = False
 
     @tokenizer.deleter
     def tokenizer(self):
@@ -77,9 +79,9 @@ class LazyCorpus(object):
 
 class LazyJSONCorpus(LazyCorpus):
 
-    def __init__(self, tokenizer=None, path_to_text='text'):
+    def __init__(self, tokenizer=None, dictionary=None, path_to_text='text'):
         self.path_to_text = path_to_text
-        super(LazyJSONCorpus, self).__init__(tokenizer)
+        super(LazyJSONCorpus, self).__init__(tokenizer, dictionary)
 
     def extract_doctext(self, file_loc):
         with open(file_loc, 'r') as file_in:
