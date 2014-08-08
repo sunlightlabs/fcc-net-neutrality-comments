@@ -37,30 +37,35 @@ class DefaultTokenizer(BaseTokenizer):
 class PretaggedTokenizer(BaseTokenizer):
 
     def __init__(self, stopword_list=None, filter_tags=None):
-        self.regexp = re.compile('(.+?)\|([A-Z\.\,:\)\(\$)\"]+)\|(.+)')
+        self.regexp = re.compile(r'(.+?)\|([A-Z\.\,:\)\(\$)\"#`\']+)\|(.+)')
         if filter_tags:
             self.filter_tags = filter_tags
         else:
             self.filter_tags = list()
+        self.bad_juju = [u'/', u'<', u'\u2028']
         super(PretaggedTokenizer, self).__init__(stopword_list)
 
     def tokenize(self, tagged_text):
         tokens = []
+        if u'\u00A0' in tagged_text:
+            return tokens
         try:
-            tagged_words = tagged_text.split()
-            for tagged_word in tagged_words:
+            for tagged_word in tagged_text.split(' '):
+                if any([tagged_word.__contains__(bj) for bj in self.bad_juju]):
+                    continue
                 try:
                     word, pos, lemma = self.regexp.findall(tagged_word)[0]
                     if lemma == '<unknown>':
                         lemma = word
-                except ValueError:
+                except (ValueError, IndexError):
                     sys.stderr.write('problem word: '+tagged_word+'\n')
-                    #raise
+                    raise
                 else:
                     if (not word.isalnum()) or (word.lower() in self.stopwords) or (pos in self.filter_tags):
                         continue
                     else:
-                        tokens.append('{s}_{pos}'.format(s=lemma, pos=pos))
+                        #tokens.append(u'{s}_{pos}'.format(s=lemma, pos=pos))
+                        tokens.append(lemma)
         except Exception:
             sys.stderr.write('problem text: '+tagged_text+'\n')
             raise
