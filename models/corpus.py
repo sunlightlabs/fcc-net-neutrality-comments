@@ -1,3 +1,4 @@
+import sys
 import json
 from glob import glob
 
@@ -30,7 +31,6 @@ class LazyCorpus(object):
         return self.tokenizer.tokenize(doctext)
 
     def _return_bow(self, doctext):
-        doctext = self.extract_doctext(self.documents.next())
         return self.dictionary.doc2bow(self.tokenizer.tokenize(doctext))
 
     def extract_doctext(self, file_loc):
