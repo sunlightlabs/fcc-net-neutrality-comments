@@ -33,7 +33,7 @@ def do_lsi(num_topics):
 
 def do_lda(num_topics):
     logger.info('reading source corpus and id2word')
-    corpus = corpora.MmCorpus('persistence/corpus.mm')
+    corpus = corpora.MmCorpus('persistence/test_corpus.mm')
     my_dict = corpora.Dictionary.load('persistence/my_dict')
 
     logger.info('building LDA model')
