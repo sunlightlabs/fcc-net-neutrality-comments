@@ -54,3 +54,6 @@ docs/_build/
 
 # data files
 fcc_split/data/
+
+# persistence of BLOBs for models, corpora, etc
+persistence
