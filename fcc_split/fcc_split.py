@@ -49,9 +49,21 @@ def write_file(out):
     outf.write(json.dumps(out, indent=4))
     outf.close()
 
+START_PAGE_MATCH = re.compile(ur"^\d+.txt\s*", re.MULTILINE)
+MID_PAGE_MATCH = re.compile(ur"\s*\d+.txt\s*Page \d+\s*", re.MULTILINE)
+END_PAGE_MATCH = re.compile(ur"Page \d+\s*$", re.MULTILINE)
+def strip_pagination(text):
+    text = START_PAGE_MATCH.sub("", text)
+    text = MID_PAGE_MATCH.sub("\n", text)
+    text = END_PAGE_MATCH.sub("", text)
+    return text.strip()
+
+
 def handle_doc(_, doc):
     if _[-1][0] == 'doc':
         arr = {a['@name']: a for a in doc['arr']}
+        print "Processing %s..." % arr['id']['long']
+
         out = {
             'id': arr['id']['long'],
             'applicant': arr['applicant']['str'],
@@ -70,8 +82,19 @@ def handle_doc(_, doc):
             'text': arr['text']['str'],
             'viewingStatus': arr['viewingStatus']['str'],
             'zip': arr['zip']['str'] if 'zip' in arr else None,
-            'preprocessed': False
+            'preprocessed': False,
+
+            # rarer ones
+            'author': arr['author']['str'] if 'author' in arr else None,
+            'lawfirm': arr['lawfirm']['str'] if 'lawfirm' in arr else None,
+            'fileNumber': arr['fileNumber']['str'] if 'fileNumber' in arr else None,
         }
+
+        # really rare ones:
+        for rare_type in ('reportNumber', 'daNumber', 'dateCommentPeriod', 'dateReplyComment'):
+            if rare_type in arr:
+                out[rare_type] = arr[rare_type]['date' if 'date' in rare_type else 'str']
+
 
         # is this a crazy emails-concatenated-together one?
         if type(out['text']) is unicode and '--------- Email' in out['text'][:1000]:
@@ -84,6 +107,10 @@ def handle_doc(_, doc):
                 write_file(mout)
         else:
             # it's just a regular one
+            if type(out['text']) is unicode and START_PAGE_MATCH.match(out['text']):
+                # it needs to have pagination info stripped first, though
+                out['text'] = strip_pagination(out['text'])
+                out['preprocessed'] = True
             write_file(out)
     return True
 
