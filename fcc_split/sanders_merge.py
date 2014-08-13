@@ -38,7 +38,10 @@ orig_meta = {
     "preprocessed": True,
     "smallBusinessImpact": True,
     "pages": 1,
-    "viewingStatus": "Unrestricted"
+    "viewingStatus": "Unrestricted",
+    'author': None,
+    'lawfirm': None,
+    'fileNumber': None,
 }
 orig_id = "6018182002"
 
@@ -99,7 +102,7 @@ if __name__ == "__main__":
             out['text'] = l_comment
 
             print "Writing", counter
-            
+
             path = os.path.join(outdir, "%s.json" % out['id'])
             outf = open(path, "w")
             json.dump(out, outf, indent=4)
