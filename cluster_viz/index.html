@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="d3.v3.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="bootstrap-theme.min.css" />
+    </head>
+    <body class="widget">
+        <div class="header-group">
+            <div class="divider solid"></div>
+            <div class="header-container">
+                <div class="header-title">
+                    <div class="main-title">
+                        Title of the <em>chart</em> 
+                    </div>
+                    <div class="explanatory">
+                        For explanatory text that's not very long.
+                    </div>
+                </div>
+                <div class="header-logo">
+                </div>
+            </div>
+            <div class="divider solid"></div>
+        </div>
+
+        <div class="chart-area">
+            <svg class="canvas">
+            </svg>
+        </div>
+
+        <div class="footer-group">
+            <div class="divider dashed"></div>
+            <div class="footer-container">
+                <div class="citation">
+                    <em>Source:</em> www.fruitsperbushel.com
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="doc-dialog" tabindex="-1" role="dialog" aria-labelledby="doc-dialog-label" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="doc-dialog-label">Modal title</h4>
+              </div>
+              <div class="modal-body">
+
+                <div class="panel-shifter-outer">
+
+                    <div class="panel-shifter-inner">
+
+                        <div class="panel panel-default doc-list-panel">
+                          <div class="panel-heading">Documents</div>
+
+                          <div class="list-group doc-list">
+                          </div>
+                        </div>
+
+                        <div class="panel panel-default doc-view-panel">
+                          <div class="panel-heading"><a class="back-link" href="#"><i class="glyphicon glyphicon-chevron-left"></i></a> View document</div>
+
+                          <div class="meta-container"></div>
+
+                          <div class="panel-body"></div>
+                        </div>
+
+                    </div>
+                
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <script src="widget.js">
+
+        </script>
+    </body>
+</html>

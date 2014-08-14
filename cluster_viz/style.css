@@ -1,0 +1,225 @@
+/* BASIC STRUCTURE */
+
+.graphic-container-blog {
+    width: 650px;
+    padding-top: 12px;
+    background-color: #EFECEA;
+}
+
+.graphic-container-feature {
+    width: 900px;
+    padding-top: 12px;
+    background-color: #EFECEA;
+}
+
+.header-container {
+    padding-top: 12px;
+    padding-right: 22px;
+    padding-bottom: 8px;
+    padding-left: 22px;
+    background-color: #F5F3F2;
+    overflow:auto;
+}
+
+.header-title {
+    width: 505px;
+    margin: 0;
+    float:left;
+    text-align: left,
+}
+
+.header-logo {
+    width: 100px;
+    height: 37.5px;
+    background-image: url('SunlightFoundation_logo.png');
+    background-size: 100% 100%;
+    float:right;
+}
+
+.chart-area {
+    padding-top: 22px;
+    padding-right: 0px;
+    padding-bottom: 22px;
+    padding-left: 22px;
+}
+
+.divider {
+    width: 100%;
+    height: 1px;
+    margin: 0;
+}
+
+.divider.solid {
+    background-color: #FFFFFF;
+}
+
+.divider.dashed {
+    border-top: 1px dashed #C0C0BB;
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+.footer-container {
+    height: 22px;
+    padding-top: 8px;
+    padding-left: 22px;
+    padding-right: 22px;
+    background-color: #E5E2E0;
+}
+
+/* TEXT */
+
+.test-text {
+    fill: #000;
+    stroke: #000;
+
+}
+
+.main-title {
+    font-family : "Franklin Gothic Book", "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", "Arial Narrow", sans-serif;
+    font-size : 20px;
+    font-weight: normal;
+    font-style: normal;
+    color: #635F5D;
+}
+
+.main-title em {
+    font-family : "Franklin Gothic Demi Cond", "Franklin Gothic Medium Cond", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif;
+    font-style: normal;
+}
+
+.explanatory { 
+    font-family: Georgia, Times, "Times New Roman", serif;
+    font-size : 12px;
+    font-weight: normal;
+    font-style: italic;
+    color: #8E8883;
+}
+
+.axis text {
+    font-size : 12px;
+    font-weight: normal;
+    font-style: normal;
+    fill: #635F5D;
+    stroke: none;
+    font-family : "Franklin Gothic Book", "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif;
+}
+
+.axis .tick .unit {
+    font-family : "Franklin Gothic Demi Cond", "Franklin Gothic Medium Cond", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif;
+}
+
+.citation {
+    font-family: Georgia, Times, "Times New Roman", serif;
+    font-size : 10px;
+    font-weight: normal;
+    font-style: italic;
+    color: #8E8883;
+}
+
+.citation em {
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* PLOT ELEMENTS */
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #FFFFFF;
+    stroke-width: 1px;
+}
+
+.y.axis text {
+    text-anchor: middle;
+}
+
+/* widget-specific stuff */
+body.widget {
+    background-color: #EFECEA;
+    margin: 0;
+}
+
+body.widget .header-group {
+    position: absolute;
+    top: 12px;
+    left: 0;
+    width: 100%;
+}
+body.widget .header-container {
+    height: 40px;
+}
+
+body.widget .footer-group {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+body.widget .header-container, body.widget .footer-container {
+    box-sizing: content-box;
+    line-height: normal;
+}
+
+body.widget .chart-area {
+    position: absolute;
+    padding: 0;
+    left: 0;
+    right: 0;
+    top: 74px;
+    bottom: 32px;
+}
+
+body.widget .chart-area svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* things specific to this widget */
+body.widget #doc-dialog .list-group {
+    background: #aaa;
+    overflow-y: auto;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+body.widget #doc-dialog .list-group .list-group-item {
+    border-radius: 0;
+}
+
+body.widget .doc-view-panel {
+    display: none;
+}
+
+body.widget a.back-link {
+    color: #333;
+}
+
+/* svg styles */
+body.widget svg circle:hover {
+    stroke: #ddd;
+    stroke-width: 3px;
+}
+body.widget svg circle.selected, body.widget svg circle.selected:hover {
+    stroke: #fff;
+    stroke-width: 3px;
+}
+body.widget .meta-container table {
+    margin-bottom: 0;
+    border-bottom: 1px solid #ccc;
+    background: #f4f4f4;
+}
+body.widget .meta-container table .meta-label {
+    width: 20%;
+    font-weight: bold;
+    text-align: right;
+}
+body.widget .doc-view-panel .panel-body {
+    white-space: pre-wrap;
+    overflow-y: auto;
+}
+body.widget .doc-view-panel .panel-body::before, body.widget .doc-view-panel .panel-body::after {
+    display: none;
+}

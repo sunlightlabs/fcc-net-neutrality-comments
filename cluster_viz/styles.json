@@ -1,0 +1,1105 @@
+{
+    "basic_structure":
+    {
+        "container":
+        {
+            "width":
+            {
+                "blog": 650,
+                "feature": 900
+            },
+            "padding":
+            {
+                "top": 12
+            },
+            "background":
+            {
+                "color": "#EFECEA",
+                "color_ref": ["colors", "background", "default"]
+            }
+        },
+        "header":
+        {
+            "container":
+            {
+                "width": "100%",
+                "padding":
+                {
+                    "left": 22,
+                    "right": 22
+                },
+                "background":
+                {
+                    "color": "#F5F3F2",
+                    "color_ref": ["colors", "background", "light"]
+                }
+            },
+            "title":
+            {
+                "float":"left"
+            },
+            "logo":
+            {
+                "width": 100,
+                "float": "right"
+            }
+        },
+        "chart_area":
+        {
+            "width": "100%",
+            "padding":
+            {
+                "top": 22,
+                "right": 0,
+                "left": 22,
+                "bottom": 22
+            }
+        },
+        "divider":
+        {
+            "solid":
+            {
+                "size": 1,
+                "color": "#FFFFFF",
+                "color_ref": ["colors", "line", "white"]
+            },
+            "dashed":
+            {
+                "size": 1,
+                "color": "#C0C0BB",
+                "color_ref": ["colors", "line", "grey"],
+                "margin":
+                {
+                    "top": 1,
+                    "bottom": 1
+                }
+            }
+        },
+        "footer":
+        {
+            "container" :
+            {
+                "width": "100%",
+                "height": 22,
+                "padding":
+                {
+                    "left": 22,
+                    "right": 22
+                },
+                "background":
+                {
+                    "color": "#E5E2E0",
+                    "color_ref": ["colors", "background", "dark"]
+                }
+            }
+        }
+    },
+
+    "plot_elements":
+    {
+        "canvas":
+        {
+            "width":
+            {
+                "blog": 622,
+                "feature": 878
+            },
+            "margin":
+            {
+                "top": 0,
+                "left": 63,
+                "bottom": 51,
+                "right": 0,
+                
+                "default":
+                {
+                    "top": 0,
+                    "left": 63,
+                    "bottom": 51,
+                    "right": 0
+                },
+
+                "pie":
+                {
+                    "top": 0,
+                    "left": 0,
+                    "bottom": 0,
+                    "right": 0
+                }
+            }
+        },
+        "axis":
+        {
+            "width": 1,
+            "color": "#FFFFFF",
+            "label_padding": 5,
+            "title_padding": 22,
+            "break":
+            {
+                "height": 5,
+                "width": 5
+            },
+            "color_ref": ["colors", "line", "white"]
+        },
+        "grid_line":
+        {
+            "solid":
+            {
+                "width": 1,
+                "color": "#FFFFFF",
+                "color_ref": ["colors", "line", "white"]
+            },
+            "dashed":
+            {
+                "width": 1,
+                "color": "#C0C0BB",
+                "color_ref": ["colors", "line", "grey"],
+                "margin":
+                {
+                    "top": 1,
+                    "bottom": 1
+                }
+            }
+        },
+        "pie":
+        {
+            "stroke": "#FFFFFF",
+            "stroke_color_ref": ["colors", "line", "white"]
+        },
+        "legend":
+        {
+            "background":
+            {
+                "color": "#E5E2E0",
+                "color_ref": ["colors", "background", "dark"]
+            },
+            "border":
+            {
+                "width": 1,
+                "color": "#C0C0BB",
+                "color_ref": ["colors", "line", "grey"]
+            }
+        },
+        "indicator":
+        {
+            "line":
+            {
+                "width": 1,
+                "color": "#C0C0BB",
+                "color_ref": ["colors", "line", "grey"],
+                "stroke-width": 1,
+                "stroke": "#C0C0BB",
+                "stroke_ref": ["colors","line", "grey"]
+            },
+            "shape":
+            {
+                "background": "#FFFFFF",
+                "background_ref": ["colors", "line", "white"],
+                "border-width": 1,
+                "border-color": "#C0C0BB",
+                "border-color_ref": ["colors", "line", "grey"],
+                "fill": "#FFFFFF",
+                "fill_ref": ["colors", "line", "white"],
+                "stroke": "#C0C0BB",
+                "stroke_ref": ["colors", "line", "grey"],
+                "stroke-width": 1
+            }
+        },
+        "line":
+        {
+            "width": 2,
+            "stroke-width": 2
+        },
+        "trend_line":
+        {
+            "width": 1,
+            "color": "#C0C0BB",
+            "color_ref": ["colors", "line", "grey"],
+            "stroke-width":1,
+            "stroke": "#C0C0BB",
+            "stroke_ref": ["colors", "line", "grey"]
+        }
+    },
+
+    "text_styles":
+    {
+        "header_title" :
+        {
+            "font-family" : "\"Franklin Gothic Book\", \"Franklin Gothic Medium\", \"Franklin Gothic\", \"ITC Franklin Gothic\", Arial, sans-serif",
+            "font-size" : "20px",
+            "font-weight": "normal",
+            "font-style": "normal",
+            "text-align" : "left",
+            "color" : "#635F5D",
+            "color_ref" : ["colors", "text", "main"]
+        },
+        "header_title_emphatic" :
+        {
+            "font-family": "\"Franklin Gothic Demi Cond\", \"Franklin Gothic Medium Cond\", \"Franklin Gothic\", \"ITC Franklin Gothic\", Arial, sans-serif",
+            "font-size" : "20px",
+            "font-weight": "normal",
+            "font-style": "normal",
+            "text-align" : "left",
+            "color" : "#635F5D",
+            "color_ref" : ["colors", "text", "main"]
+        },
+        "header_title_explanatory":
+        {
+            "font-family": "font-family: Georgia, Times, \"Times New Roman\", serif",
+            "font-size" : "12px",
+            "font-weight": "normal",
+            "font-style": "italic",
+            "text-align" : "left",
+            "color" : "#8E8883",
+            "color_ref" : ["colors", "text", "light"]
+        },
+        "axis_label" :
+        {
+            "font-family": "\"Franklin Gothic Demi Cond\", \"Franklin Gothic Medium Cond\", \"Franklin Gothic\", \"ITC Franklin Gothic\", Arial, sans-serif",
+            "font-size" : "12px",
+            "font-weight": "normal",
+            "font-style": "normal",
+            "text-align" : "center",
+            "color" : "#635F5D",
+            "color_ref" : ["colors", "text", "main"]
+        },
+        "axis_title" :
+        {
+            "font-family" : "\"Franklin Gothic Book\", \"Franklin Gothic Medium\", \"Franklin Gothic\", \"ITC Franklin Gothic\", Arial, sans-serif",
+            "font-size" : "12px",
+            "font-weight": "normal",
+            "font-style": "normal",
+            "text-align" : "center",
+            "color" : "#635F5D",
+            "color_ref" : ["colors", "text", "main"]
+        },
+        "key_label" :
+        {
+            "font-family" : "\"Franklin Gothic Book\", \"Franklin Gothic Medium\", \"Franklin Gothic\", \"ITC Franklin Gothic\", Arial, sans-serif",
+            "font-size" : "10px",
+            "font-weight": "normal",
+            "font-style": "normal",
+            "text-align" : "left",
+            "color" : "#635F5D",
+            "color_ref" : ["colors", "text", "main"]
+        },
+        "callout" :
+        {
+            "font-family": "font-family: Georgia, Times, \"Times New Roman\", serif",
+            "font-size" : "10px",
+            "font-weight": "normal",
+            "font-style": "italic",
+            "text-align" : "left",
+            "color" : "#635F5D",
+            "color_ref" : ["colors", "text", "main"]
+        },
+        "point_label" :
+        {
+            "font-family" : "\"Franklin Gothic Book\", \"Franklin Gothic Medium\", \"Franklin Gothic\", \"ITC Franklin Gothic\", Arial, sans-serif",
+            "font-size" : "10px",
+            "font-weight": "normal",
+            "font-style": "normal",
+            "text-align" : "right",
+            "color" : "#635F5D",
+            "color_ref" : ["colors", "text", "main"]
+        },
+        "citation_title" :
+        {
+            "font-family": "font-family: Georgia, Times, \"Times New Roman\", serif",
+            "font-size" : "8px",
+            "font-weight": "bold",
+            "font-style": "normal",
+            "text-align" : "left",
+            "color" : "#8E8883",
+            "color_ref" : ["colors", "text", "light"]
+        },
+        "citation_source" :
+        {
+            "font-family": "font-family: Georgia, Times, \"Times New Roman\", serif",
+            "font-size" : "10px",
+            "font-weight": "normal",
+            "font-style": "italic",
+            "text-align" : "left",
+            "color" : "#8E8883",
+            "color_ref" : ["colors", "text", "light"]
+        }
+    },
+
+    "colors":
+    {
+        "background":
+        {
+            "hex" : "#EFECEA",
+            "rgb" : [ 239, 236, 234 ],
+            "cmyk": [ 5, 5, 5, 0 ],
+            "default" :
+            {
+                "hex" : "#EFECEA",
+                "rgb" : [ 239, 236, 234 ],
+                "cmyk": [ 5, 5, 5, 0 ]
+            },
+            "light":
+            {
+                "hex" : "#F5F3F2",
+                "rgb" : [ 245, 243, 242 ],
+                "cmyk": [ 2, 2, 2, 0 ]
+            },
+            "dark":
+            {
+                "hex" : "#E5E2E0",
+                "rgb" : [ 229, 226, 224 ],
+                "cmyk": [ 9, 8, 8, 0 ]
+            }
+        },
+        "text":
+        {
+            "main" :
+            {
+                "hex" : "#635F5D",
+                "rgb" : [ 99, 95, 93 ],
+                "cmyk": [ 59, 54, 54, 25 ]
+            },
+            "light" :
+            {
+                "hex" : "#8E8883",
+                "rgb" : [ 142, 136, 131 ],
+                "cmyk": [ 46, 41, 44, 5 ]
+            }
+        },
+        "line":
+        {
+            "white" :
+            {
+                "hex" : "#FFFFFF",
+                "rgb" : [ 255, 255, 255 ],
+                "cmyk": [ 0, 0, 0, 0 ]
+            },
+            "grey" :
+            {
+                "hex" : "#C0C0BB",
+                "rgb" : [ 192, 192, 187 ],
+                "cmyk": [ 25, 19, 23, 0 ]
+            }
+        },
+        "data":
+        {
+            "main":
+            {
+                "yellow":
+                {
+                    "hex" : "#E3BA22",
+                    "rgb" : [ 227, 186, 34 ],
+                    "cmyk": [ 12, 24, 100, 0 ],
+
+                    "default":
+                    {
+                        "hex" : "#E3BA22",
+                        "rgb" : [ 227, 186, 34 ],
+                        "cmyk": [ 12, 24, 100, 0 ]
+                    },
+                    "subsets":
+                        [
+                            {
+                                "hex" : "#F2DA57",
+                                "rgb" : [ 242, 218, 87 ],
+                                "cmyk": [ 6, 9, 78, 0 ]
+                            },
+                            {
+                                "hex" : "#BD8F22",
+                                "rgb" : [ 242, 218, 87 ],
+                                "cmyk": null
+                            }
+                        ]
+                },
+
+                "orange":
+                {
+                    "hex" : "#E6842A",
+                    "rgb" : [ 230, 132, 42 ],
+                    "cmyk": [ 7, 57, 97, 1 ],
+
+                    "default":
+                    {
+                        "hex" : "#E6842A",
+                        "rgb" : [ 230, 132, 42 ],
+                        "cmyk": [ 7, 57, 97, 1 ]
+                    },
+                    "subsets":
+                        [
+                            {
+                                "hex" : "#F6B656",
+                                "rgb" : [ 246, 182, 86 ],
+                                "cmyk": [ 2, 31, 76, 0 ]
+                            },
+                            {
+                                "hex" : "#BA5F06",
+                                "rgb" : [ 186, 95, 6 ],
+                                "cmyk": null
+                            }
+                        ]
+                },
+
+                "cyan":
+                {
+                    "hex" : "#137B80",
+                    "rgb" : [ 19, 123, 128 ],
+                    "cmyk": [ 86, 35, 46, 10 ],
+
+                    "default":
+                    {
+                        "hex" : "#137B80",
+                        "rgb" : [ 19, 123, 128 ],
+                        "cmyk": [ 86, 35, 46, 10 ]
+                    },
+                    "subsets":
+                        [
+                            {
+                                "hex" : "#42A5B3",
+                                "rgb" : [ 66, 165, 179 ],
+                                "cmyk": [ 70, 17, 28, 0 ]
+                            },
+                            {
+                                "hex" : "#005D6E",
+                                "rgb" : [ 0, 93, 110 ],
+                                "cmyk": null
+                            }
+                        ]
+                },
+
+                "magenta":
+                {
+                    "hex" : "#8E6C8A",
+                    "rgb" : [ 142, 109, 138 ],
+                    "cmyk": [ 48, 61, 28, 4 ],
+
+                    "default":
+                    {
+                        "hex" : "#8E6C8A",
+                        "rgb" : [ 142, 109, 138 ],
+                        "cmyk": [ 48, 61, 28, 4 ]
+                    },
+                    "subsets":
+                        [
+                            {
+                                "hex" : "#B396AD",
+                                "rgb" : [ 179, 150, 173 ],
+                                "cmyk": [ 31, 42, 18, 0 ]
+                            },
+                            {
+                                "hex" : "#684664",
+                                "rgb" : [ 104, 70, 100 ],
+                                "cmyk": null
+                            }
+                        ]
+                },
+
+                "neutral":
+                {
+                    "hex" : "#978F80",
+                    "rgb" : [ 151, 143, 128 ],
+                    "cmyk": [ 42, 38, 49, 4 ],
+
+                    "default":
+                    {
+                        "hex" : "#978F80",
+                        "rgb" : [ 151, 143, 128 ],
+                        "cmyk": [ 42, 38, 49, 4 ]
+                    },
+                    "subsets":
+                        [
+                            {
+                                "hex" : "#C1BAA9",
+                                "rgb" : [ 193, 186, 169 ],
+                                "cmyk": [ 25, 22, 32, 0 ]
+                            },
+                            {
+                                "hex" : "#7C715E",
+                                "rgb" : [ 124, 113, 94 ],
+                                "cmyk": null
+                            }
+                        ]
+                }
+
+            },
+            "parties":
+            {
+                "republican":
+                {
+                    "hex" : "#9A3E25",
+                    "rgb" : [ 154, 62, 37 ],
+                    "cmyk": [ 27, 84, 96, 22 ],
+
+                    "default":
+                    {
+                        "hex" : "#9A3E25",
+                        "rgb" : [ 154, 62, 37 ],
+                        "cmyk": [ 27, 84, 96, 22 ]
+                    },
+                    "subsets":
+                        [
+                            {
+                                "hex" : "#B37055",
+                                "rgb" : [ 179, 112, 85 ],
+                                "cmyk": [ 25, 60, 69, 8 ]
+                            }
+                        ]
+                },
+
+                "democrat":
+                {
+                    "hex" : "#156B90",
+                    "rgb" : [ 21, 107, 144 ],
+                    "cmyk": [ 89, 52, 27, 6 ],
+
+                    "default":
+                    {
+                        "hex" : "#156B90",
+                        "rgb" : [ 21, 107, 144 ],
+                        "cmyk": [ 89, 52, 27, 6 ]
+                    },
+                    "subsets":
+                        [
+                            {
+                                "hex" : "#688BAB",
+                                "rgb" : [ 104, 139, 171 ],
+                                "cmyk": [ 64, 38, 20, 1 ]
+                            }
+                        ]
+                },
+
+                "independent":
+                {
+                    "hex" : "#708259",
+                    "rgb" : [ 112, 130, 89 ],
+                    "cmyk": [ 58, 34, 73, 13 ],
+
+                    "default":
+                    {
+                        "hex" : "#708259",
+                        "rgb" : [ 112, 130, 89 ],
+                        "cmyk": [ 58, 34, 73, 13 ]
+                    },
+                    "subsets":
+                        [
+                            {
+                                "hex" : "#95A17E",
+                                "rgb" : [ 149, 161, 126 ],
+                                "cmyk": [ 44, 27, 57, 2 ]
+                            }
+                        ]
+                }
+
+            },
+
+            "pro_con":
+            {
+                "con":
+                {
+                    "hex" : "#BD2D28",
+                    "rgb" : [ 189, 45, 40 ],
+                    "cmyk": [ 18, 95, 98, 8 ],
+
+                    "default":
+                    {
+                        "hex" : "#BD2D28",
+                        "rgb" : [ 189, 45, 40 ],
+                        "cmyk": [ 18, 95, 98, 8 ]
+                    },
+                    "subsets":
+                        [
+                            {
+                                "hex" : "#E25A42",
+                                "rgb" : [ 226, 90, 66 ],
+                                "cmyk": [ 6, 79, 80, 1 ]
+                            }
+                        ]
+                },
+
+                "pro":
+                {
+                    "hex" : "#0F8C79",
+                    "rgb" : [ 15, 140, 121 ],
+                    "cmyk": [ 84, 24, 60, 5 ],
+
+                    "default":
+                    {
+                        "hex" : "#0F8C79",
+                        "rgb" : [ 15, 140, 121 ],
+                        "cmyk": [ 84, 24, 60, 5 ]
+                    },
+                    "subsets":
+                        [
+                            {
+                                "hex" : "#6BBBA1",
+                                "rgb" : [ 107, 187, 161 ],
+                                "cmyk": [ 58, 5, 45, 0 ]
+                            }
+                        ]
+                }
+            },
+
+            "money":
+            {
+                "positive":
+                {
+                    "hex" : "#5C8100",
+                    "rgb" : [ 92, 129, 0 ],
+                    "cmyk": [ 67, 30, 100, 13 ],
+
+                    "default":
+                    {
+                        "hex" : "#5C8100",
+                        "rgb" : [ 92, 129, 0 ],
+                        "cmyk": [ 67, 30, 100, 13 ]
+                    },
+                    "subsets":
+                        [
+                            {
+                                "hex" : "#A0B700",
+                                "rgb" : [ 160, 183, 0 ],
+                                "cmyk": [ 43, 12, 100, 0 ]
+                            }
+                        ]
+                },
+
+                "negative":
+                {
+                    "hex" : null,
+                    "rgb" : null,
+                    "cmyk": null,
+
+                    "default":
+                    {
+                        "hex" : null,
+                        "rgb" : null,
+                        "cmyk": null
+                    },
+                    "subsets":
+                        [
+                            {
+                                "hex" : null,
+                                "rgb" : null,
+                                "cmyk": null
+                            }
+                        ]
+                }
+            }
+        },
+
+        "choropleth":
+        {
+            "sequential":
+            {
+                "republican":
+                {
+                    "no_data":
+                    {
+                        "hex" : "#E5E2E0",
+                        "rgb" : [ 229, 226, 224 ],
+                        "cmyk": [ 9, 8, 8, 0 ]
+                    },
+                    "scale":
+                    [
+                        {
+                            "hex" : "#712422",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "#9A3E25",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "#B37055",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "#D9A78D",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "#EDCEBC",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        }
+                    ]
+                },
+                "democrat":
+                {
+                    "no_data":
+                    {
+                        "hex" : "#E5E2E0",
+                        "rgb" : [ 229, 226, 224 ],
+                        "cmyk": [ 9, 8, 8, 0]
+                    },
+                    "scale":
+                    [
+                        {
+                            "hex" : "#05426C",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "#E6842A",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "#688BAB",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "#8CAEC6",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "#BAD2E2",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        }
+                    ]
+                },
+                "money":
+                {
+                    "no_data":
+                    {
+                        "hex" : "#E5E2E0",
+                        "rgb" : [ 229, 226, 224 ],
+                        "cmyk": [ 9, 8, 8, 0]
+                    },
+                    "scale":
+                    [
+                        {
+                            "hex" : "#0C4E00",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "#5C8100",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "#A0B700",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "#D2CF00",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "#E6E4A6",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        }
+                    ]
+                },
+                "generic":
+                {
+                    "no_data":
+                    {
+                        "hex" : "#E5E2E0",
+                        "rgb" : [ 229, 226, 224 ],
+                        "cmyk": [ 9, 8, 8, 0]
+                    },
+                    "scale":
+                    [
+                        {
+                            "hex" : "#936B00",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "#BD8F22",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "#E3BA22",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "#F2DA57",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "F1E8AE",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        }
+                    ]
+                }
+            },
+            "diverging":
+            {
+                "republican_democrat":
+                {
+                    "no_data":
+                    {
+                        "hex" : "#E5E2E0",
+                        "rgb" : [ 229, 226, 224 ],
+                        "cmyk": [ 9, 8, 8, 0]
+                    },
+                    "scale":
+                    [
+                        {
+                            "hex" : "#9A3E25",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "#D9A78D",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "#C8C6C6",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "#8CAEC6",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "#E6842A",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        }
+                    ]
+                },
+                "anti_pro":
+                {
+                    "no_data":
+                    {
+                        "hex" : "#E5E2E0",
+                        "rgb" : [ 229, 226, 224 ],
+                        "cmyk": [ 9, 8, 8, 0]
+                    },
+                    "scale":
+                    [
+                        {
+                            "hex" : "#BD2D28",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "#C37A73",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "#C8C6C6",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "#75A999",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        },
+                        {
+                            "hex" : "#0F8C79",
+                            "rgb" : [ null, null, null ],
+                            "cmyk": [ null, null, null, null ]
+                        }
+                    ]
+                }
+            }
+        },
+
+        "network_graph":
+        {
+            "yellows":
+                [
+                    {
+                        "hex" : "#F2DA57",
+                        "rgb" : [ 242, 218, 87 ],
+                        "cmyk": [ null, null, null, null ]
+                    },
+                    {
+                        "hex" : "#E2BA22",
+                        "rgb" : [ 227, 186, 34 ],
+                        "cmyk": [ null, null, null, null ]
+                    },
+                    {
+                        "hex" : "#B08B12",
+                        "rgb" : [ 176, 139, 18 ],
+                        "cmyk": [ null, null, null, null ]
+                    }
+                ],
+            "oranges":
+                [
+                    {
+                        "hex" : "#F6B656",
+                        "rgb" : [ 244, 182, 86 ],
+                        "cmyk": [ null, null, null, null ]
+                    },
+                    {
+                        "hex" : "#E58429",
+                        "rgb" : [ 229, 132, 41 ],
+                        "cmyk": [ null, null, null, null ]
+                    },
+                    {
+                        "hex" : "#BA5F06",
+                        "rgb" : [ 186, 95, 6 ],
+                        "cmyk": [ null, null, null, null ]
+                    }
+                ],
+            "reds":
+                [
+                    {
+                        "hex" : "#E25A42",
+                        "rgb" : [ 226, 90, 66 ],
+                        "cmyk": [ null, null, null, null ]
+                    },
+                    {
+                        "hex" : "#BD2D28",
+                        "rgb" : [ 189, 45, 40 ],
+                        "cmyk": [ null, null, null, null ]
+                    },
+                    {
+                        "hex" : "#8C3B00",
+                        "rgb" : [ 140, 59, 0 ],
+                        "cmyk": [ null, null, null, null ]
+                    }
+                ],
+            "pinks":
+                [
+                    {
+                        "hex" : "#DCBDCF",
+                        "rgb" : [ 220, 189, 207 ],
+                        "cmyk": [ null, null, null, null ]
+                    },
+                    {
+                        "hex" : "#D15A86",
+                        "rgb" : [ 209, 90, 134 ],
+                        "cmyk": [ null, null, null, null ]
+                    },
+                    {
+                        "hex" : "#6D191B",
+                        "rgb" : [ 109, 25, 27 ],
+                        "cmyk": [ null, null, null, null ]
+                    }
+                ],
+            "magentas":
+                [
+                    {
+                        "hex" : "#B396AD",
+                        "rgb" : [ 179, 150, 173 ],
+                        "cmyk": [ null, null, null, null ]
+                    },
+                    {
+                        "hex" : "#8E6C8A",
+                        "rgb" : [ 142, 108, 138 ],
+                        "cmyk": [ null, null, null, null ]
+                    },
+                    {
+                        "hex" : "#842854",
+                        "rgb" : [ 132, 40, 84 ],
+                        "cmyk": [ null, null, null, null ]
+                    }
+                ],
+            "blues":
+                [
+                    {
+                        "hex" : "#B0CBDB",
+                        "rgb" : [ 176, 203, 219 ],
+                        "cmyk": [ null, null, null, null ]
+                    },
+                    {
+                        "hex" : "#6B99A1",
+                        "rgb" : [ 107, 153, 161 ],
+                        "cmyk": [ null, null, null, null ]
+                    },
+                    {
+                        "hex" : "#5F7186",
+                        "rgb" : [  95, 113, 134 ],
+                        "cmyk": [ null, null, null, null ]
+                    }
+                ],
+            "cyans":
+                [
+                    {
+                        "hex" : "#33B6D0",
+                        "rgb" : [ 51, 182, 208 ],
+                        "cmyk": [ null, null, null, null ]
+                    },
+                    {
+                        "hex" : "#42A5B3",
+                        "rgb" : [ 66, 165, 179 ],
+                        "cmyk": [ null, null, null, null ]
+                    },
+                    {
+                        "hex" : "#5F7186",
+                        "rgb" : [ 25, 53, 86 ],
+                        "cmyk": [ null, null, null, null ]
+                    }
+                ],
+            "teals":
+                [
+                    {
+                        "hex" : "#7ABFCC",
+                        "rgb" : [ 122, 191, 204 ],
+                        "cmyk": [ null, null, null, null ]
+                    },
+                    {
+                        "hex" : "#0F8C79",
+                        "rgb" : [ 15, 140, 121 ],
+                        "cmyk": [ null, null, null, null ]
+                    },
+                    {
+                        "hex" : "#137B80",
+                        "rgb" : [ 19, 123, 128 ],
+                        "cmyk": [ null, null, null, null ]
+                    }
+                ],
+            "mints":
+                [
+                    {
+                        "hex" : "#C8D7A1",
+                        "rgb" : [ 200, 215, 161 ],
+                        "cmyk": [ null, null, null, null ]
+                    },
+                    {
+                        "hex" : "#6BBBA1",
+                        "rgb" : [ 107, 187, 161 ],
+                        "cmyk": [ null, null, null, null ]
+                    },
+                    {
+                        "hex" : "#144847",
+                        "rgb" : [ 20, 72, 71 ],
+                        "cmyk": [ null, null, null, null ]
+                    }
+                ],
+            "greens":
+                [
+                    {
+                        "hex" : "#A0B700",
+                        "rgb" : [ 160, 183, 0 ],
+                        "cmyk": [ null, null, null, null ]
+                    },
+                    {
+                        "hex" : "#5C8100",
+                        "rgb" : [ 92, 129, 0 ],
+                        "cmyk": [ null, null, null, null ]
+                    },
+                    {
+                        "hex" : "#254E00",
+                        "rgb" : [ 37, 78, 0 ],
+                        "cmyk": [ null, null, null, null ]
+                    }
+                ]
+        }
+    }
+}

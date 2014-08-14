@@ -54,6 +54,8 @@ docs/_build/
 
 # data files
 fcc_split/data/
+cluster_viz/data/
+cluster_viz/tree_data/
 
 # persistence of BLOBs for models, corpora, etc
 persistence
