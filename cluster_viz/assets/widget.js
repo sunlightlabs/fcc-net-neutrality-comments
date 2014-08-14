@@ -1,6 +1,6 @@
 (function($) {
-    var stylesXHR = $.getJSON('styles.json');
-    var dataXHR = $.getJSON('tree.json');
+    var stylesXHR = $.getJSON('assets/styles.json');
+    var dataXHR = $.getJSON('assets/tree.json');
 
     $.when(stylesXHR, dataXHR).done(function(stylesResult, dataResult) {
         styles = stylesResult[0];
