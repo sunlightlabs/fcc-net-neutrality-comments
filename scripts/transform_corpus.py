@@ -30,8 +30,8 @@ from gensim import models
 
 # In[6]:
 
-my_dict = dictionary.Dictionary.load('../persistence/my_dict')
-corpus = corpora.MmCorpus('../persistence/corpus.mm')
+my_dict = dictionary.Dictionary.load(os.path.join(settings.PERSIST_DIR, 'my_dict'))
+corpus = corpora.MmCorpus(os.path.join(settings.PERSIST_DIR, 'corpus.mm'))
 
 
 # In[8]:
@@ -46,6 +46,7 @@ tfidf_corpus = tfidf[corpus]
 
 # In[11]:
 
-corpora.MmCorpus.serialize('../persistence/tfidf_corpus.mm', tfidf_corpus)
+corpora.MmCorpus.serialize(os.path.join(settings.PERSIST_DIR, 'tfidf_corpus.mm'),
+                           tfidf_corpus)
 
 
