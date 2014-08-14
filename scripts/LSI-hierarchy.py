@@ -44,7 +44,7 @@ logger.info('globbing filenames')
 fnames = iglob(os.path.join(settings.PROC_DIR, '*.json'))
 
 
-from gensim.similarities.docsim import MatrixSimilarity, SparseMatrixSimilarity, Similarityy
+from gensim.similarities.docsim import MatrixSimilarity, SparseMatrixSimilarity, Similarity
 
 logger.info('building matrix similarity')
 sim_matrix = MatrixSimilarity(tfidf_corpus_lsi, num_features=tfidf_corpus_lsi.num_terms)
