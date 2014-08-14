@@ -30,7 +30,7 @@ class DefaultTokenizer(BaseTokenizer):
         else:
             tokens = [self.stemmer.stem(word.lower())
                       for word in words
-                      if word not in self.stopwords and word.isalnum()]
+                      if word not in self.stopwords and word.isalpha()]
             return tokens
 
 
@@ -61,7 +61,7 @@ class PretaggedTokenizer(BaseTokenizer):
                     sys.stderr.write('problem word: '+tagged_word+'\n')
                     raise
                 else:
-                    if (not word.isalnum()) or (word.lower() in self.stopwords) or (pos in self.filter_tags):
+                    if (not word.isalpha()) or (word.lower() in self.stopwords) or (pos in self.filter_tags):
                         continue
                     else:
                         #tokens.append(u'{s}_{pos}'.format(s=lemma, pos=pos))
