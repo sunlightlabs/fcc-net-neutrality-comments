@@ -80,7 +80,9 @@ logger.info('fitting kmeans to index')
 mbk.fit(sim_matrix.index)
 
 # In[ ]:
-
+logger.info('persisting_kmeans_model')
+import pickle
+pickle.dump(mbk, open(os.path.join(settings.PERSIST_DIR, 'cluster_labels_0-8'),'w'))
 
 logger.info('persisting cluster_labels')
 np.save(os.path.join(settings.PERSIST_DIR, 'cluster_labels_0-8'), mbk.labels_)
