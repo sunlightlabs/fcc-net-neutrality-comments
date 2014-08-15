@@ -33,12 +33,12 @@
             <div class="divider dashed"></div>
             <div class="footer-container">
                 <div class="citation" style="text-align: right;">
-                    <a href="#">embed this widget</a>
+                    <a id="embed-link" href="#">embed this widget</a>
                 </div>
             </div>
         </div>
 
-        <!-- Modal -->
+        <!-- Modals -->
         <div class="modal fade" id="doc-dialog" tabindex="-1" role="dialog" aria-labelledby="doc-dialog-label" aria-hidden="true">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -69,6 +69,25 @@
 
                     </div>
                 
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="embed-dialog" tabindex="-1" role="dialog" aria-labelledby="doc-dialog-label" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="doc-dialog-label">Modal title</h4>
+              </div>
+              <div class="modal-body">
+
+                Copy this code to embed the widget:
+                <div class="well" style="font-family: monospace;">
+                    &lt;iframe src="<span class="iframe-src"></span>" height="<span class="iframe-height"></span>" width="<span class="iframe-width"></span>" /&gt;
                 </div>
 
               </div>

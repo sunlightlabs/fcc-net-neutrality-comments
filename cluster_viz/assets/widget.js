@@ -293,6 +293,15 @@
             }, 'fast');
         })
 
+        /* make the embed link work */
+        $('#embed-link').on('click', function() {
+            var dialog = $('#embed-dialog');
+            dialog.modal('toggle');
+            dialog.find('.iframe-src').html(window.location.href);
+            dialog.find('.iframe-height').html($(window).height());
+            dialog.find('.iframe-width').html($(window).width());
+        })
+
         /* check see if there's a hash and load it */
         if (window.location.hash) {
             var hparts = window.location.hash.slice(1).split("/");
