@@ -294,7 +294,8 @@
         })
 
         /* make the embed link work */
-        $('#embed-link').on('click', function() {
+        $('#embed-link').on('click', function(evt) {
+            evt.preventDefault();
             var dialog = $('#embed-dialog');
             dialog.modal('toggle');
             dialog.find('.iframe-src').html(window.location.href);
