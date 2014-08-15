@@ -87,7 +87,7 @@
                             .style('pointer-events', 'none')
                             .style('text-anchor', 'middle')
                             .style('text-shadow', '0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff')
-                            .style("baseline-shift", "-100%")
+                            .attr('y', 12)
                             .text(function(d) { return d.keywords ? d.keywords.slice(3,5).join(", ") : ""; })
                             .attr('fill', '#333');
                     })
@@ -97,10 +97,10 @@
         var title = annotations.append("text")
             .text("")
             .style("display", "none")
-            .style("baseline-shift", "-100%")
             .style("font-size", "200%")
             .style('text-shadow', '0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff')
             .attr('x', '10')
+            .attr('y', '30')
             .attr('fill', '#333');
 
         var stats = annotations.append("text")
