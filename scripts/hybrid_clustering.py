@@ -35,7 +35,7 @@ min_nodes = 1000
 fnames = glob(os.path.join(settings.PROC_DIR, '*.json'))
 doc_ids = pd.Series(map(lambda x: os.path.basename(x).split('.')[0], fnames),
                     dtype=object)
-unclustered_gensim_id = pd.Series(xrange(800954))
+unclustered_gensim_id = pd.Series(xrange(doc_ids.shape[0]))
 
 matrix_sim_loc = os.path.join(settings.PERSIST_DIR,
                               'tfidf_corpus_lsi-200_matrix_similarity')
