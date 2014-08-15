@@ -1,6 +1,22 @@
+// from http://stackoverflow.com/questions/9235304/how-to-replace-the-location-hash-and-only-keep-the-last-history-entry
+(function(namespace) { // Closure to protect local variable "var hash"
+    if ('replaceState' in history) { // Yay, supported!
+        namespace.replaceHash = function(newhash) {
+            if ((''+newhash).charAt(0) !== '#') newhash = '#' + newhash;
+            history.replaceState('', '', newhash);
+        }
+    } else {
+        var hash = location.hash;
+        namespace.replaceHash = function(newhash) {
+            if (location.hash !== hash) history.back();
+            location.hash = newhash;
+        };
+    }
+})(window);
+
 (function($) {
-    var stylesXHR = $.getJSON('styles.json');
-    var dataXHR = $.getJSON('tree.json');
+    var stylesXHR = $.getJSON('assets/styles.json');
+    var dataXHR = $.getJSON('assets/tree.json');
 
     $.when(stylesXHR, dataXHR).done(function(stylesResult, dataResult) {
         styles = stylesResult[0];
@@ -71,7 +87,7 @@
                             .style('pointer-events', 'none')
                             .style('text-anchor', 'middle')
                             .style('text-shadow', '0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff')
-                            .style("baseline-shift", "-100%")
+                            .attr('y', 12)
                             .text(function(d) { return d.keywords ? d.keywords.slice(3,5).join(", ") : ""; })
                             .attr('fill', '#333');
                     })
@@ -81,10 +97,10 @@
         var title = annotations.append("text")
             .text("")
             .style("display", "none")
-            .style("baseline-shift", "-100%")
             .style("font-size", "200%")
             .style('text-shadow', '0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff')
             .attr('x', '10')
+            .attr('y', '30')
             .attr('fill', '#333');
 
         var stats = annotations.append("text")
@@ -139,14 +155,16 @@
                     .style('display', 'inline')
                     .text(focus.keywords.join(", "));
                 d3.selectAll('circle#circle-' + d.id).classed('selected', true);
+                window.replaceHash(d.id);
             } else {
                 title.style('display', 'none');
+                window.replaceHash("");
             }
 
             updateCount(d);
 
             var transition = d3.transition()
-                .duration(d3.event.altKey ? 7500 : 750)
+                .duration(750)
                 .tween("zoom", function(d) {
                   var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
                   return function(t) { zoomTo(i(t)); };
@@ -168,8 +186,13 @@
         /* things to do with the dialog */
         $(viewButton[0]).on('click', function(evt) {
             evt.stopPropagation();
+            evt.preventDefault();
+
             var dialog = $('#doc-dialog');
             dialog.modal('toggle');
+
+           window.replaceHash(focus.id + "/docs");
+
             var group = dialog.find('.list-group').css('height', (height - 120) + 'px');
 
             var shifter = dialog.find('.panel-shifter-inner');
@@ -180,19 +203,27 @@
 
             group.html();
             if (view_d) {
+                group.addClass('loading');
                 $.getJSON("tree_data/" + view_d.id + ".json", function(tree_data) {
+                    group.removeClass('loading');
                     group.html(
                         $.map(tree_data.items, function(item) { return '<a data-item-id="' + item.id + '"" href="#' + item.id + '" class="list-group-item">' + item.title + '<i class="glyphicon glyphicon-chevron-right pull-right"></i></a>' }).join("")
                     );
                 });
             }
         });
+        $('#doc-dialog').on('hidden.bs.modal', function () {
+            window.replaceHash(focus.id);
+        });
 
         var fixed_width = null;
         var fixed_height = null;
         $('#doc-dialog .doc-list').on('click', 'a', function(evt) {
             evt.stopPropagation();
+            evt.preventDefault();
+
             var id = $(evt.target).attr('data-item-id');
+            window.replaceHash(focus.id + "/docs/" + id);
 
             var outer = $('.panel-shifter-outer');
             var inner = outer.find('.panel-shifter-inner');
@@ -234,29 +265,68 @@
                 'left': '-=' + (fixed_width + 20)
             }, 'fast');
 
+            var body = dvp.find('.panel-body');
+            body.addClass('loading');
             $.getJSON("data/" + id + ".json", function(data) {
+                body.removeClass('loading');
 
                 var mtable = $('<table class="table">');
                 mtable.append('<tr><td class="meta-label">Applicant</td><td>' + data.applicant + '</td></tr>');
                 mtable.append('<tr><td class="meta-label">Date Received</td><td>' + formatDate(new Date(data.dateRcpt)) + '</td></tr>');
                 dvp.find('.meta-container').html("").append(mtable);
                 
-                var body = dvp.find('.panel-body');
                 body.text(data.text);
                 
                 var h = dvp.height() - (dvp.find('.panel-heading').height() + mtable.height() + 20);
-                console.log(h, body.outerHeight(), dvp.find('.panel-heading').outerHeight(), mtable.outerHeight());
                 body.css('height', h);
             })
         })
         
         $('#doc-dialog .doc-view-panel .panel-heading').on('click', 'a.back-link', function(evt) {
             evt.stopPropagation();
+            evt.preventDefault();
+            window.replaceHash(focus.id + "/docs");
+
             var inner = $('.panel-shifter-inner');
             inner.animate({
                 'left': '0'
             }, 'fast');
         })
+
+        /* make the embed link work */
+        $('#embed-link').on('click', function(evt) {
+            evt.preventDefault();
+            var dialog = $('#embed-dialog');
+            dialog.modal('toggle');
+            dialog.find('.iframe-src').html(window.location.href);
+            dialog.find('.iframe-height').html($(window).height());
+            dialog.find('.iframe-width').html($(window).width());
+        })
+
+        /* check see if there's a hash and load it */
+        if (window.location.hash) {
+            var hparts = window.location.hash.slice(1).split("/");
+            zoom(d3.selectAll('circle#circle-' + hparts[0]).datum());
+
+            if (hparts.length > 1 && hparts[1] == "docs") {
+                setTimeout(function() {
+                    $(viewButton[0]).click();
+
+                    if (hparts.length > 2) {
+                        setTimeout(function() {
+                            var interval = setInterval(function() {
+                                var group = $('#doc-dialog .list-group');
+                                if (!group.hasClass('loading')) {
+                                    clearInterval(interval);
+                                    var item = group.find('a[data-item-id=' + hparts[2] + ']');
+                                    item.click();
+                                }
+                            }, 100);
+                        }, 100);
+                    }
+                }, 100);
+            }
+        }
     });
 
     var formatDate = function(d) {

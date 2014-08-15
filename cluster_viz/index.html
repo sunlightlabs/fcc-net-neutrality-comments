@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="d3.v3.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="style.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="bootstrap-theme.min.css" />
+        <script src="assets/d3.v3.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="assets/style.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="assets/bootstrap-theme.min.css" />
     </head>
     <body class="widget">
         <div class="header-group">
@@ -12,10 +12,10 @@
             <div class="header-container">
                 <div class="header-title">
                     <div class="main-title">
-                        Title of the <em>chart</em> 
+                        FCC Open Internet comments
                     </div>
                     <div class="explanatory">
-                        For explanatory text that's not very long.
+                        1.1 million coments clustered by topic
                     </div>
                 </div>
                 <div class="header-logo">
@@ -32,19 +32,19 @@
         <div class="footer-group">
             <div class="divider dashed"></div>
             <div class="footer-container">
-                <div class="citation">
-                    <em>Source:</em> www.fruitsperbushel.com
+                <div class="citation" style="text-align: right;">
+                    <a id="embed-link" href="#">embed this widget</a>
                 </div>
             </div>
         </div>
 
-        <!-- Modal -->
+        <!-- Modals -->
         <div class="modal fade" id="doc-dialog" tabindex="-1" role="dialog" aria-labelledby="doc-dialog-label" aria-hidden="true">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="doc-dialog-label">Modal title</h4>
+                <h4 class="modal-title" id="doc-dialog-label">Explore cluster</h4>
               </div>
               <div class="modal-body">
 
@@ -76,11 +76,30 @@
           </div>
         </div>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <div class="modal fade" id="embed-dialog" tabindex="-1" role="dialog" aria-labelledby="doc-dialog-label" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="doc-dialog-label">Modal title</h4>
+              </div>
+              <div class="modal-body">
+
+                Copy this code to embed the widget:
+                <div class="well" style="font-family: monospace;">
+                    &lt;iframe src="<span class="iframe-src"></span>" height="<span class="iframe-height"></span>" width="<span class="iframe-width"></span>" /&gt;
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-        <script src="widget.js">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <script src="assets/widget.js">
 
         </script>
     </body>
