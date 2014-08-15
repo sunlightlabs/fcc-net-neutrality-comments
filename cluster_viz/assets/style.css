@@ -137,6 +137,7 @@
 
 /* widget-specific stuff */
 body.widget {
+    background: none;
     background-color: #EFECEA;
     margin: 0;
 }
