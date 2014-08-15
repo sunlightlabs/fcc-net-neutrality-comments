@@ -168,6 +168,8 @@
         /* things to do with the dialog */
         $(viewButton[0]).on('click', function(evt) {
             evt.stopPropagation();
+            evt.preventDefault();
+
             var dialog = $('#doc-dialog');
             dialog.modal('toggle');
             var group = dialog.find('.list-group').css('height', (height - 120) + 'px');
@@ -192,6 +194,8 @@
         var fixed_height = null;
         $('#doc-dialog .doc-list').on('click', 'a', function(evt) {
             evt.stopPropagation();
+            evt.preventDefault();
+
             var id = $(evt.target).attr('data-item-id');
 
             var outer = $('.panel-shifter-outer');
@@ -252,6 +256,8 @@
         
         $('#doc-dialog .doc-view-panel .panel-heading').on('click', 'a.back-link', function(evt) {
             evt.stopPropagation();
+            evt.preventDefault();
+            
             var inner = $('.panel-shifter-inner');
             inner.animate({
                 'left': '0'
