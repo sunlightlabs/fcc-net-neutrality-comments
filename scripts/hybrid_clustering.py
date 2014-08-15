@@ -30,7 +30,7 @@ import pandas as pd
 min_branching = 2
 max_branching = 5
 max_depth = 4
-min_nodes = 1500
+min_nodes = 1000
 
 fnames = glob(os.path.join(settings.PROC_DIR, '*.json'))
 doc_ids = pd.Series(map(lambda x: os.path.basename(x).split('.')[0], fnames),
@@ -63,9 +63,9 @@ def index_freq_above(na, minval):
 negs = pd.Series((-1 for i in xrange(doc_ids.shape[0])))
 
 bookie = pd.DataFrame({
-    'original_id': unclustered_gensim_id[:10000],
-    'doc_id': doc_ids[:10000],
-    'cluster_r0': negs.copy()[:10000]
+    'original_id': unclustered_gensim_id,
+    'doc_id': doc_ids,
+    'cluster_r0': negs.copy()
 })
 
 root_cluster_model = cluster(bookie, 'cluster_r0', 4)
