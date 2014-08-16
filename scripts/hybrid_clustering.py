@@ -13,7 +13,7 @@ import logging
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',
                     level=logging.INFO)
 
-logger = logging.getLogger('debug_log')
+logger = logging.getLogger('log/hybrid_clustering.log')
 
 import settings
 
@@ -30,7 +30,7 @@ import pandas as pd
 min_branching = 2
 max_branching = 5
 max_depth = 4
-min_nodes = 1000
+min_nodes = 100
 
 fnames = glob(os.path.join(settings.PROC_DIR, '*.json'))
 doc_ids = pd.Series(map(lambda x: os.path.basename(x).split('.')[0], fnames),
@@ -58,22 +58,29 @@ def cluster(group, level, nbranches):
 def index_freq_above(na, minval):
     l = pd.Series(na)
     lvc = l.value_counts()
+    logger.info('all clusters found:\n'+lvc.to_string())
+    logger.info('filtered for size:\n'+lvc[lvc > minval].to_string())
     return l[l.isin(lvc[lvc > minval].index.values)].index
 
 negs = pd.Series((-1 for i in xrange(doc_ids.shape[0])))
 
 bookie = pd.DataFrame({
-    'original_id': unclustered_gensim_id,
-    'doc_id': doc_ids,
-    'cluster_r0': negs.copy()
+    'original_id': unclustered_gensim_id[:10000],
+    'doc_id': doc_ids[:10000],
+    'cluster_r0': negs[:10000].copy()
 })
 
+
 root_cluster_model = cluster(bookie, 'cluster_r0', 4)
-bookie['cluster_r0'] = root_cluster_model.labels_
+root_cluster_labels = pd.Series(root_cluster_model.labels_)
+bookie['cluster_r0'] = root_cluster_labels
+logger.info('top-level clusters:\n'+str(root_cluster_labels.value_counts()))
 
 for level in xrange(1, max_depth+1):
     level_name = 'cluster_r{n}'.format(n=level)
-    bookie[level_name] = negs.copy()
+    bookie[level_name] = negs[:10000].copy()
+
+logger.info(bookie.apply(pd.isnull).apply(pd.value_counts).to_string())
 
 for level in xrange(1, max_depth+1):
     this_level = 'cluster_r{n}'.format(n=level)
@@ -83,8 +90,8 @@ for level in xrange(1, max_depth+1):
     for group_num, group in bookie[bookie[prev_level] >= 0].groupby(prev_level):
         _no_sig_clusters = False
         _small_group = False
-        logger.info("......inside {pl}'s {nth} cluster".format(pl=prev_level,
-                                                               nth=group_num))
+        logger.info("......inside {pl}'s {nth} cluster ({l})".format(
+            pl=prev_level, nth=group_num, l=group.shape[0]))
         _nbranches = max_branching
         while 1:
             cluster_model = cluster(group, this_level, _nbranches)
@@ -106,8 +113,12 @@ for level in xrange(1, max_depth+1):
                 else:
                     break
             else:
-                _cluster_labels = cluster_model.labels_[above_min]
-                _cluster_centers = cluster_model.cluster_centers_[np.sort(np.unique(_cluster_labels))]
+                #_cluster_labels = pd.Series(cluster_model.labels_)
+                #_cluster_centers = cluster_model.cluster_centers_
+                _cluster_labels = pd.Series(-np.ones(cluster_model.labels_.size))
+                _cluster_labels[above_min] = cluster_model.labels_[above_min.values]
+                unique_labels = np.sort(np.unique(cluster_model.labels_[above_min.values]))
+                _cluster_centers = cluster_model.cluster_centers_[unique_labels]
                 break
 
         if _no_sig_clusters:
@@ -116,10 +127,16 @@ for level in xrange(1, max_depth+1):
             logger.info('......cluster too small, not dividing further')
             continue
         else:
-            bookie.loc[group.index, this_level] = cluster_model.labels_
+            logger.info(bookie.apply(pd.isnull).apply(pd.value_counts).to_string())
+            bookie.ix[group.index, this_level] = _cluster_labels.values
+            logger.info(bookie.apply(pd.isnull).apply(pd.value_counts).to_string())
+            vc = _cluster_labels.value_counts()
             logger.info(
-                '......persisting the labels and centers for subclusters we found'
-            )
+                '\n'.join([
+                           '......persisting the labels and centers for subclusters we found',
+                           vc.to_string(),
+                           '='*10,
+                           str(_cluster_labels.value_counts().sum())]))
 
             # persistence filelocs
             lbl_filename = 'cluster_{prev_level}-{group}_labels_{nc}'.format(
