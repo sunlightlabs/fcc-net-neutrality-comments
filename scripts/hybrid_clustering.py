@@ -28,9 +28,9 @@ import numpy as np
 import pandas as pd
 
 min_branching = 2
-max_branching = 5
-max_depth = 4
-min_nodes = 100
+max_branching = int(sys.argv[1])
+max_depth = int(sys.argv[2])
+min_nodes = int(sys.argv[3])
 
 fnames = glob(os.path.join(settings.PROC_DIR, '*.json'))
 doc_ids = pd.Series(map(lambda x: os.path.basename(x).split('.')[0], fnames),
@@ -58,8 +58,8 @@ def cluster(group, level, nbranches):
 def index_freq_above(na, minval):
     l = pd.Series(na)
     lvc = l.value_counts()
-    logger.info('all clusters found:\n'+lvc.to_string())
-    logger.info('filtered for size:\n'+lvc[lvc > minval].to_string())
+    logger.debug('all clusters found:\n'+lvc.to_string())
+    logger.debug('filtered for size:\n'+lvc[lvc > minval].to_string())
     return l[l.isin(lvc[lvc > minval].index.values)].index
 
 negs = pd.Series((-1 for i in xrange(doc_ids.shape[0])))
@@ -79,8 +79,6 @@ logger.info('top-level clusters:\n'+str(root_cluster_labels.value_counts()))
 for level in xrange(1, max_depth+1):
     level_name = 'cluster_r{n}'.format(n=level)
     bookie[level_name] = negs[:10000].copy()
-
-logger.info(bookie.apply(pd.isnull).apply(pd.value_counts).to_string())
 
 for level in xrange(1, max_depth+1):
     this_level = 'cluster_r{n}'.format(n=level)
@@ -127,9 +125,7 @@ for level in xrange(1, max_depth+1):
             logger.info('......cluster too small, not dividing further')
             continue
         else:
-            logger.info(bookie.apply(pd.isnull).apply(pd.value_counts).to_string())
             bookie.ix[group.index, this_level] = _cluster_labels.values
-            logger.info(bookie.apply(pd.isnull).apply(pd.value_counts).to_string())
             vc = _cluster_labels.value_counts()
             logger.info(
                 '\n'.join([
