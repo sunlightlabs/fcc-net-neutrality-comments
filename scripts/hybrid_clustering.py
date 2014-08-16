@@ -65,9 +65,9 @@ def index_freq_above(na, minval):
 negs = pd.Series((-1 for i in xrange(doc_ids.shape[0])))
 
 bookie = pd.DataFrame({
-    'original_id': unclustered_gensim_id[:10000],
-    'doc_id': doc_ids[:10000],
-    'cluster_r0': negs[:10000].copy()
+    'original_id': unclustered_gensim_id,
+    'doc_id': doc_ids,
+    'cluster_r0': negs.copy()
 })
 
 
@@ -78,7 +78,7 @@ logger.info('top-level clusters:\n'+str(root_cluster_labels.value_counts()))
 
 for level in xrange(1, max_depth+1):
     level_name = 'cluster_r{n}'.format(n=level)
-    bookie[level_name] = negs[:10000].copy()
+    bookie[level_name] = negs.copy()
 
 for level in xrange(1, max_depth+1):
     this_level = 'cluster_r{n}'.format(n=level)
