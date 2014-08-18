@@ -128,7 +128,7 @@ np.save('persistence/lsi_topic-agglom_linkage', word_linkage)
 logger.info("assigning clusters to topic words")
 word_cluster_labels = fcluster(word_linkage, 2.75, 'distance')
 top_topic_words_u_df['cluster_number'] = word_cluster_labels
-top_topic_words_u_df.to_csv['lsi_topic-agglom_clustered.csv']
+top_topic_words_u_df.to_csv('lsi_topic-agglom_clustered.csv')
 
 cluster_lookup = {grp_num: write_topics(group) for grp_num, group in
                   top_topic_words_u_df.groupby('cluster_number')}
