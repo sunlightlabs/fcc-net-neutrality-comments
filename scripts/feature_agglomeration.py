@@ -129,7 +129,7 @@ np.save('persistence/lsi_topic-agglom_linkage', word_linkage)
 logger.info("assigning clusters to topic words")
 word_cluster_labels = fcluster(word_linkage, 2.75, 'distance')
 top_topic_words_u_df['cluster_number'] = word_cluster_labels
-top_topic_words_u_df.to_csv('lsi_topic-agglom_clustered.csv')
+top_topic_words_u_df.to_csv('persistence/lsi_topic-agglom_clustered.csv')
 
 cluster_lookup = {grp_num: write_topics(group) for grp_num, group in
                   top_topic_words_u_df.groupby('cluster_number')}
@@ -147,7 +147,7 @@ for cluster_no, group in top_topic_words_u_df.groupby('cluster_number'):
 
 group_centroids = np.array(group_centroids)
 centroid_df = pd.DataFrame(group_centroids, index=centroid_index)
-centroid_df.to_csv('lsi_topic-agglom_centroids.csv')
+centroid_df.to_csv('persistence/lsi_topic-agglom_centroids.csv')
 cluster_centroid_matrix = centroid_df.as_matrix()
 
 logger.info('bulding similarity matrix')
