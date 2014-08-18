@@ -271,3 +271,16 @@ body.widget .doc-view-panel .panel-body {
 body.widget .doc-view-panel .panel-body::before, body.widget .doc-view-panel .panel-body::after {
     display: none;
 }
+body.widget .tlabel div {
+    text-align: center;
+    padding: 10px;
+    background: rgba(255,255,255,0.25);
+    line-height: 100%;
+    font-weight: bold;
+    color: #444240;
+}
+body.widget .annotations .title div {
+    padding: 10px;
+    background: rgba(255,255,255,0.25);
+    color: #444240;
+}

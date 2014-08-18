@@ -22,6 +22,14 @@
         styles = stylesResult[0];
         data = dataResult[0];
 
+        // add indices for color
+        $.each(data, function(idx, item) {
+            item.idx = idx;
+        })
+        var getIndex = function(node) {
+            return typeof(node.idx) !== "undefined" ? node.idx : getIndex(node.parent);
+        }
+
         var $svg = $('svg');
 
         var margin = 20,
@@ -30,10 +38,14 @@
 
         var diameter = Math.min(height, width);
 
-        var color = d3.scale.linear()
-            .domain([1, 3])
-            .range([styles.colors.data.main.yellow.subsets[0].hex, styles.colors.data.main.yellow.subsets[1].hex])
-            .interpolate(d3.interpolateHcl);
+        var color_keys = ["yellows", "oranges", "reds", "pinks", "magentas", "blues", "cyans", "teals", "mints", "greens"];
+        var colors = $.map(color_keys, function(c) {
+            var color = styles.colors.network_graph[c];
+            return d3.scale.linear()
+                .domain([1, 3])
+                .range([color[0].hex, color[2].hex])
+                .interpolate(d3.interpolateHcl);
+        });
 
         var pack = d3.layout.pack()
             .padding(2)
@@ -46,7 +58,8 @@
                 .attr('class', 'main');
 
         var annotations = d3.select($svg[0])
-            .append("g");
+            .append("g")
+            .classed("annotations", true);
 
         var root = {'children': data, 'size': $.map(data, function(el) { return el.size; }).reduce(function(a, b) { return a + b; }, 0)};
 
@@ -54,6 +67,7 @@
             nodes = pack.nodes(root),
             view;
 
+        //var shadow = '0 1px 0 rgba(255,255,255,1), 1px 0 0 rgba(255,255,255,1), -1px 0 0 rgba(255,255,255,1), 0 -1px 0 rgba(255,255,255,1)';
         var shadow = '0 1px 0 rgba(255,255,255,0.25), 1px 0 0 rgba(255,255,255,0.25), -1px 0 0 rgba(255,255,255,0.25), 0 -1px 0 rgba(255,255,255,0.25)';
         //var shadow = '';
 
@@ -62,49 +76,38 @@
           .enter().append("circle")
             .attr('id', function(d) { return d.id ? 'circle-' + d.id : null; })
             .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
-            .style("fill", function(d) { return d.parent ? color(d.depth) : "none"; })
+            .style("fill", function(d) { return d.parent ? colors[getIndex(d)](d.depth) : "none"; })
             .style("pointer-events", function(d) { return d.parent ? "auto" : "none"})
             .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
 
-        var text = svg.selectAll("text")
+        var text = svg.selectAll("g.label-group")
             .data(nodes)
             .enter()
                 .append("g")
-                    .attr("class", "label-group")
-                    .each(function(d, i) {
-                        d3.select(this)
-                            .append("text")
-                            .attr("class", "label")
-                            .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
-                            .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
-                            .style('pointer-events', 'none')
-                            .style('text-anchor', 'middle')
-                            .style('text-shadow', shadow)
-                            .text(function(d) { return d.keywords ? d.keywords.slice(0,3).join(", ") : ""; })
-                            .attr('fill', '#333');
-                        d3.select(this)
-                            .append("text")
-                            .attr("class", "label")
-                            .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
-                            .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
-                            .style('pointer-events', 'none')
-                            .style('text-anchor', 'middle')
-                            .style('text-shadow', shadow)
-                            .attr('y', 12)
-                            .text(function(d) { return d.keywords ? d.keywords.slice(3,5).join(", ") : ""; })
-                            .attr('fill', '#333');
-                    })
+                    .classed("label-group", true)
+                    .style('pointer-events', 'none')
+                    .append("foreignObject")
+                        .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
+                        .classed('tlabel', true)
+                        .attr("width", 200)
+                        .attr('x', -100)
+                        .attr('y', -20)
+                        .attr("height", 100)
+                        .append("xhtml:div")
+                        .text(function(d, i) { return d.keywords ? d.keywords.join(", ") : ""; });
 
 
         /* titles and annotations */
-        var title = annotations.append("text")
-            .text("")
-            .style("display", "none")
-            .style("font-size", "200%")
-            .style('text-shadow', shadow)
-            .attr('x', '20')
-            .attr('y', '35')
-            .attr('fill', '#333');
+        var title = annotations
+            .append("foreignObject")
+            .classed('title', true)
+            .style('pointer-events', 'none')
+            .attr('height', 100)
+            .attr('width', '100%')
+            .append("xhtml:div")
+                .text("")
+                .style("display", "none")
+                .style("font-size", "200%")
 
         var stats = annotations.append("text")
             .text("")
@@ -124,7 +127,7 @@
         var viewButton = viewButtonArea.selectAll('button');
 
 
-        var node = svg.selectAll("circle,text");
+        var node = svg.selectAll("circle,.tlabel");
 
         d3.select($svg[0])
             .on("click", function() { zoom(root); });
@@ -140,7 +143,7 @@
                 view_d = d;
                 var box = stats.node().getBBox();
                 viewButtonArea
-                    .attr('x', 20 + box.width)
+                    .attr('x', 30 + box.width)
                     .attr('y', height - 25 - box.height)
                     .style('display', null);
             } else {
@@ -154,9 +157,6 @@
 
             d3.selectAll('circle').classed('selected', false);
             if (focus.parent) {
-                title
-                    .style('display', 'inline')
-                    .text(focus.keywords.join(", "));
                 d3.selectAll('circle#circle-' + d.id).classed('selected', true);
                 window.replaceHash(d.id);
             } else {
@@ -173,11 +173,28 @@
                   return function(t) { zoomTo(i(t)); };
                 });
 
-            transition.selectAll(".main text")
+            var pulsated = false;
+            transition.selectAll(".main .tlabel")
               .filter(function(d) { return d.parent === focus || (d == focus && (!d.children)) || this.style.display === "inline"; })
-                .style("fill-opacity", function(d) { return (d.parent === focus || (d == focus && (!d.children))) ? 1 : 0; })
+                .style("opacity", function(d) { return (d.parent === focus || (d == focus && (!d.children))) ? 1 : 0; })
                 .each("start", function(d) { if (d.parent === focus || (d == focus && (!d.children))) this.style.display = "inline"; })
-                .each("end", function(d) { if (d.parent !== focus && !(d.parent === focus || (d == focus && (!d.children)))) this.style.display = "none"; });
+                .each("end", function(d, i) {
+                    // text display
+                    if (d.parent !== focus && !(d.parent === focus || (d == focus && (!d.children)))) this.style.display = "none";
+                    
+                    // pulsate the title
+                    if (!pulsated && focus.parent) {
+                        title
+                            .style('display', 'inline')
+                            .text(focus.keywords.join(", "));
+                        title.transition()
+                            .styleTween("background", function() { return function(a,b) { return "rgba(255,255,255," + d3.interpolate(0.25, 0.75)(a,b); }; })
+                            .each('end', function() {
+                                title.transition()
+                                    .styleTween("background", function() { return function(a,b) { return "rgba(255,255,255," + d3.interpolate(0.75, 0.25)(a,b); }; })
+                            });
+                    }
+                });
         }
 
         function zoomTo(v) {
