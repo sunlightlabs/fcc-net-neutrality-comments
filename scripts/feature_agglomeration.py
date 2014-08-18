@@ -108,14 +108,17 @@ dct_df.to_csv('persistence/my_dict_lookup.csv', encoding='utf8')
 dct_with_u = dct_df.join(lsi_u_df, how='inner')
 
 top_topic_words_u_df = dct_with_u[dct_with_u.token.isin(top_topic_words)]
+top_topic_words_u_df.to_csv('persistence/lsi_topic-agglom_top-words-u-df.csv')
 
 top_topic_words_u = top_topic_words_u_df.ix[:, 'topic_0':'topic_199'].as_matrix()
 
 logger.info("pairwise distances for words")
 wt_cos_dist = pairwise_distances(top_topic_words_u, metric='cosine', n_jobs=-2)
+np.save('persistence/lsi_topic-agglom_distances', wt_cos_dist)
 
 logger.info("word linkage matrix")
 word_linkage = linkage(wt_cos_dist, method='ward')
+np.save('persistence/lsi_topic-agglom_linkage', word_linkage)
 
 # TODO: formalize this - http://stackoverflow.com/questions/2018178/finding-the-best-trade-off-point-on-a-curve
 #wt_tradeoff_df = pd.DataFrame(get_stats(np.arange(1, 12, 0.25) ))
@@ -125,6 +128,7 @@ word_linkage = linkage(wt_cos_dist, method='ward')
 logger.info("assigning clusters to topic words")
 word_cluster_labels = fcluster(word_linkage, 2.75, 'distance')
 top_topic_words_u_df['cluster_number'] = word_cluster_labels
+top_topic_words_u_df.to_csv['lsi_topic-agglom_clustered.csv']
 
 cluster_lookup = {grp_num: write_topics(group) for grp_num, group in
                   top_topic_words_u_df.groupby('cluster_number')}
@@ -142,13 +146,15 @@ for cluster_no, group in top_topic_words_u_df.groupby('cluster_number'):
 
 group_centroids = np.array(group_centroids)
 centroid_df = pd.DataFrame(group_centroids, index=centroid_index)
+centroid_df.to_csv('lsi_topic-agglom_centroids.csv')
 cluster_centroid_matrix = centroid_df.as_matrix()
 
 logger.info('bulding similarity matrix')
 word_mat_sim = MatrixSimilarity(cluster_centroid_matrix, num_features=200)
+
 tfidf_corpus_lsi = np.load('persistence/tfidf_corpus_lsi-200_matrix_similarity.index.npy')
 word_mat_sim.num_best = 1
-
+word_mat_sim.save('persistence/lsi_word-agglom_word-similarity-matrix')
 with open('persistence/tfidf-lsi_sim_word-topic-hier.csv','w') as fout:
     csvw = csv.writer(fout)
     for doc_id, sim in enumerate(word_mat_sim[tfidf_corpus_lsi]):
