@@ -3,15 +3,19 @@ import json
 import sys
 import os
 
+from util import clean_text
+
+
 def gposttl(utterance, identifier="no_id"):
-    utterance = utterance.replace('\t',' ')
-    p = subprocess.Popen(['gposttl','--silent'], stdout=subprocess.PIPE, stdin=subprocess.PIPE)
+    utterance = clean_text(utterance)
+    p = subprocess.Popen(['gposttl', '--silent'], stdout=subprocess.PIPE,
+                         stdin=subprocess.PIPE)
     (out, error) = p.communicate(utterance.encode('utf8'))
     if p.returncode != '0':
         if len(out) > 1:
             out = out.decode('utf8')
-            tokens = [a.replace(u'\t',u'|') 
-                      for a in out.split(u'\n') 
+            tokens = [a.replace(u'\t', u'|')
+                      for a in out.split(u'\n')
                       if len(a) > 0]
             return tokens
         else:
@@ -20,6 +24,7 @@ def gposttl(utterance, identifier="no_id"):
         msg = str(error)
         code = str(p.returncode)
         raise Exception(': '.join([identifier, code, msg]))
+
 
 def tag_content(s):
     tagged_content = ' '.join(gposttl(s))
