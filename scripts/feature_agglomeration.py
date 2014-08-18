@@ -9,9 +9,10 @@ sys.path.append(os.path.join(os.path.dirname(__file__), os.path.pardir))
 
 import logging
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',
+                    filename='log/feature_agglomeration.log', filemode='a',
                     level=logging.INFO)
 
-logger = logging.getLogger('log/feature_agglomeration.log')
+logger = logging.getLogger(__file__)
 
 import settings
 
@@ -156,10 +157,12 @@ tfidf_corpus_lsi = np.load('persistence/tfidf_corpus_lsi-200_matrix_similarity.i
 word_mat_sim.num_best = 1
 word_mat_sim.save('persistence/lsi_word-agglom_word-similarity-matrix')
 with open('persistence/tfidf-lsi_sim_word-topic-hier.csv','w') as fout:
-    csvw = csv.writer(fout)
-    for doc_id, sim in enumerate(word_mat_sim[tfidf_corpus_lsi]):
-        try:
-            csvw.writerow((doc_id, sim[0][0], sim[0][1]))
-        except Exception as e:
-            logger.error(e)
-            continue
+    with open('stats/tfidf-lsi_sim_problems.txt', 'w') as errout:
+        csvw = csv.writer(fout)
+        for doc_id, sim in enumerate(word_mat_sim[tfidf_corpus_lsi]):
+            try:
+                csvw.writerow((doc_id, sim[0][0], sim[0][1]))
+            except Exception as e:
+                errout.write(str(fnames[doc_id])+'\n')
+                logger.error(e)
+                continue
