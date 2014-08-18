@@ -183,6 +183,7 @@ body.widget {
     background: none;
     background-color: #EFECEA;
     margin: 0;
+    color: #635f5d;
 }
 
 body.widget .header-group {
@@ -249,6 +250,9 @@ body.widget svg circle:hover {
 body.widget svg circle.selected, body.widget svg circle.selected:hover {
     stroke: #fff;
     stroke-width: 3px;
+}
+body.widget svg text {
+    fill: #635f5d;
 }
 body.widget .meta-container table {
     margin-bottom: 0;

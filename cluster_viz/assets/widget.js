@@ -54,6 +54,9 @@
             nodes = pack.nodes(root),
             view;
 
+        var shadow = '0 1px 0 rgba(255,255,255,0.25), 1px 0 0 rgba(255,255,255,0.25), -1px 0 0 rgba(255,255,255,0.25), 0 -1px 0 rgba(255,255,255,0.25)';
+        //var shadow = '';
+
         var circle = svg.selectAll("circle")
             .data(nodes)
           .enter().append("circle")
@@ -76,7 +79,7 @@
                             .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
                             .style('pointer-events', 'none')
                             .style('text-anchor', 'middle')
-                            .style('text-shadow', '0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff')
+                            .style('text-shadow', shadow)
                             .text(function(d) { return d.keywords ? d.keywords.slice(0,3).join(", ") : ""; })
                             .attr('fill', '#333');
                         d3.select(this)
@@ -86,7 +89,7 @@
                             .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
                             .style('pointer-events', 'none')
                             .style('text-anchor', 'middle')
-                            .style('text-shadow', '0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff')
+                            .style('text-shadow', shadow)
                             .attr('y', 12)
                             .text(function(d) { return d.keywords ? d.keywords.slice(3,5).join(", ") : ""; })
                             .attr('fill', '#333');
@@ -98,16 +101,16 @@
             .text("")
             .style("display", "none")
             .style("font-size", "200%")
-            .style('text-shadow', '0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff')
-            .attr('x', '10')
-            .attr('y', '30')
+            .style('text-shadow', shadow)
+            .attr('x', '20')
+            .attr('y', '35')
             .attr('fill', '#333');
 
         var stats = annotations.append("text")
             .text("")
             .style("font-size", "150%")
-            .style('text-shadow', '0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff')
-            .attr('x', '10')
+            .style('text-shadow', shadow)
+            .attr('x', '20')
             .attr('y', height - 20)
             .attr('fill', '#333');
 
