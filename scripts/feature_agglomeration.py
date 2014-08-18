@@ -82,10 +82,10 @@ lsi_model = lsimodel.LsiModel.load('persistence/lsi_model-200')
 logger.info("loading dictionary")
 dct = corpora.dictionary.Dictionary.load('persistence/my_dict')
 
-logger.info("getting the top 50 words for each topic")
-topics = [parse_topic(t) for t in lsi_model.show_topics(num_words=50)]
+logger.info("getting the top 75 words for each topic")
+topics = [parse_topic(t) for t in lsi_model.show_topics(num_words=75)]
 
-logger.info("unionizing top 50 words per topic")
+logger.info("unionizing top 75 words per topic")
 top_topic_words = set()
 for topic in topics:
     for w, t in topic:
