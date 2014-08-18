@@ -135,6 +135,49 @@
     text-anchor: middle;
 }
 
+/* Button style */
+.btn-sunlight {
+  border: 3px solid #dad8d1;
+  border: 3px solid rgba(218, 216, 209, 0.8);
+  background: #cb610b;
+  background-image: -webkit-linear-gradient(#cb610b 0%, #bc5b0a 55%, #cb610b 55%);
+  background-image: -moz-linear-gradient(#cb610b 0%, #bc5b0a 55%, #cb610b 55%);
+  background-image: -ms-linear-gradient(#cb610b 0%, #bc5b0a 55%, #cb610b 55%);
+  background-image: -o-linear-gradient(#cb610b 0%, #bc5b0a 55%, #cb610b 55%);
+  background-image: linear-gradient(#cb610b 0%, #bc5b0a 55%, #cb610b 55%);
+  color: #eee;
+  font-family: "rooney-web", "Georgia", "Times New Roman", "Times", serif;
+  font-size: 120%;
+  font-weight: 400;
+  padding: 0.45em 1.8em;
+  -webkit-font-smoothing: antialiased;
+  -webkit-background-clip: padding;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  text-shadow: 0 0 0;
+}
+
+.btn-sunlight:hover, .btn-sunlight:active, .btn-sunlight:focus {
+  background: #b85301;
+  background-image: -webkit-linear-gradient(#b85301 0%, #a54e01 55%, #b85301 55%);
+  background-image: -moz-linear-gradient(#b85301 0%, #a54e01 55%, #b85301 55%);
+  background-image: -ms-linear-gradient(#b85301 0%, #a54e01 55%, #b85301 55%);
+  background-image: -o-linear-gradient(#b85301 0%, #a54e01 55%, #b85301 55%);
+  background-image: linear-gradient(#b85301 0%, #a54e01 55%, #b85301 55%);
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -webkit-background-clip: padding;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  outline: none;
+}
+
+
 /* widget-specific stuff */
 body.widget {
     background: none;

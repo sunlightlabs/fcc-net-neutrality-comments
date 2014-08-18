@@ -117,7 +117,7 @@
             .attr("height", 100);
         viewButtonArea
             .append("xhtml:div")
-            .html('<button class="btn"><i class="glyphicon glyphicon-list-alt"></i> view</button>');
+            .html('<button class="btn-sunlight"><i class="glyphicon glyphicon-list-alt"></i> view</button>');
         var viewButton = viewButtonArea.selectAll('button');
 
 
