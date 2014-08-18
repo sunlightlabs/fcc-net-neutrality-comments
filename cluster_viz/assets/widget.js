@@ -38,11 +38,13 @@
 
         var diameter = Math.min(height, width);
 
+        var format = d3.format("0,000");
+
         var color_keys = ["yellows", "oranges", "reds", "pinks", "magentas", "blues", "cyans", "teals", "mints", "greens"];
         var colors = $.map(color_keys, function(c) {
             var color = styles.colors.network_graph[c];
             return d3.scale.linear()
-                .domain([1, 3])
+                .domain([1, 7])
                 .range([color[0].hex, color[2].hex])
                 .interpolate(d3.interpolateHcl);
         });
@@ -71,6 +73,18 @@
         var shadow = '0 1px 0 rgba(255,255,255,0.25), 1px 0 0 rgba(255,255,255,0.25), -1px 0 0 rgba(255,255,255,0.25), 0 -1px 0 rgba(255,255,255,0.25)';
         //var shadow = '';
 
+        var findVisibleLabel = function(d) {
+            var l = d3.selectAll('#label-' + d.id);
+            var parent = d3.select(l[0][0].parentNode);
+            if (parent.style('display') == 'block') {
+                return l;
+            } else if (d.parent && d.parent.id) {
+                return findVisibleLabel(d.parent);
+            } else {
+                return null;
+            }
+        }
+
         var circle = svg.selectAll("circle")
             .data(nodes)
           .enter().append("circle")
@@ -78,22 +92,43 @@
             .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
             .style("fill", function(d) { return d.parent ? colors[getIndex(d)](d.depth) : "none"; })
             .style("pointer-events", function(d) { return d.parent ? "auto" : "none"})
-            .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
+            .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); })
+            .on('mouseover', function(d, i) {
+                var l = findVisibleLabel(d);
+                if (!l) return;
+
+                var parent = d3.select(l[0][0].parentNode);
+
+                if (parent.style('display') == 'block') {
+                    var group = d3.selectAll('#label-group-' + l.data()[0].id);
+                    group[0][0].parentNode.appendChild(group[0][0]);
+
+                    l.style('background', 'rgba(255,255,255,0.85)');
+                }
+            })
+            .on('mouseout', function(d, i) {
+                var l = findVisibleLabel(d);
+                if (!l) return;
+
+                l.style('background', '');
+            });
 
         var text = svg.selectAll("g.label-group")
             .data(nodes)
             .enter()
                 .append("g")
                     .classed("label-group", true)
+                    .attr('id', function(d) { return d.id ? 'label-group-' + d.id : null; })
                     .style('pointer-events', 'none')
                     .append("foreignObject")
-                        .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
+                        .style("display", function(d) { return d.parent === root ? "block" : "none"; })
                         .classed('tlabel', true)
                         .attr("width", 200)
                         .attr('x', -100)
                         .attr('y', -20)
                         .attr("height", 100)
                         .append("xhtml:div")
+                        .attr('id', function(d) { return d.id ? 'label-' + d.id : null; })
                         .text(function(d, i) { return d.keywords ? d.keywords.join(", ") : ""; });
 
 
@@ -138,7 +173,7 @@
         /* response to interactivity in the graph */
         var view_d = null;
         function updateCount (d) {
-            stats.text(d.size + " documents (" + (100 * d.size / root.size) + "%)");
+            stats.text(format(d.size) + " documents (" + (100 * d.size / root.size) + "%)");
             if (d.size <= 100) {
                 view_d = d;
                 var box = stats.node().getBBox();
@@ -175,9 +210,9 @@
 
             var pulsated = false;
             transition.selectAll(".main .tlabel")
-              .filter(function(d) { return d.parent === focus || (d == focus && (!d.children)) || this.style.display === "inline"; })
+              .filter(function(d) { return d.parent === focus || (d == focus && (!d.children)) || this.style.display === "block"; })
                 .style("opacity", function(d) { return (d.parent === focus || (d == focus && (!d.children))) ? 1 : 0; })
-                .each("start", function(d) { if (d.parent === focus || (d == focus && (!d.children))) this.style.display = "inline"; })
+                .each("start", function(d) { if (d.parent === focus || (d == focus && (!d.children))) this.style.display = "block"; })
                 .each("end", function(d, i) {
                     // text display
                     if (d.parent !== focus && !(d.parent === focus || (d == focus && (!d.children)))) this.style.display = "none";
@@ -185,7 +220,7 @@
                     // pulsate the title
                     if (!pulsated && focus.parent) {
                         title
-                            .style('display', 'inline')
+                            .style('display', 'block')
                             .text(focus.keywords.join(", "));
                         title.transition()
                             .styleTween("background", function() { return function(a,b) { return "rgba(255,255,255," + d3.interpolate(0.25, 0.75)(a,b); }; })
@@ -195,6 +230,8 @@
                             });
                     }
                 });
+
+            d3.selectAll('.tlabel div').style('background', '');
         }
 
         function zoomTo(v) {
