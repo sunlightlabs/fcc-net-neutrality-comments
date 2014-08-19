@@ -39,6 +39,7 @@
         var diameter = Math.min(height, width);
 
         var format = d3.format("0,000");
+        var percentFormat = d3.format(".4p");
 
         var color_keys = ["yellows", "oranges", "reds", "pinks", "magentas", "blues", "cyans", "teals", "mints", "greens"];
         var colors = $.map(color_keys, function(c) {
@@ -173,7 +174,7 @@
         /* response to interactivity in the graph */
         var view_d = null;
         function updateCount (d) {
-            stats.text(format(d.size) + " documents (" + (100 * d.size / root.size) + "%)");
+            stats.text(format(d.size) + " documents (" + percentFormat(d.size / root.size) + ")");
             view_d = d;
             var box = stats.node().getBBox();
             viewButtonArea
