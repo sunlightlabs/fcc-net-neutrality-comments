@@ -261,7 +261,7 @@
                 $.getJSON("tree_data/" + view_d.id + ".json", function(tree_data) {
                     group.removeClass('loading');
                     group.html(
-                        $.map(tree_data.items, function(item) { return '<a data-item-id="' + item.id + '"" href="#' + item.id + '" class="list-group-item">' + item.title + '<i class="glyphicon glyphicon-chevron-right pull-right"></i></a>' }).join("")
+                        tree_data.items.map(function(item) { return '<a data-item-id="' + item.id + '"" href="#' + item.id + '" class="list-group-item">' + item.title + '<i class="glyphicon glyphicon-chevron-right pull-right"></i></a>' }).join("")
                     );
                     dialog.find('.cluster-size').text(tree_data.sample ? format(tree_data.list_size) + "-document sample of " + format(tree_data.full_size) : format(tree_data.list_size) + " documents");
                 });
