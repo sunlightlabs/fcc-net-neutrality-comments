@@ -158,7 +158,7 @@
             .attr("height", 100);
         viewButtonArea
             .append("xhtml:div")
-            .html('<button class="btn-sunlight"><i class="glyphicon glyphicon-list-alt"></i> view</button>');
+            .html('<button class="btn-sunlight"><i class="glyphicon glyphicon-list-alt"></i> <span class="button-label"></span></button>');
         var viewButton = viewButtonArea.selectAll('button');
 
 
@@ -174,17 +174,14 @@
         var view_d = null;
         function updateCount (d) {
             stats.text(format(d.size) + " documents (" + (100 * d.size / root.size) + "%)");
-            if (d.size <= 100) {
-                view_d = d;
-                var box = stats.node().getBBox();
-                viewButtonArea
-                    .attr('x', 30 + box.width)
-                    .attr('y', height - 25 - box.height)
-                    .style('display', null);
-            } else {
-                viewButtonArea
-                    .style('display', 'none');
-            }
+            view_d = d;
+            var box = stats.node().getBBox();
+            viewButtonArea
+                .attr('x', 30 + box.width)
+                .attr('y', height - 25 - box.height)
+                .style('display', null)
+                .selectAll('.button-label')
+                    .text(d.sample ? "view sample" : "view all");
         }
 
         function zoom(d) {
@@ -266,6 +263,7 @@
                     group.html(
                         $.map(tree_data.items, function(item) { return '<a data-item-id="' + item.id + '"" href="#' + item.id + '" class="list-group-item">' + item.title + '<i class="glyphicon glyphicon-chevron-right pull-right"></i></a>' }).join("")
                     );
+                    dialog.find('.cluster-size').text(tree_data.sample ? format(tree_data.list_size) + "-document sample of " + format(tree_data.full_size) : format(tree_data.list_size) + " documents");
                 });
             }
         });
