@@ -1,4 +1,4 @@
-import json, os
+import json, os, itertools
 
 tree_data = json.load(open('docs.json'))
 SAMPLE_THRESHOLD = tree_data['sample_threshold']

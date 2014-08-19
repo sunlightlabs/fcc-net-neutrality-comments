@@ -20,8 +20,8 @@ docs = defaultdict(list)
 keywords = defaultdict(list)
 tree_data = json.load(open("clustered_docs.json"))
 for node_id, node_data in tree_data.iteritems():
-    docs['7-%s' % node_id] = node_data['doc_id']
-    keywords['7-%s' % node_id] = node_data['keywords']
+    docs['7-%s' % node_id] = sorted(node_data['doc_id'], key=lambda d: d[1], reverse=True)
+    keywords['7-%s' % node_id] = sorted(node_data['keywords'], key=lambda k: k[1], reverse=True)
 
 # roll it up
 for level in range(6,-1,-1):
