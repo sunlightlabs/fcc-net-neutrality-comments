@@ -2,7 +2,7 @@ import csv
 import sys
 
 import superfastmatch
-from multiprocessing.dummy import Pool
+from multiprocessing import Pool
 
 import logging
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',
@@ -25,14 +25,13 @@ def get_neighbors(document):
     neighbors = [(document['title'], r['title'], r['fragment_count'])
                  for r in res['documents']['rows']
                  if document['docid'] < r['docid']]
-    for n in neighbors:
-        yield n
+    return neighbors
 
 
 pool = Pool(int(sys.argv[1]))
 
-#result = pool.map_async(get_neighbors, [sfm_documents.next() for i in xrange(30)])
-result = pool.map_async(get_neighbors, sfm_documents)
+#result = pool.imap(get_neighbors, [sfm_documents.next() for i in xrange(30)])
+result = pool.imap(get_neighbors, sfm_documents)
 
 pool.close()
 pool.join()
@@ -40,5 +39,5 @@ pool.join()
 
 with open('persistence/sfm_knn.csv', 'w') as fout:
     cw = csv.writer(fout)
-    for neighborset in result.get():
+    for neighborset in result:
         cw.writerows(neighborset)
