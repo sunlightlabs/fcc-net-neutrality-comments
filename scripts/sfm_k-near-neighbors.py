@@ -11,7 +11,7 @@ logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',
 
 logger = logging.getLogger(__file__)
 
-sfm_url = 'http://{host}:{port}/'.format(host='54.87.63.230', port='8080')
+sfm_url = 'http://{host}:{port}/'.format(host='0.0.0.0', port='8080')
 sfm_client = superfastmatch.client.Client(url=sfm_url)
 
 sfm_documents = superfastmatch.iterators.DocumentIterator(sfm_client, 'docid',
