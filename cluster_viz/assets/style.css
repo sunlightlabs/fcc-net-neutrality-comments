@@ -244,12 +244,12 @@ body.widget a.back-link {
 
 /* svg styles */
 body.widget svg circle:hover {
-    stroke: #ddd;
-    stroke-width: 3px;
+    stroke: #ddd !important;
+    stroke-width: 3px !important;
 }
 body.widget svg circle.selected, body.widget svg circle.selected:hover {
-    stroke: #fff;
-    stroke-width: 3px;
+    stroke: #fff !important;
+    stroke-width: 3px !important;
 }
 body.widget svg text {
     fill: #635f5d;

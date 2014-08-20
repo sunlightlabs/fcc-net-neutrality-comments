@@ -41,14 +41,6 @@
         var format = d3.format("0,000");
         var percentFormat = d3.format(".4p");
 
-        var color_keys = ["yellows", "oranges", "reds", "pinks", "magentas", "blues", "cyans", "teals", "mints", "greens"];
-        var colors = $.map(color_keys, function(c) {
-            var color = styles.colors.network_graph[c];
-            return d3.scale.linear()
-                .domain([1, 7])
-                .range([color[0].hex, color[2].hex])
-                .interpolate(d3.interpolateHcl);
-        });
 
         var pack = d3.layout.pack()
             .padding(2)
@@ -69,6 +61,16 @@
         var focus = root,
             nodes = pack.nodes(root),
             view;
+
+        var max_depth = d3.max(nodes, function(d) { return d.depth; })
+        var color_keys = ["yellows", "oranges", "reds", "pinks", "magentas", "blues", "cyans", "teals", "mints", "greens"];
+        var colors = $.map(color_keys, function(c) {
+            var color = styles.colors.network_graph[c];
+            return d3.scale.linear()
+                .domain([1, max_depth])
+                .range([color[0].hex, color[2].hex])
+                .interpolate(d3.interpolateHcl);
+        });
 
         //var shadow = '0 1px 0 rgba(255,255,255,1), 1px 0 0 rgba(255,255,255,1), -1px 0 0 rgba(255,255,255,1), 0 -1px 0 rgba(255,255,255,1)';
         var shadow = '0 1px 0 rgba(255,255,255,0.25), 1px 0 0 rgba(255,255,255,0.25), -1px 0 0 rgba(255,255,255,0.25), 0 -1px 0 rgba(255,255,255,0.25)';
@@ -92,6 +94,8 @@
             .attr('id', function(d) { return d.id ? 'circle-' + d.id : null; })
             .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
             .style("fill", function(d) { return d.parent ? colors[getIndex(d)](d.depth) : "none"; })
+            .style("stroke", function(d) { return d.parent ? colors[getIndex(d)](d.depth + 2) : "none"; })
+            .style("stroke-width", function(d) { return d.parent ? "1" : "none"; })
             .style("pointer-events", function(d) { return d.parent ? "auto" : "none"})
             .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); })
             .on('mouseover', function(d, i) {
