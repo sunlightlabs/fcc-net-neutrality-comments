@@ -29,7 +29,7 @@ def get_neighbors(document):
         yield n
 
 
-pool = Pool(sys.argv[1])
+pool = Pool(int(sys.argv[1]))
 
 #result = pool.map_async(get_neighbors, [sfm_documents.next() for i in xrange(30)])
 result = pool.map_async(get_neighbors, sfm_documents)
