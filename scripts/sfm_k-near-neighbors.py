@@ -22,7 +22,7 @@ sfm_documents = superfastmatch.iterators.DocumentIterator(sfm_client, 'docid',
 
 def get_neighbors(document):
     res = sfm_client.search(document['text'])
-    neighbors = [(document['title'], r['title'], r['fragment_count'])
+    neighbors = [(document['title'], r['title'], r['fragment_count'], r['characters'])
                  for r in res['documents']['rows']
                  if document['docid'] < r['docid']]
     return neighbors
