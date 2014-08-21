@@ -263,13 +263,41 @@
             group.html();
             if (view_d) {
                 group.addClass('loading');
-                $.getJSON("tree_data/" + view_d.id + ".json", function(tree_data) {
-                    group.removeClass('loading');
-                    group.html(
-                        tree_data.items.map(function(item) { return '<a data-item-id="' + item.id + '"" href="#' + item.id + '" class="list-group-item">' + item.title + '<i class="glyphicon glyphicon-chevron-right pull-right"></i></a>' }).join("")
+                group.html("");
+
+                var addItems = function(data) {
+                    group.append(
+                        data.items.map(function(item) { return '<a data-item-id="' + item.id + '"" href="#' + item.id + '" class="list-group-item">' + item.title + '<i class="glyphicon glyphicon-chevron-right pull-right"></i></a>' }).join("")
                     );
-                    dialog.find('.cluster-size').text(tree_data.sample ? format(tree_data.list_size) + "-document sample of " + format(tree_data.full_size) : format(tree_data.list_size) + " documents");
+                    group.find('a.next').remove();
+                    if (data.next) {
+                        var next = $('<a>');
+                        next.css({'display': 'none'}).addClass('next').attr('href', data.next);
+                        group.append(next);
+                    }
+                }
+
+                $.getJSON("tree_data/" + view_d.id + "-p0.json", function(tree_data) {
+                    group.removeClass('loading');
+                    addItems(tree_data);
+
+                    dialog.find('.cluster-size').text(format(tree_data.full_size) + " documents");
                 });
+
+                group.bind('scroll', function() {
+                    if($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight) {
+                        if (!group.hasClass('loading')) {
+                            group.addClass('loading');
+                            var next = group.find('a.next');
+                            if (next.length) {
+                                $.getJSON('tree_data/' + next.attr('href'), function(data) {
+                                    group.removeClass('loading');
+                                    addItems(data);
+                                })
+                            }
+                        }
+                    }
+                })
             }
         });
         $('#doc-dialog').on('hidden.bs.modal', function () {
