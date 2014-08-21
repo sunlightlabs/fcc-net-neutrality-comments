@@ -43,6 +43,7 @@ tfidf = models.TfidfModel(corpus)
 
 tfidf_corpus = tfidf[corpus]
 
+tfidf_model.save(os.path.join(settings.PERSIST_DIR, 'tfidf_model'))
 
 # In[11]:
 
