@@ -43,8 +43,8 @@ fnames = [os.path.basename(d) for d in iglob(os.path.join(settings.RAW_DIR, '*.j
 
 lfdoc_ix = [fnames.index(law_firm_doc) for law_firm_doc in law_firm_docs]
 
-def write_sentence(sentence, outfile):
-    outfile.write('\t'.join(['EXPERT',
+def write_sentence(sentence, tag, outfile):
+    outfile.write('\t'.join([tag,
                           clean_text(sentence).replace('\n',' ').replace('\t',' ')]))
     outfile.write('\n')
 
@@ -61,9 +61,9 @@ for i, d in enumerate(law_firm_docs):
     for sentence in sentences:
         if not count % 10:
             # send ~every tenth sentence to test
-            write_sentence(sentence, testfile)
+            write_sentence(sentence, 'EXPERT', testfile)
         else:
-            write_sentence(sentence, trainfile)
+            write_sentence(sentence, 'EXPERT', trainfile)
         count += 1
 
 while count:
@@ -76,8 +76,8 @@ while count:
         for sentence in sentences:
             if not count % 10:
                 # send ~every tenth sentence to test
-                write_sentence(sentence, testfile)
+                write_sentence(sentence, 'JOE', testfile)
             else:
-                write_sentence(sentence, trainfile)
+                write_sentence(sentence, 'JOE', trainfile)
                 sentences = sent_tokenize(get_text(get_json(fnames[lfdoc_ix[0]])))
             count -= 1
