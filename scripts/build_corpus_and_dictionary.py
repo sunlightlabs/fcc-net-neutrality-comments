@@ -1,6 +1,7 @@
 import sys
 import os
 import logging
+from glob import iglob
 
 logging.basicConfig(filename='build_corpus_and_dictionary.log', format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
@@ -21,7 +22,9 @@ lj_corpus = corpus.LazyJSONCorpus(tokenizer=pt_tokenizer, dictionary=None, path_
 glob_pattern = os.path.join(settings.PROC_DIR, '*.json')
 #glob_pattern = os.path.join(settings.PROC_DIR, '60182*.json')
 lj_corpus.glob_documents(glob_pattern)
-
+with open(os.path.join(settings.PERSIST_DIR, 'document_index')) as fout:
+    for fn in iglob(glob_pattern):
+        fout.write(fn+'\n')
 
 my_dict = dictionary.Dictionary(lj_corpus)
 
