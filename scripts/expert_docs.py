@@ -34,7 +34,8 @@ def get_text(jd):
 def get_sentences(filename):
     return get_text(get_json(filename))
 
-law_firm_docs = [line.strip() for line in open(settings.STATS_DIR, 'lawfirm_docs.txt')]
+law_firm_docs = [line.strip() for line in open(os.path.join(settings.STATS_DIR,
+                                                            'lawfirm_docs.txt'))]
 
 
 fnames = [os.path.basename(d) for d in iglob(os.path.join(settings.RAW_DIR, '*.json'))]
