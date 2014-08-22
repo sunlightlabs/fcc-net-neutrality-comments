@@ -346,7 +346,8 @@
                 'left': (fixed_width + 20) + 'px',
                 'display': 'block',
                 'height': fixed_height + 'px',
-                'width': fixed_width + 'px'
+                'width': fixed_width + 'px',
+                'visibility': 'visible'
             });
 
             inner.animate({
@@ -378,7 +379,9 @@
             var inner = $('.panel-shifter-inner');
             inner.animate({
                 'left': '0'
-            }, 'fast');
+            }, 'fast', 'swing', function() {
+                inner.find('.doc-view-panel').css('visibility', 'hidden');
+            });
         })
 
         /* make the embed link work */
