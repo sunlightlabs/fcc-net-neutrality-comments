@@ -35,12 +35,6 @@ min_nodes = int(sys.argv[3])
 fnames = glob(os.path.join(settings.PROC_DIR, '*.json'))
 doc_ids = pd.Series(map(lambda x: os.path.basename(x).split('.')[0], fnames),
                     dtype=object)
-unclustered_gensim_id = pd.Series(xrange(doc_ids.shape[0]))
-
-matrix_sim_loc = os.path.join(settings.PERSIST_DIR,
-                              'tfidf_corpus_lsi-200_matrix_similarity')
-
-doc_topic = MatrixSimilarity.load(matrix_sim_loc).index
 
 
 def cluster(group, level, nbranches):
@@ -61,6 +55,14 @@ def index_freq_above(na, minval):
     logger.debug('all clusters found:\n'+lvc.to_string())
     logger.debug('filtered for size:\n'+lvc[lvc > minval].to_string())
     return l[l.isin(lvc[lvc > minval].index.values)].index
+
+
+unclustered_gensim_id = pd.Series(xrange(doc_ids.shape[0]))
+
+matrix_sim_loc = os.path.join(settings.PERSIST_DIR,
+                              'tfidf_corpus_lsi-200_matrix_similarity')
+
+doc_topic = MatrixSimilarity.load(matrix_sim_loc).index
 
 negs = pd.Series((-1 for i in xrange(doc_ids.shape[0])))
 
