@@ -3,15 +3,19 @@ import csv, json, operator
 
 SAMPLE_THRESHOLD = 150000
 SAMPLE_SIZE = 20000
+NUM_LEVELS = 11
+ADD_CID = False
+
+leaf_prefix = str(NUM_LEVELS - 1)
 
 # map out the parent-child relationships
 children = defaultdict(set)
 levels = defaultdict(set)
 for row in csv.DictReader(open("cluster_tree_table.csv")):
     if row['level_0']:
-        path = [row['level_%s' % i] for i in range(7)] + ['7-%s' % row['cluster']]
+        path = [row['level_%s' % i] for i in range(NUM_LEVELS - 1 if ADD_CID else NUM_LEVELS)] + (['%s-%s' % (leaf_prefix, row['cluster'])] if ADD_CID else [])
         
-        for i in range(7):
+        for i in range(NUM_LEVELS - 1):
             children[path[i]].add(path[i+1])
             levels[i].add(path[i])
 
@@ -20,11 +24,11 @@ docs = defaultdict(list)
 keywords = defaultdict(list)
 tree_data = json.load(open("clustered_docs.json"))
 for node_id, node_data in tree_data.iteritems():
-    docs['7-%s' % node_id] = sorted(node_data['doc_id'], key=lambda d: d[1], reverse=True)
-    keywords['7-%s' % node_id] = sorted(node_data['keywords'], key=lambda k: k[1], reverse=True)
+    docs['%s-%s' % (leaf_prefix, node_id) if ADD_CID else node_id] = sorted(node_data['doc_id'], key=lambda d: d[1], reverse=True)
+    keywords['%s-%s' % (leaf_prefix, node_id) if ADD_CID else node_id] = sorted(node_data.get('keywords', [(node_id, 1)]), key=lambda k: k[1], reverse=True)
 
 # roll it up
-for level in range(6,-1,-1):
+for level in range(NUM_LEVELS - 2, -1, -1):
     for node_id in levels[level]:
         doc_lists = [docs[child_id] for child_id in children[node_id]]
         docs[node_id] = sorted(reduce(operator.add, doc_lists), key=lambda d: d[1], reverse=True)
@@ -40,7 +44,7 @@ def get_subtree(node_id):
     }
     node['sample'] = node['size'] > SAMPLE_THRESHOLD
 
-    node_children = [get_subtree(child_id) for child_id in sorted(children[node_id], key=lambda c: int(c.split('-')[1]))]
+    node_children = [get_subtree(child_id) for child_id in children[node_id]]
     filtered_children = [child for child in node_children if child]
     
     if filtered_children:
@@ -51,7 +55,7 @@ def get_subtree(node_id):
     else:
         return None
 
-tree = get_subtree('0-1')['children']
+tree = get_subtree('0-1')['children'] if len(levels[0]) == 1 else [get_subtree(node_id) for node_id in levels[0]]
 print json.dumps(tree, indent=4)
 
 outf1 = open('tree.json', 'wb')
