@@ -29,7 +29,8 @@ def get_json(filename):
     return json.load(open(os.path.join(settings.RAW_DIR, filename)))
 
 def get_text(jd):
-    return jd['text']
+    text = jd['text']
+    return text or ""
 
 def get_sentences(filename):
     return get_text(get_json(filename))
@@ -56,15 +57,21 @@ testfile = open(os.path.join(CLEAN_DIR, 'fcc-experts_test.csv'),'w')
 seen = set([])
 count = 0
 for i, d in enumerate(law_firm_docs):
+    #if d == '6017986294.json':
+    #    continue
     seen.add(d)
-    sentences = sent_tokenize(get_text(get_json(fnames[lfdoc_ix[0]])))
-    for sentence in sentences:
-        if not count % 10:
-            # send ~every tenth sentence to test
-            write_sentence(sentence, 'EXPERT', testfile)
-        else:
-            write_sentence(sentence, 'EXPERT', trainfile)
-        count += 1
+    sentences = sent_tokenize(get_text(get_json(d)))
+    try:
+        for sentence in sentences:
+            if not count % 10:
+                # send ~every tenth sentence to test
+                write_sentence(sentence, 'EXPERT', testfile)
+            else:
+                write_sentence(sentence, 'EXPERT', trainfile)
+            count += 1
+    except:
+        print d
+        raise
 
 while count:
     d = sample(fnames, 1)[0]
@@ -72,7 +79,7 @@ while count:
         continue
     else:
         seen.add(d)
-        sentences = sent_tokenize(get_text(get_json(fnames[lfdoc_ix[0]])))
+        sentences = sent_tokenize(get_text(get_json(d)))
         for sentence in sentences:
             if not count % 10:
                 # send ~every tenth sentence to test

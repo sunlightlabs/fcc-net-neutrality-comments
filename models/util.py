@@ -1,3 +1,5 @@
+import AsciiDammit
+
 map_chars = {u'&deg;': u' degree',
              u'&eacute;': u'e',
              u'&frasl;': u'bkslsh',
@@ -25,7 +27,27 @@ map_chars = {u'&deg;': u' degree',
              u'/': u'',
              u'<': u'',
              u'\u2028': u' ',
+             u'\u2026': u' ',
+             u'\u2014': u' ',
+             u'\u2122': u' trademark ',
+             u'\u2022': u' - ',
              u'\xa0': u' ',
+             u'\xfc': u'u',
+             u'\xf3': u'o',
+             u'\xe1': u'a',
+             u'\xe0': u'a',
+             u'\xe9': u'e',
+             u'\xef': u'i',
+             u'\xb5': u' ',
+             u'\xb6': u' ',
+             u'\xb7': u' dividedby ',
+             u'\xa7': u' ',
+             u'\xa9': u' copyright ',
+             u'\u0cb5': u' copyright ',
+             u'\u2018': "'",
+             u'\u2010': "-",
+             u'\u2014': ' - ',
+             u'\u2013': ' - ',
              u'\u00A0': u' ',
              u'\u201c': u'"',
              u'\u201d': u'"',
@@ -36,4 +58,4 @@ map_chars = {u'&deg;': u' degree',
 def clean_text(text):
     for s, r in map_chars.iteritems():
         text = text.replace(s, r)
-    return text
+    return AsciiDammit.asciiDammit(text)
