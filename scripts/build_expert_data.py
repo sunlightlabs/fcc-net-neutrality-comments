@@ -43,24 +43,41 @@ fnames = [os.path.basename(d) for d in iglob(os.path.join(settings.RAW_DIR, '*.j
 
 lfdoc_ix = [fnames.index(law_firm_doc) for law_firm_doc in law_firm_docs]
 
-with open(os.path.join(settings.SVM_DIR, 'expert_sentences.csv'), 'w') as fout:
-    seen = []
-    for d in law_firm_docs:
-        seen.append(d)
+def write_sentence(sentence, outfile):
+    outfile.write('\t'.join(['EXPERT',
+                          clean_text(sentence).replace('\n',' ').replace('\t',' ')]))
+    outfile.write('\n')
+
+CLEAN_DIR = os.path.join(settings.SVM_DIR, 'data', 'clean')
+
+trainfile = open(os.path.join(CLEAN_DIR, 'fcc-experts_train.csv'),'w')
+testfile = open(os.path.join(CLEAN_DIR, 'fcc-experts_test.csv'),'w')
+
+seen = set([])
+count = 0
+for i, d in enumerate(law_firm_docs):
+    seen.add(d)
+    sentences = sent_tokenize(get_text(get_json(fnames[lfdoc_ix[0]])))
+    for sentence in sentences:
+        if not count % 10:
+            # send ~every tenth sentence to test
+            write_sentence(sentence, testfile)
+        else:
+            write_sentence(sentence, trainfile)
+        count += 1
+
+while count:
+    d = sample(fnames, 1)[0]
+    if d in seen:
+        continue
+    else:
+        seen.add(d)
         sentences = sent_tokenize(get_text(get_json(fnames[lfdoc_ix[0]])))
         for sentence in sentences:
-            fout.write('\t'.join(['EXPERT',
-                                  clean_text(sentence).replace('\n',' ').replace('\t',' ')]))
-            fout.write('\n')
-    count = 1000
-    while count:
-        d = sample(fnames, 1)
-        if d in seen:
-            continue
-        else:
-            sentences = sent_tokenize(get_text(get_json(fnames[lfdoc_ix[0]])))
-            for sentence in sentences:
-                fout.write('\t'.join(['JOE',
-                                      clean_text(sentence).replace('\n',' ').replace('\t',' ')]))
-                fout.write('\n')
+            if not count % 10:
+                # send ~every tenth sentence to test
+                write_sentence(sentence, testfile)
+            else:
+                write_sentence(sentence, trainfile)
+                sentences = sent_tokenize(get_text(get_json(fnames[lfdoc_ix[0]])))
             count -= 1
