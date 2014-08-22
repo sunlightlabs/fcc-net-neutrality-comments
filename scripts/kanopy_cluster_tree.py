@@ -14,6 +14,14 @@ from gensim.similarities import MatrixSimilarity
 import pandas as pd
 import numpy as np
 
+import logging
+
+logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',
+                    filename='log/build_distributed_model.log', filemode='a',
+                    level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+
 sys.path.append(os.path.join(os.path.dirname(__file__), os.path.pardir))
 
 import settings
@@ -36,18 +44,18 @@ corpus = corpora.MmCorpus(os.path.join(settings.PERSIST_DIR,
 mydct = corpora.Dictionary.load(os.path.join(settings.PERSIST_DIR,
                                              'my_dict'))
 
-term_corpus_counts = defaultdict(int)
-
-for doc in corpus:
-    for term, count in doc:
-        term_corpus_counts[term] += count
+#term_corpus_counts = defaultdict(int)
+#
+#for doc in corpus:
+#    for term, count in doc:
+#        term_corpus_counts[term] += count
 
 # term_corpus_counts = pd.DataFrame.from_dict(term_corpus_counts, orient='index')
 # term_corpus_counts.index.name = 'token_id'
 # term_corpus_counts.columns = ['freq']
-# 
-# term_corpus_counts.to_csv(os.path.join(settings.PERSIST_DIR,
-#                                        'term_corpus_counts.csv'))
+
+#term_corpus_counts.to_csv(os.path.join(settings.PERSIST_DIR,
+#                                       'term_corpus_counts.csv'))
 
 term_corpus_counts = pd.read_csv(os.path.join(settings.PERSIST_DIR,
                                               'term_corpus_counts.csv'))
@@ -65,8 +73,8 @@ topic_maxes = (np.abs(lsi_model.projection.u) - column_means).max(axis=1)
 fnames = [os.path.splitext(os.path.basename(fname))[0] for fname in
           glob(os.path.join(settings.PROC_DIR, '*.json'))]
 
-fname_to_index = dict(enumerate(fnames))
-index_to_fname = dict(((n, i) for i, n in enumerate(fnames)))
+index_to_fname = dict(enumerate(fnames))
+fname_to_index = dict(((n, i) for i, n in enumerate(fnames)))
 
 
 def terms_for_docid(docid):
@@ -97,14 +105,18 @@ def get_keywords(doc_list):
     node_freqs['dc_spread'] = node_freqs.doc_count / ndocs
     node_freqs['dc_weighted'] = ((node_freqs.dc_spread + node_freqs.dc_cover)/2) * node_freqs.z_score
     keyword_df = node_freqs.sort('dc_weighted', ascending=False)
-    return list(keyword_df.iloc[:NUM_LABELS*5, 'token'])
+    return list(keyword_df['token'])
 
 
 def get_node_keywords(doc_lists):
-    keyword_lists = [get_keywords(doc_list) for doc_list in doc_lists]
+    keyword_lists = []
+    for doc_list in doc_lists:
+        kl = get_keywords(doc_list)
+        #logger.info('found keywords:\n{kl}'.format(kl=kl))
+        keyword_lists.append(kl)
     keywords = itertools.chain.from_iterable(
         itertools.izip_longest(*keyword_lists))
-    return list(set(keywords))
+    return list(set(list(keywords)[:NUM_LABELS]))
 
 
 def cluster_name(r, lev):
@@ -153,8 +165,8 @@ def reduce_key(k):
 
 
 def get_node_doclists(list_of_nodes):
-    doc_lists = (NODE_DOC_MAP.pop(n, []) for n in list_of_nodes)
-    return doc_lists
+    doc_lists = (NODE_DOC_MAP[n] for n in list_of_nodes)
+    return list(doc_lists)
 
 
 def combine_doclists(doc_lists):
@@ -162,11 +174,11 @@ def combine_doclists(doc_lists):
     return [doc_id for doc_id in doc_ids if doc_id]
 
 
-def add_level(lvl, parent_key):
+def add_level(lvl, parent_key, all_nodes):
     nodes = filter(lambda x: reduce_key(x['id']) == parent_key, all_nodes)
     next_lvl = lvl + 1
     for node in nodes:
-        node['children'] = add_level(next_lvl, node['id'])
+        node['children'] = add_level(next_lvl, node['id'], all_nodes)
         if len(node['children']) == 0:
             _doclists = get_node_doclists([node['id'], ])
         else:
@@ -175,45 +187,48 @@ def add_level(lvl, parent_key):
         node['keywords'] = get_node_keywords(_doclists)
     return nodes
 
+def main():
+    ids = ['doc_id', 'original_id']
+    levels = ['level_'+str(i) for i in xrange(11)]
+    rounds = ['cluster_r'+str(i) for i in xrange(11)]
 
-ids = ['doc_id', 'original_id']
-levels = ['level_'+str(i) for i in xrange(11)]
-rounds = ['cluster_r'+str(i) for i in xrange(11)]
+    bookie = pd.read_csv(
+        open(os.path.join(settings.PERSIST_DIR,
+                          'cluster/cluster_bookeeping_kmeans.csv'), 'r'))
+    add_level_names(bookie)
 
-bookie = pd.read_csv(
-    open(os.path.join(settings.PERSIST_DIR,
-                      'cluster/cluster_bookeeping_kmeans.csv'), 'r'))
-add_level_names(bookie)
+    bookie[ids + levels].to_csv(
+        open(os.path.join(settings.PERSIST_DIR,
+                          'kanopy_cluster_table.csv'), 'w'))
+    # In[17]:
 
-bookie[ids + levels].to_csv(
-    open(os.path.join(settings.PERSIST_DIR,
-                      'kanopy_cluster_table.csv'), 'w'))
-# In[17]:
+    with open(os.path.join(settings.PERSIST_DIR,
+                           'kmeans_clustered_docs.json'), 'w') as fout:
+        all_nodes = [node for node in collect_nodes(bookie, levels)]
+        json.dump(all_nodes, fout)
 
-with open(os.path.join(settings.PERSIST_DIR,
-                       'kmeans_clustered_docs.json'), 'w') as fout:
-    all_nodes = [node for node in collect_nodes(bookie, levels)]
-    json.dump(all_nodes, fout)
-
-with open(os.path.join(settings.PERSIST_DIR,
-                       'kmeans_cluster_names.json'), 'w') as fout:
-    json.dump([node['id'] for node in all_nodes], fout)
+    with open(os.path.join(settings.PERSIST_DIR,
+                           'kmeans_cluster_names.json'), 'w') as fout:
+        json.dump([node['id'] for node in all_nodes], fout)
 
 
-root_nodes = ["0_0", "0_1", "0_2", "0_3"]
+    root_nodes = ["0_0", "0_1", "0_2", "0_3"]
 
-tree = filter(lambda x: x['id'] in root_nodes, all_nodes)
+    tree = filter(lambda x: x['id'] in root_nodes, all_nodes)
 
-for root_node in tree:
-    root_node['children'] = add_level(1, root_node['id'])
-    if len(root_node['children']) == 0:
-        _doclists = get_node_doclists([root_node['id'], ])
-    else:
-        _doclists = get_node_doclists([c['id'] for c in root_node['children']])
-    NODE_DOC_INDEX[root_node['id']] = combine_doclists(_doclists)
-    root_node['keywords'] = get_node_keywords(_doclists)[:NUM_LABELS]
+    for root_node in tree:
+        root_node['children'] = add_level(1, root_node['id'], all_nodes)
+        if len(root_node['children']) == 0:
+            _doclists = get_node_doclists([root_node['id'], ])
+        else:
+            _doclists = get_node_doclists([c['id'] for c in root_node['children']])
+        NODE_DOC_INDEX[root_node['id']] = combine_doclists(_doclists)
+        root_node['keywords'] = get_node_keywords(_doclists)
 
-json.dump(tree, open('cluster_viz/assets/tree.json', 'w'))
+    json.dump(tree, open('cluster_viz/assets/tree.json', 'w'))
 
-json.dump(NODE_DOC_INDEX, open('cluster_viz/tree_data/MASTER.json', 'w'),
-          indent=2)
+    json.dump(NODE_DOC_INDEX, open('cluster_viz/tree_data/MASTER.json', 'w'),
+              indent=2)
+
+if __name__ == "__main__":
+    main()
