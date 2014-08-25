@@ -86,7 +86,7 @@ logger.info('top-level clusters:\n'+str(root_cluster_labels.value_counts()))
 
 for level in xrange(1, max_depth+1):
     level_name = 'cluster_r{n}'.format(n=level)
-    bookie[level_name] = pd.Series(-np.ones(doc_ids.shape[0], dtype=int64))
+    bookie[level_name] = pd.Series(-np.ones(doc_ids.shape[0], dtype=np.int64))
 
 for level in xrange(1, max_depth+1):
     this_level = 'cluster_r{n}'.format(n=level)
