@@ -38,7 +38,7 @@ tfidf_corpus_lsi = corpora.MmCorpus(os.path.join(settings.PERSIST_DIR, 'tfidf_co
 logger.info('loading lsi model')
 lsi_model = lsimodel.LsiModel.load(os.path.join(settings.PERSIST_DIR, 'lsi_model-200'))
 
-fnames = [line.strip() for line in os.path.join(settings.PERSIST_DIR, 'document_index')]
+fnames = [line.strip() for line in open(os.path.join(settings.PERSIST_DIR, 'document_index'))]
 doc_ids = pd.Series(map(lambda x: os.path.basename(x).split('.')[0], fnames),
                     dtype=object)
 
@@ -78,7 +78,6 @@ bookie = pd.DataFrame({
     'doc_id': doc_ids,
     'cluster_r0': negs.copy()
 })
-
 
 root_cluster_model = cluster(bookie, 'cluster_r0', 4)
 root_cluster_labels = pd.Series(root_cluster_model.labels_)
