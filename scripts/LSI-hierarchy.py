@@ -34,10 +34,10 @@ import numpy as np
 #import pandas as pd
 
 logger.info('deserializing tfidf_corpus_lsi')
-tfidf_corpus_lsi = corpora.MmCorpus(os.path.join(settings.PERSIST_DIR, 'tfidf_corpus_lsi.mm'))
+tfidf_corpus_lsi = corpora.MmCorpus(os.path.join(settings.PERSIST_DIR, 'tfidf_corpus_lsi-200'))
 
 logger.info('loading lsi model')
-lsi_model = lsimodel.LsiModel.load(os.path.join(settings.PERSIST_DIR, 'lsi_model'))
+lsi_model = lsimodel.LsiModel.load(os.path.join(settings.PERSIST_DIR, 'lsi_model-200'))
 
 
 logger.info('globbing filenames')
