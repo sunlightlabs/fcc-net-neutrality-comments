@@ -78,7 +78,7 @@ negs = pd.Series((-1 for i in xrange(doc_ids.shape[0])))
 bookie = pd.DataFrame({
     'original_id': unclustered_gensim_id,
     'doc_id': doc_ids,
-    'cluster_r0': negs.copy()
+    'cluster_r0': pd.Series(-np.ones(doc_ids.shape[0]))
 })
 
 root_cluster_model = cluster(bookie, 'cluster_r0', 4)
