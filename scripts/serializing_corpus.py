@@ -58,10 +58,8 @@ lj_corpus = corpus.LazyJSONCorpus(tokenizer=pt_tokenizer, dictionary=my_dict, pa
 
 # In[12]:
 
-glob_pattern = os.path.join(settings.PROC_DIR, '*.json')
-
-lj_corpus.glob_documents(glob_pattern)
-
+#lj_corpus.glob_documents(glob_pattern)
+lj_corpus.documents = [line.strip() for line in open(os.path.join(settings.PERSIST_DIR, 'document_index'))]
 
 # In[16]:
 corpora.MmCorpus.serialize('persistence/corpus.mm', lj_corpus, my_dict)
