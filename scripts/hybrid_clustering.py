@@ -57,7 +57,7 @@ def cluster(group, level, nbranches):
 
     mbk = MiniBatchKMeans(init='k-means++', n_clusters=nbranches, n_init=1,
                           init_size=1000, batch_size=1000)
-    mbk.fit(doc_topic[group['original_id']])
+    mbk.fit(doc_topic.index[group['original_id']])
     return mbk
 
 
