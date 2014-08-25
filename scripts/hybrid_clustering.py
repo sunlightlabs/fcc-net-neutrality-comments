@@ -73,12 +73,10 @@ def index_freq_above(na, minval):
 
 unclustered_gensim_id = pd.Series(xrange(doc_ids.shape[0]))
 
-negs = pd.Series((-1 for i in xrange(doc_ids.shape[0])))
-
 bookie = pd.DataFrame({
     'original_id': unclustered_gensim_id,
     'doc_id': doc_ids,
-    'cluster_r0': pd.Series(-np.ones(doc_ids.shape[0]))
+    'cluster_r0': pd.Series(-np.ones(doc_ids.shape[0], dtype=np.int64))
 })
 
 root_cluster_model = cluster(bookie, 'cluster_r0', 4)
@@ -88,7 +86,7 @@ logger.info('top-level clusters:\n'+str(root_cluster_labels.value_counts()))
 
 for level in xrange(1, max_depth+1):
     level_name = 'cluster_r{n}'.format(n=level)
-    bookie[level_name] = pd.Series(-np.ones(doc_ids.shape[0]))
+    bookie[level_name] = pd.Series(-np.ones(doc_ids.shape[0], dtype=int64))
 
 for level in xrange(1, max_depth+1):
     this_level = 'cluster_r{n}'.format(n=level)
@@ -123,7 +121,7 @@ for level in xrange(1, max_depth+1):
             else:
                 #_cluster_labels = pd.Series(cluster_model.labels_)
                 #_cluster_centers = cluster_model.cluster_centers_
-                _cluster_labels = pd.Series(-np.ones(cluster_model.labels_.size))
+                _cluster_labels = pd.Series(-np.ones(cluster_model.labels_.size, np.int64))
                 _cluster_labels[above_min] = cluster_model.labels_[above_min.values]
                 unique_labels = np.sort(np.unique(cluster_model.labels_[above_min.values]))
                 _cluster_centers = cluster_model.cluster_centers_[unique_labels]
