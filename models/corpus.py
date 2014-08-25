@@ -87,5 +87,8 @@ class LazyJSONCorpus(LazyCorpus):
         with open(file_loc, 'r') as file_in:
             data = json.load(file_in)
             text = reduce(dict.get, self.path_to_text.split("."), data)
-            cleaned_text = clean_text(text)
-            return cleaned_text or ""
+            if text:
+                cleaned_text = clean_text(text)
+                return cleaned_text or ""
+            else:
+                return ""
