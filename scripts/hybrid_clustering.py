@@ -93,7 +93,8 @@ for level in xrange(1, max_depth+1):
     prev_level = 'cluster_r{n}'.format(n=(level - 1))
     skip_groups = []
     logger.info('...clustering at level {n}'.format(n=level))
-    for group_num, group in bookie[bookie[prev_level] >= 0].groupby(prev_level):
+    prev_levels = ['cluster_r'+str(i) for i in range(0,level)]
+    for group_num, group in bookie[bookie[prev_level] >= 0].groupby(prev_levels):
         _no_sig_clusters = False
         _small_group = False
         logger.info("......inside {pl}'s {nth} cluster ({l})".format(
