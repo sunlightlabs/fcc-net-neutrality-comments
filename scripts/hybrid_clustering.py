@@ -32,9 +32,21 @@ max_branching = int(sys.argv[1])
 max_depth = int(sys.argv[2])
 min_nodes = int(sys.argv[3])
 
-fnames = glob(os.path.join(settings.PROC_DIR, '*.json'))
+logger.info('deserializing tfidf_corpus_lsi')
+tfidf_corpus_lsi = corpora.MmCorpus(os.path.join(settings.PERSIST_DIR, 'tfidf_corpus_lsi-200'))
+
+logger.info('loading lsi model')
+lsi_model = lsimodel.LsiModel.load(os.path.join(settings.PERSIST_DIR, 'lsi_model-200'))
+
+fnames = [line.strip() for line in os.path.join(settings.PERSIST_DIR, 'document_index')]
 doc_ids = pd.Series(map(lambda x: os.path.basename(x).split('.')[0], fnames),
                     dtype=object)
+
+logger.info('building matrix similarity')
+doc_topic = MatrixSimilarity(tfidf_corpus_lsi, num_features=tfidf_corpus_lsi.num_terms)
+
+logger.info('persisting matrix similarity index')
+doc_topic.save(os.path.join(settings.PERSIST_DIR, 'tfidf_corpus_lsi-200_matrix_similarity'))
 
 
 def cluster(group, level, nbranches):
@@ -58,11 +70,6 @@ def index_freq_above(na, minval):
 
 
 unclustered_gensim_id = pd.Series(xrange(doc_ids.shape[0]))
-
-matrix_sim_loc = os.path.join(settings.PERSIST_DIR,
-                              'tfidf_corpus_lsi-200_matrix_similarity')
-
-doc_topic = MatrixSimilarity.load(matrix_sim_loc).index
 
 negs = pd.Series((-1 for i in xrange(doc_ids.shape[0])))
 
@@ -137,27 +144,27 @@ for level in xrange(1, max_depth+1):
                            str(_cluster_labels.value_counts().sum())]))
 
             # persistence filelocs
-            lbl_filename = 'cluster_{prev_level}-{group}_labels_{nc}'.format(
-                prev_level=(level-1), group=group_num, nc=_nbranches)
+            lbl_filename = '{round_name}_{prev_level}-{this_level}-{group}_labels_{nc}'.format(
+                round_name=this_level, prev_level=(level-1), this_level=level, group=group_num, nc=_nbranches)
             lbl_loc = os.path.join(settings.PERSIST_DIR, lbl_filename)
 
-            ctr_filename = 'cluster_{prev_level}-{group}_centers_{nc}'.format(
-                prev_level=(level-1), group=group_num, nc=_nbranches)
+            ctr_filename = '{round_name}_{prev_level}-{this_level}-{group}_centers_{nc}'.format(
+                round_name=this_level, prev_level=(level-1), this_level=level, group=group_num, nc=_nbranches)
             ctr_loc = os.path.join(settings.PERSIST_DIR, ctr_filename)
 
             #persist
             np.save(lbl_loc, _cluster_labels)
             np.save(ctr_loc, _cluster_centers)
-
+        
     if (bookie[this_level] == -1).all():
         logger.info('...no subclusters at level {l}'.format(l=level))
         break
-
-    table_filename = 'cluster_{parent}-{child}.csv'.format(parent=(level-1),
-                                                           child=level)
+    
+    table_filename = '{l}.csv'.format(l=this_level)
     table_loc = os.path.join(settings.PERSIST_DIR, table_filename)
     _table = bookie[bookie[this_level] > -1][['doc_id', this_level]]
     _table.to_csv(table_loc, index=False)
+
 
 bookie.to_csv(os.path.join(settings.PERSIST_DIR,
                            'cluster_bookeeping_kmeans.csv'),
