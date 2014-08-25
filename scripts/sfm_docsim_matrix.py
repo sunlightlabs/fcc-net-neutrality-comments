@@ -17,7 +17,7 @@ logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',
 
 logger = logging.getLogger('log/sfm_docsim_matrix.log')
 
-ENDPOINT = 'http://54.87.63.230:8080/document/1/{d}/'
+ENDPOINT = 'http://0.0.0.0:8080/document/1/{d}/'
 
 
 class Consumer(Process):
@@ -37,8 +37,8 @@ class Consumer(Process):
                 break
             print '%s: %s' % (proc_name, next_task)
             status, comparisons = next_task()
+            self.task_queue.task_done()
             if status == 'success':
-                self.task_queue.task_done()
                 for comparison in comparisons:
                     self.result_queue.put(comparison)
             else:
@@ -75,22 +75,48 @@ class Task(object):
         return '%s' % (self.doc_id,)
 
 
-def main():
+class ResultWriter(Process):
+    def __init__(self, result_queue, csv_writer):
+        Process.__init__(self)
+        self.result_queue = result_queue
+        self.csv_writer = csv_writer
+        self.timeout = 10
+
+    def run(self):
+        proc_name = self.name
+        while True:
+            next_val = self.result_queue.get()
+            if next_val == 'STOP':
+                break
+            else:
+                try:
+                    self.csv_writer.writerow(next_val)
+                except Exception as e:
+                    logger.error('error writing result {v}: {e}'.format(v=next_val, e=e))
+        return
+
+
+def main(multiplier):
     # Establish communication queues
     tasks = JoinableQueue()
     results = Queue()
 
     # Start consumers
-    num_consumers = cpu_count() * 2
+    num_consumers = cpu_count() * multiplier
     print 'Creating %d consumers' % num_consumers
     consumers = [Consumer(tasks, results) for i in xrange(num_consumers)]
     for w in consumers:
         w.start()
+    
+    fout = open(os.path.join(settings.PERSIST_DIR, 'doc_matrix_comparison.csv'), 'w', 0)
+    rw = ResultWriter(results, csv.writer(fout))
+    rw.start()
 
     #num_docs = 801781
-    num_docs = 100
+    num_docs = 25
     for i in xrange(num_docs):
         tasks.put(Task(i))
+
 
     # Add a poison pill for each consumer
     for i in xrange(num_consumers):
@@ -98,18 +124,10 @@ def main():
 
     # Wait for all of the tasks to finish
     tasks.join()
+    results.put('STOP')
 
-    # Start printing results
-    with open(os.path.join(settings.PERSIST_DIR, 'doc_matrix_comparison.csv'), 'w') as fout:
-        writeout = csv.writer(fout)
-        while num_docs:
-            if not num_docs % 1000:
-                logger.info('{n} documents left'.format(n=num_docs))
-            for comparison in results.get():
-                writeout.writerow(comparison)
-            num_docs -= 1
 
 if __name__ == "__main__":
-    multiplier = sys.argv[1]
+    multiplier = int(sys.argv[1])
 
-    main()
+    main(multiplier)
