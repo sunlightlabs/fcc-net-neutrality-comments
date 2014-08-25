@@ -42,12 +42,14 @@ fnames = [line.strip() for line in open(os.path.join(settings.PERSIST_DIR, 'docu
 doc_ids = pd.Series(map(lambda x: os.path.basename(x).split('.')[0], fnames),
                     dtype=object)
 
-logger.info('building matrix similarity')
-doc_topic = MatrixSimilarity(tfidf_corpus_lsi, num_features=tfidf_corpus_lsi.num_terms)
+#logger.info('building matrix similarity')
+#doc_topic = MatrixSimilarity(tfidf_corpus_lsi, num_features=tfidf_corpus_lsi.num_terms)
 
-logger.info('persisting matrix similarity index')
-doc_topic.save(os.path.join(settings.PERSIST_DIR, 'tfidf_corpus_lsi-200_matrix_similarity'))
+#logger.info('persisting matrix similarity index')
+#doc_topic.save(os.path.join(settings.PERSIST_DIR, 'tfidf_corpus_lsi-200_matrix_similarity'))
 
+doc_topic = MatrixSimilarity.load(os.path.join(settings.PERSIST_DIR,
+                                               'tfidf_corpus_lsi-200_matrix_similarity'))
 
 def cluster(group, level, nbranches):
     if len(group) < min_nodes:
