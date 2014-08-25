@@ -143,13 +143,14 @@ for level in xrange(1, max_depth+1):
                            '='*10,
                            str(_cluster_labels.value_counts().sum())]))
 
+            group_label = '-'.join([str(a) for a in group_num])
             # persistence filelocs
-            lbl_filename = '{round_name}_{prev_level}-{this_level}-{group}_labels_{nc}'.format(
-                round_name=this_level, prev_level=(level-1), this_level=level, group=group_num, nc=_nbranches)
+            lbl_filename = '{this_level}_{group}_labels_{nc}'.format(
+                this_level=level, group=group_label, nc=_nbranches)
             lbl_loc = os.path.join(settings.PERSIST_DIR, lbl_filename)
 
-            ctr_filename = '{round_name}_{prev_level}-{this_level}-{group}_centers_{nc}'.format(
-                round_name=this_level, prev_level=(level-1), this_level=level, group=group_num, nc=_nbranches)
+            ctr_filename = '{this_level}_{group}_centers_{nc}'.format(
+                this_level=level, group=group_label, nc=_nbranches)
             ctr_loc = os.path.join(settings.PERSIST_DIR, ctr_filename)
 
             #persist
