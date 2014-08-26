@@ -17,7 +17,7 @@ import numpy as np
 import logging
 
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',
-                    filename='log/build_distributed_model.log', filemode='a',
+                    filename='log/kanopy_cluster_tree.log', filemode='a',
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -181,13 +181,16 @@ def add_level(lvl, parent_key, all_nodes):
     nodes = filter(lambda x: reduce_key(x['id']) == parent_key, all_nodes)
     next_lvl = lvl + 1
     for node in nodes:
+        logger.info('beginning node: '+node['id'])
         node['children'] = add_level(next_lvl, node['id'], all_nodes)
         if len(node['children']) == 0:
             _doclists = get_node_doclists([node['id'], ])
         else:
             _doclists = get_node_doclists([c['id'] for c in node['children']])
         NODE_DOC_INDEX[node['id']] = combine_doclists(_doclists)
+        logger.info('finding keywords for node: '+node['id'])
         node['keywords'] = get_node_keywords(_doclists)
+        logger.info('finished node: '+node['id'])
     return nodes
 
 def main():
@@ -195,41 +198,61 @@ def main():
     levels = ['level_'+str(i) for i in xrange(11)]
     rounds = ['cluster_r'+str(i) for i in xrange(11)]
 
+    logger.info('reading cluster bookkeeping')
     bookie = pd.read_csv(
         open(os.path.join(settings.PERSIST_DIR,
                           'cluster/cluster_bookeeping_kmeans.csv'), 'r'))
+    
+    logger.info('making kanopy cluster table')
     add_level_names(bookie)
 
+    logger.info('saving kanopy cluster table')
     bookie[ids + levels].to_csv(
         open(os.path.join(settings.PERSIST_DIR,
                           'kanopy_cluster_table.csv'), 'w'))
     # In[17]:
 
+    logger.info('collecting nodes and writing to kmeans_clustered_docs')
     with open(os.path.join(settings.PERSIST_DIR,
                            'kmeans_clustered_docs.json'), 'w') as fout:
         all_nodes = [node for node in collect_nodes(bookie, levels)]
         json.dump(all_nodes, fout)
+    
+    # logger.info('collecting nodes from saved kmeans_clustered_docs')
+    # with open(os.path.join(settings.PERSIST_DIR,
+    #                        'kmeans_clustered_docs.json'), 'r') as fin:
+    #     all_nodes = json.load(fin)
 
+    logger.info('writing node names to kmeans_cluster_names')
     with open(os.path.join(settings.PERSIST_DIR,
                            'kmeans_cluster_names.json'), 'w') as fout:
         json.dump([node['id'] for node in all_nodes], fout)
 
+    # logger.info('reading node names from kmeans_cluster_names')
+    # with open(os.path.join(settings.PERSIST_DIR,
+    #                        'kmeans_cluster_names.json'), 'r') as fin:
+    #     cluster_names = json.load(fin)
 
     root_nodes = ["0_0", "0_1", "0_2", "0_3"]
 
     tree = filter(lambda x: x['id'] in root_nodes, all_nodes)
 
     for root_node in tree:
+        logger.info('beginning root: '+root_node['id'])
         root_node['children'] = add_level(1, root_node['id'], all_nodes)
         if len(root_node['children']) == 0:
             _doclists = get_node_doclists([root_node['id'], ])
         else:
             _doclists = get_node_doclists([c['id'] for c in root_node['children']])
         NODE_DOC_INDEX[root_node['id']] = combine_doclists(_doclists)
+        logger.info('finding keywords for root: '+root_node['id'])
         root_node['keywords'] = get_node_keywords(_doclists)
+        logger.info('finished root node: '+root_node['id'])
 
+    logger.info('writing tree')
     json.dump(tree, open('cluster_viz/assets/tree.json', 'w'))
 
+    logger.info('writing tree_data')
     json.dump(NODE_DOC_INDEX, open('cluster_viz/tree_data/MASTER.json', 'w'),
               indent=2)
 
