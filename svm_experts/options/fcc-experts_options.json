@@ -1,0 +1,5 @@
+{
+  "stopword": 1, 
+  "ngram": 0, 
+  "stemming": 1
+}
