@@ -130,7 +130,7 @@ for level in xrange(1, max_depth+1):
     logger.info('...clustering at level {n}'.format(n=level))
     prev_levels = ['cluster_r'+str(i) for i in range(0,level)]
     parent_level = bookie[bookie[prev_level] >= 0]
-    for group_num, group in bookie.groupby(prev_levels):
+    for group_num, group in parent_level.groupby(prev_levels):
         _no_sig_clusters = False
         _small_group = False
         logger.info("......inside {pl}'s {nth} cluster ({l})".format(
@@ -193,7 +193,7 @@ for level in xrange(1, max_depth+1):
 
         if _no_sig_clusters:
             logger.info('......no significant clusters found')
-            logger.info('......jump vals: {}'.format(' '.join([str(a) for a in _jumps]))
+            logger.info('......jump vals: {}'.format(' '.join([str(a) for a in _jumps])))
         elif _small_group:
             logger.info('......cluster too small, not dividing further')
             continue
