@@ -116,6 +116,17 @@ while 1:
         else:
             continue
 
+lbl_filename = '{p}_labels_{nc}'.format(
+    p="root", nc=root_nbranches)
+lbl_loc = os.path.join(settings.CLUSTER_DIR, lbl_filename)
+
+ctr_filename = '{p}_centers_{nc}'.format(
+    p="root", nc=root_nbranches)
+ctr_loc = os.path.join(settings.CLUSTER_DIR, ctr_filename)
+
+np.save(lbl_loc, root_cluster_labels)
+np.save(ctr_loc, root_cluster_centers)
+
 bookie['cluster_r0'] = root_cluster_labels
 logger.info('top-level clusters:\n'+str(root_cluster_labels.value_counts()))
 
@@ -163,7 +174,7 @@ for level in xrange(1, max_depth+1):
                 _benchmark = len(_mask)
                 _cluster_labels = pd.Series(cluster_model.labels_)
                 _cluster_centers = cluster_model.cluster_centers_
-                if _nbranches <= max_branching:
+                if _nbranches >= max_branching:
                     break
                 else:
                     continue
@@ -214,11 +225,11 @@ for level in xrange(1, max_depth+1):
             # persistence filelocs
             lbl_filename = '{p}_{g}_labels_{nc}'.format(
                 p=(level-1), g=group_label, nc=_nbranches)
-            lbl_loc = os.path.join(settings.PERSIST_DIR, lbl_filename)
+            lbl_loc = os.path.join(settings.CLUSTER_DIR, lbl_filename)
 
             ctr_filename = '{p}_{g}_centers_{nc}'.format(
                 p=(level-1), g=group_label, nc=_nbranches)
-            ctr_loc = os.path.join(settings.PERSIST_DIR, ctr_filename)
+            ctr_loc = os.path.join(settings.CLUSTER_DIR, ctr_filename)
 
             #persist
             np.save(lbl_loc, _cluster_labels)
@@ -229,7 +240,7 @@ for level in xrange(1, max_depth+1):
         break
     
     table_filename = '{l}.csv'.format(l=this_level)
-    table_loc = os.path.join(settings.PERSIST_DIR, table_filename)
+    table_loc = os.path.join(settings.CLUSTER_DIR, table_filename)
     _table = bookie[['doc_id', this_level]]
     _table.to_csv(table_loc, index=False)
 
