@@ -201,7 +201,7 @@ def main():
     logger.info('reading cluster bookkeeping')
     bookie = pd.read_csv(
         open(os.path.join(settings.PERSIST_DIR,
-                          'cluster/cluster_bookeeping_kmeans.csv'), 'r'))
+                          'cluster_bookeeping_kmeans.csv'), 'r'))
     
     logger.info('making kanopy cluster table')
     add_level_names(bookie)
