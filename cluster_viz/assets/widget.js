@@ -179,6 +179,7 @@
 
         zoomTo([root.x, root.y, root.r * 2 + margin]);
         updateCount(root);
+        svg.classed('zoom0', true);
 
         /* response to interactivity in the graph */
         var view_d = null;
@@ -196,6 +197,9 @@
 
         function zoom(d) {
             var focus0 = focus; focus = d;
+
+            if (focus0) svg.classed('zoom' + focus0.depth, false);
+            svg.classed('zoom' + d.depth, true);
 
             d3.selectAll('circle').classed('selected', false);
             if (focus.parent) {
@@ -408,6 +412,11 @@
             dialog.find('.iframe-src').html(window.location.href);
             dialog.find('.iframe-height').html($(window).height());
             dialog.find('.iframe-width').html($(window).width());
+        })
+        /* make the new window link work */
+        $('#new-link').on('click', function(evt) {
+            evt.preventDefault();
+            window.open(window.location.href);
         })
 
         /* check see if there's a hash and load it */
