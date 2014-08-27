@@ -11,9 +11,11 @@ RAW_DIR = os.path.join(JSON_DIR, 'raw')
 PROC_DIR = os.path.join(JSON_DIR, 'processed')
 PERSIST_DIR = os.path.join(PROJ_ROOT, 'persistence')
 SVM_DIR = os.path.join(PROJ_ROOT, 'svm_experts')
+CLUSTER_DIR = os.path.join(PERSIST_DIR, 'clusters')
 
 svm_options = {
     'stemming': 1,
-    'stopword': 1,
-    'ngram': 0
+    'stopword': 0,
+    'ngram': 1,
+    
 }

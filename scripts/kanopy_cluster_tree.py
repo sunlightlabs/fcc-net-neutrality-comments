@@ -150,7 +150,7 @@ def collect_nodes(b, levels):
         # print lvl
         for node_name, group in b.groupby(lvl):
             # print '...'+node_name
-            if (group.shape[0] >= 1000) and (node_name not in _seen):
+            if node_name not in _seen:
                 _seen.add(node_name)
                 _doclist = lookup_docs(group['doc_id'])
                 _doc_pivot = {'size': group.shape[0],
@@ -201,7 +201,7 @@ def main():
     logger.info('reading cluster bookkeeping')
     bookie = pd.read_csv(
         open(os.path.join(settings.PERSIST_DIR,
-                          'cluster/cluster_bookeeping_kmeans.csv'), 'r'))
+                          'cluster_bookeeping_kmeans.csv'), 'r'))
     
     logger.info('making kanopy cluster table')
     add_level_names(bookie)
