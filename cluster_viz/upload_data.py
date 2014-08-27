@@ -10,7 +10,7 @@ for j in os.listdir(base):
       print "uploading", j
 
       k = Key(bucket)
-      k.key = os.path.join("tree_data", j)
+      k.key = os.path.join(sys.argv[1], j)
 
       gzdata = cStringIO.StringIO()
       gzfile = gzip.GzipFile(fileobj=gzdata, mode="wb")
