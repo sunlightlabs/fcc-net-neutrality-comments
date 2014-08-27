@@ -150,7 +150,7 @@ def collect_nodes(b, levels):
         # print lvl
         for node_name, group in b.groupby(lvl):
             # print '...'+node_name
-            if (group.shape[0] >= 1000) and (node_name not in _seen):
+            if node_name not in _seen:
                 _seen.add(node_name)
                 _doclist = lookup_docs(group['doc_id'])
                 _doc_pivot = {'size': group.shape[0],
