@@ -15,8 +15,13 @@
 })(window);
 
 (function($) {
+    // grab the query dict and see if this is a special one
+    var queryDict = {};
+    location.search.substr(1).split("&").forEach(function(item) {queryDict[item.split("=")[0]] = item.split("=")[1]});
+    var dataset = queryDict.t ? queryDict.t : 'tree';
+    
     var stylesXHR = $.getJSON('assets/styles.json');
-    var dataXHR = $.getJSON('assets/tree.json');
+    var dataXHR = $.getJSON('assets/' + dataset + '.json');
 
     $.when(stylesXHR, dataXHR).done(function(stylesResult, dataResult) {
         styles = stylesResult[0];
@@ -93,8 +98,8 @@
           .enter().append("circle")
             .attr('id', function(d) { return d.id ? 'circle-' + d.id : null; })
             .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
-            .style("fill", function(d) { return d.parent ? colors[getIndex(d)](d.depth) : "none"; })
-            .style("stroke", function(d) { return d.parent ? colors[getIndex(d)](d.depth + 2) : "none"; })
+            .style("fill", function(d) { return d.parent ? (d.color ? d.color : colors[getIndex(d)](d.depth)) : "none"; })
+            .style("stroke", function(d) { return d.parent ? (d.color ? d3.rgb(d.color).darker(1) : colors[getIndex(d)](d.depth + 2)) : "none"; })
             .style("stroke-width", function(d) { return d.parent ? "1" : "none"; })
             .style("pointer-events", function(d) { return d.parent ? "auto" : "none"})
             .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); })
@@ -174,6 +179,7 @@
 
         zoomTo([root.x, root.y, root.r * 2 + margin]);
         updateCount(root);
+        svg.classed('zoom0', true);
 
         /* response to interactivity in the graph */
         var view_d = null;
@@ -191,6 +197,9 @@
 
         function zoom(d) {
             var focus0 = focus; focus = d;
+
+            if (focus0) svg.classed('zoom' + focus0.depth, false);
+            svg.classed('zoom' + d.depth, true);
 
             d3.selectAll('circle').classed('selected', false);
             if (focus.parent) {
@@ -277,11 +286,22 @@
                     }
                 }
 
-                $.getJSON("tree_data/" + view_d.id + "-p0.json", function(tree_data) {
+                $.getJSON(dataset + "_data/" + view_d.id + "-p0.json", function(tree_data) {
                     group.removeClass('loading');
                     addItems(tree_data);
 
-                    dialog.find('.cluster-size').text(format(tree_data.full_size) + " documents");
+                    var origin = false;
+                    if (tree_data.links && tree_data.links.length) {
+                        origin = '; ';
+                        if (tree_data.links.length == 1) {
+                            origin = origin + '<a target="_blank" href="' + tree_data.links[0] + '">view origin document</a>';
+                        } else {
+                            origin = origin + 'view origin documents: ';
+                            origin = origin + tree_data.links.map(function(link, idx) { return '<a target="_blank" href="' + tree_data.links[0] + '">[' + (idx + 1) + ']</a>'}).join(' ');
+                        }
+                    }
+
+                    dialog.find('.cluster-size').html(format(tree_data.full_size) + " documents" + (origin ? origin : ''));
                 });
 
                 group.bind('scroll', function() {
@@ -290,7 +310,7 @@
                             group.addClass('loading');
                             var next = group.find('a.next');
                             if (next.length) {
-                                $.getJSON('tree_data/' + next.attr('href'), function(data) {
+                                $.getJSON(dataset + '_data/' + next.attr('href'), function(data) {
                                     group.removeClass('loading');
                                     addItems(data);
                                 })
@@ -392,6 +412,11 @@
             dialog.find('.iframe-src').html(window.location.href);
             dialog.find('.iframe-height').html($(window).height());
             dialog.find('.iframe-width').html($(window).width());
+        })
+        /* make the new window link work */
+        $('#new-link').on('click', function(evt) {
+            evt.preventDefault();
+            window.open(window.location.href);
         })
 
         /* check see if there's a hash and load it */

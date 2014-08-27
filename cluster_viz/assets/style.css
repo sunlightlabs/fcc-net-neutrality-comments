@@ -122,6 +122,10 @@
     font-style: normal;
 }
 
+.citation a {
+  padding-left: 20px;
+}
+
 /* PLOT ELEMENTS */
 
 .axis path,
@@ -273,7 +277,7 @@ body.widget .doc-view-panel .panel-body::before, body.widget .doc-view-panel .pa
 }
 body.widget .tlabel div {
     text-align: center;
-    padding: 10px;
+    padding: 5px;
     background: rgba(255,255,255,0.25);
     line-height: 100%;
     font-weight: bold;
@@ -283,4 +287,15 @@ body.widget .annotations .title div {
     padding: 10px;
     background: rgba(255,255,255,0.25);
     color: #444240;
+}
+
+@media (max-width: 800px), (max-height: 600px) {
+  body.widget .zoom0 .tlabel div {
+    width: 100px;
+    margin-left: 50px;
+    font-size: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
