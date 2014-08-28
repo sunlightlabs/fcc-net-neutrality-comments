@@ -285,6 +285,7 @@ body.widget .tlabel div {
 }
 body.widget .annotations .title div {
     padding: 10px;
+    padding-left: 20px;
     background: rgba(255,255,255,0.25);
     color: #444240;
 }
