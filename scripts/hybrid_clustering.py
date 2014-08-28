@@ -179,29 +179,6 @@ for level in xrange(1, max_depth+1):
                 else:
                     continue
 
-            # above_min = index_freq_above(cluster_model.labels_, min_nodes)
-            # if above_min.size == 0:
-            #     _no_sig_clusters = True
-            #     logger.info(
-            #         '.........no clusters of at least {mn} found'.format(
-            #             mn=min_nodes))
-            #     _nbranches -= 1
-            #     if _nbranches >= min_branching:
-            #         logger.info(
-            #             '.........trying again with {nb}'.format(
-            #                 nb=_nbranches))
-            #         continue
-            #     else:
-            #         break
-            #else:
-                #_cluster_labels = pd.Series(cluster_model.labels_)
-                #_cluster_centers = cluster_model.cluster_centers_
-                #_cluster_labels = pd.Series(-np.ones(cluster_model.labels_.size, np.int64))
-                #_cluster_labels[above_min] = cluster_model.labels_[above_min.values]
-                #unique_labels = np.sort(np.unique(cluster_model.labels_[above_min.values]))
-                #_cluster_centers = cluster_model.cluster_centers_[unique_labels]
-                #break
-
         if _no_sig_clusters:
             logger.info('......no significant clusters found')
             logger.info('......jump vals: {}'.format(' '.join([str(a) for a in _jumps])))
