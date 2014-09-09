@@ -1,0 +1,18 @@
+ipython[all]
+scipy==0.14.0
+numpy==1.8.1
+scikit-learn==0.15.1
+python-dateutil==2.2
+-e git+git@github.com:sunlightlabs/python-superfastmatch.git@3454c5dfcc9517aeb79a3bb6c5002808286211d7#egg=python_superfastmatch-master
+pytz==2014.4
+pandas==0.14.0
+gensim==0.10.1
+fastcluster==1.1.13
+Pyro4==4.26
+six==1.7.2
+nltk==2.0.4
+Pattern==2.6
+PyYAML==3.1
+xmltodict
+boto
+pyquery
