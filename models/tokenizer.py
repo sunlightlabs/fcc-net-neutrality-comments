@@ -47,12 +47,8 @@ class PretaggedTokenizer(BaseTokenizer):
 
     def tokenize(self, tagged_text):
         tokens = []
-        #if u'\u00A0' in tagged_text:
-        #    return tokens
         try:
             for tagged_word in tagged_text.split(' '):
-                #if any([tagged_word.__contains__(bj) for bj in self.bad_juju]):
-                #    continue
                 try:
                     word, pos, lemma = self.regexp.findall(tagged_word)[0]
                     if lemma == '<unknown>':
@@ -64,7 +60,6 @@ class PretaggedTokenizer(BaseTokenizer):
                     if (not word.isalpha()) or (word.lower() in self.stopwords) or (pos in self.filter_tags):
                         continue
                     else:
-                        #tokens.append(u'{s}_{pos}'.format(s=lemma, pos=pos))
                         tokens.append(lemma)
         except Exception:
             sys.stderr.write('problem text: '+tagged_text+'\n')
