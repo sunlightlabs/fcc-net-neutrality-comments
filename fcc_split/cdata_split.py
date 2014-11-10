@@ -22,6 +22,13 @@ JSON_DIR = os.path.join(settings.DATA_DIR, 'part_two', 'json', 'raw')
 if not os.path.exists(JSON_DIR):
     os.mkdir(JSON_DIR)
 
+# Lists of troublesome names
+
+trouble_names = [
+    'FCC',
+    'YouTube'
+]
+
 # Regexes
 
 number_and_date = re.compile(
@@ -103,7 +110,7 @@ subject_line = re.compile(
     r'|'
         r'('
             # all caps sentences (first part is any caps except "I")
-            r'^[ABCDEFGHJKLMNOPQRSTUVWXYZ]([A-Z/ \-(:;,\'"]+|[\-.!)\'"])+'
+            r'^[A-Z]([A-Z/ \-(:;,\'"]+|[\-.!)\'"])+'
         r')'
 )
 
@@ -176,6 +183,13 @@ def parse_header(hstring):
         raise e
 
 
+def lower_trouble(e):
+    _e = e[:]
+    for name in trouble_names:
+        _e = _e.replace(name, name.lower())
+    return _e
+
+
 def parse_email(email):
     # Default to no subject, msg is whole email
     subj = ''
@@ -190,12 +204,12 @@ def parse_email(email):
             msg = maybe_msg[:]
 
     # Try regex
-    m = re.search(subject_line, email[:100].replace('YouTube','youtube'))
+    m = re.search(subject_line, lower_trouble(email[:100]))
     if m:
         splitpoint = m.end() - 1
         maybe_subj = email[:splitpoint]
         maybe_msg = email[splitpoint:]
-        if '\n' not in maybe_subj:
+        if not (('\n' in maybe_subj) or (len(maybe_subj) <= 3)):
             subj = maybe_subj[:]
             msg = maybe_msg[:]
 
