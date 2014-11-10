@@ -109,8 +109,22 @@ subject_line = re.compile(
         r')'
     r'|'
         r'('
-            # all caps sentences (first part is any caps except "I")
-            r'^[A-Z]([A-Z/ \-(:;,\'"]+|[\-.!)\'"])+'
+        # all caps sentences
+            r'^'
+            r'('
+                    # allow A or I to start by themselves
+                    r'[AI]\ '
+                r'|'
+                    # all others must be followed by another cap
+                    r'[BCDEFGHJKLMNOPQRSTUVWXYZ]'
+            r')'
+            r'('
+                    # continuing characters (incl spaces, non-stopping punct)
+                    r'[A-Z/ \-(:;,\'"]+'
+                r'|'
+                    # stopping characters
+                    r'[\-.!)\'"]'
+            r')+'
         r')'
 )
 
