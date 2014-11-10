@@ -24,11 +24,91 @@ if not os.path.exists(JSON_DIR):
 
 # Regexes
 
-number_and_date = re.compile(r'([^0-9:<>./-]0[12].*?\d{2}/\d{2}/\d{4})')
-name_and_date = re.compile(r'^.*?(\d{2}/\d{2}/\d{4})')
+number_and_date = re.compile(
+    # attempting to match what seem to be header lines, which are good
+    # delimiter signals. general form seems to be (roughly):
+    #
+    #     [zero][digit](name)[xxxx@xxxx.xxx][date](time)
+    #
+    r'('
+        # zero and digit
+        r'(?:'
+            # 0[123] not preceded by number or certain punct, and not followed
+            # by certain punct. necessary for lowercase names and
+            r'(?:[^0-9:=<>./\-\ ]0[123][^<>()])'
+            r'|'
+            # 0[123] followed by titlecase (name)
+            r'(?:.0[123][A-Z][a-z])'
+        r')'
+        # name (or whatever)
+        r'.*?'
+        # date
+        r'(?:'
+            # most dates look like this
+            r'\d{2}/\d{2}/\d{4}'
+            r'|'
+            # some dates in 008 look like this
+            r'\d{2}-[A-Z][a-z][a-z]-\d{2}'
+        r')'
+        # timestamp (not always available)
+        r'(?:'
+            r'\ \d{2}:\d{2}:\d{2}'
+        r')*'
+    r')'
+)
 
-extract_name_and_date = re.compile(r'(?:(.*?)(xxxx@xxxx.xxx)*)??(\d{2}/\d{2}/\d{4})')
-extract_heading_fields = re.compile(r'[^0-9:<>./-]0[12](.*?)(\d{2}/\d{2}/\d{4})')
+# name_and_date = re.compile(
+#     # within header line,
+#     r'^.*?(\d{2}/\d{2}/\d{4})')
+
+extract_name_and_date = re.compile(
+    # from a header line, extract information
+    # name and email (zero or one)
+    r'(?:'
+        # CAPTURED: name (or whatever)
+        r'(.*?)'
+        # CAPTURED: email (anonymized, sometimes not there)
+        r'(xxxx@xxxx.xxx)*'
+    # FIXME this is hacky, covers every case except "name emailname email"
+    r')??'
+    # CAPTURED: date
+    r'('
+        # most dates look like this
+        r'\d{2}/\d{2}/\d{4}'
+        r'|'
+        # some dates in 008 look like this
+        r'\d{2}-[A-Z][a-z][a-z]-\d{2}'
+    r')'
+    # CAPTURED: timestamp (not always available)
+    r'('
+        r'\ \d{2}:\d{2}:\d{2}'
+    r')*'
+)
+
+subject_line = re.compile(
+        r'('
+            # camel case
+            r'[a-z][A-Z]'
+        r')'
+    r'|'
+        r'('
+            # number or punct followed by letter
+            r'[0-9.!?)][A-Za-z]'
+        r')'
+    r'|'
+        r'('
+            # all caps mashed next to regular capitalization
+            r'[A-Z][A-Z][a-z]'
+        r')'
+    r'|'
+        r'('
+            # all caps sentences (first part is any caps except "I")
+            r'^[ABCDEFGHJKLMNOPQRSTUVWXYZ]([A-Z/ \-(:;,\'"]+|[\-.!)\'"])+'
+        r')'
+)
+
+# extract_heading_fields = re.compile(
+#    r'[^0-9:<>./-]0[12](.*?)(\d{2}/\d{2}/\d{4})')
 
 
 # Utility Fcts
@@ -55,7 +135,7 @@ def get_xml_texts(xml_file):
 def split_first_entry(first_entry):
     split_up = re.split(extract_name_and_date, first_entry)
     first_email = split_up[-1]
-    first_header = ''.join(split_up[:-1])
+    first_header = ''.join([a or '' for a in split_up[:-1]])
     return (first_header, first_email)
 
 
@@ -75,7 +155,9 @@ def chunk_text(text):
 
 def parse_header(hstring):
     try:
-        name, email, date = re.findall(extract_name_and_date, hstring)[0]
+        name, email, date, time = re.findall(extract_name_and_date, hstring)[0]
+        if not time:
+            time = ''
 
         # for records like "FCC- xxxx@xxxx.xxxFCC- xxxx@xxxx.xxx09/01/2014"
         name = name.replace('xxxx@xxxx.xxx', '')
@@ -84,7 +166,7 @@ def parse_header(hstring):
         if not len(name) % 2:
             if name[:(len(name)/2)] == name[(len(name)/2):]:
                 name = name[:(len(name)/2)]
-        isodate = dateutil.parser.parse(date).replace(
+        isodate = dateutil.parser.parse(date+' '+time).replace(
             tzinfo=dateutil.tz.tzutc()).isoformat()
         return (name.strip(), isodate)
     except ValueError as e:
@@ -95,18 +177,28 @@ def parse_header(hstring):
 
 
 def parse_email(email):
-    m = re.search('[a-z][A-Z]', email[:100])
+    # Default to no subject, msg is whole email
+    subj = ''
+    msg = email[:]
+
+    # First, check for newline break that seems to split things up okay
+    if '\n' in email:
+        maybe_subj = email.split('\n')[0]
+        maybe_msg = '\n'.join(email.split('\n')[1:])
+        if not ((len(maybe_subj) > 100) or (len(maybe_subj) > len(maybe_msg))):
+            subj = maybe_subj[:]
+            msg = maybe_msg[:]
+
+    # Try regex
+    m = re.search(subject_line, email[:100].replace('YouTube','youtube'))
     if m:
-        splitpoint = m.start() + 1
-        subj = email[:splitpoint]
-        msg = email[splitpoint:]
-    else:
-        if '\n' in email:
-            subj = email.split('\n')[0]
-            msg = '\n'.join(email.split('\n')[1:])
-        else:
-            subj = ''
-            msg = email
+        splitpoint = m.end() - 1
+        maybe_subj = email[:splitpoint]
+        maybe_msg = email[splitpoint:]
+        if '\n' not in maybe_subj:
+            subj = maybe_subj[:]
+            msg = maybe_msg[:]
+
     return (subj, msg)
 
 
@@ -123,8 +215,9 @@ if __name__ == "__main__":
                 name, date = parse_header(header)
                 subj, msg = parse_email(email)
                 msg_id += 1
-                data = {'id': '02-{fid}-{mid}'.format(fid=file_id,
-                                                      mid=str(msg_id).zfill(6)),
+                data = {'id': '02-{fid}-{mid}'.format(
+                              fid=file_id,
+                              mid=str(msg_id).zfill(6)),
                         'applicant': name,
                         'text': msg,
                         'email_subject': subj,
