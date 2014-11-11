@@ -205,6 +205,13 @@ def lower_trouble(e):
     return _e
 
 
+def lower_tweets(e):
+    _e = e[:]
+    return re.sub(r'(#(?:[^#\s,;]+)?)[\s,;]',
+                  lambda m: m.string.replace(m.group(1), m.group(1).lower()),
+                  _e)
+
+
 def parse_email(email):
     # Default to no subject, msg is whole email
     subj = ''
@@ -216,14 +223,16 @@ def parse_email(email):
     if len(dumb_split) > 1:
         maybe_subj = dumb_split[0]
         maybe_msg = ''.join(dumb_split[1:])
-        if (len(maybe_subj) <= 100 and (len(maybe_subj) > len(maybe_msg))):
+        # remove html entities for length measurement
+        maybe_subj_len = len(re.sub(r'(&[a-z0-9#]+;)+|\s\s+', '', maybe_subj))
+        if (maybe_subj_len <= 100 and (maybe_subj_len < len(maybe_msg))):
             subj = maybe_subj[:]
             msg = maybe_msg[:]
 
     # Try regex
-    match = re.search(subject_line, lower_trouble(email[:100]))
+    match = re.search(subject_line, lower_tweets(lower_trouble(email[:150])))
     if match:
-        splitpoint = match.end() - 1
+        splitpoint = match.start() + 1
         maybe_subj = email[:splitpoint]
         maybe_msg = email[splitpoint:]
         if not (('\n' in maybe_subj) or
