@@ -45,9 +45,12 @@ number_and_date = re.compile(
             # 0[123] not preceded by number or certain punct, and not followed
             # by certain punct. necessary for lowercase names and
             r'(?:[^0-9:=<>./\-\ ]0[123][^<>()])'
-            r'|'
+                r'|'
             # 0[123] followed by titlecase (name)
             r'(?:.0[123][A-Z][a-z])'
+                r'|'
+            # 0[123] followed by question marks
+            r'(?:.0[123]\?\?+)'
         r')'
         # name (or whatever)
         r'.*?'
