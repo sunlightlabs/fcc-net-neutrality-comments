@@ -25,9 +25,10 @@ if not os.path.exists(JSON_DIR):
 # Lists of troublesome names
 
 trouble_names = [
-    'FCC',
+    'FCCs',
     'YouTube',
-    'AdWords'
+    'AdWords',
+    'VoIP'
 ]
 
 # Regexes
