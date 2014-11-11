@@ -210,21 +210,25 @@ def parse_email(email):
     subj = ''
     msg = email[:]
 
-    # First, check for newline break that seems to split things up okay
-    if '\n' in email:
-        maybe_subj = email.split('\n')[0]
-        maybe_msg = '\n'.join(email.split('\n')[1:])
-        if not ((len(maybe_subj) > 100) or (len(maybe_subj) > len(maybe_msg))):
+    # urls and newlines are good signals for a break
+    dumb_split = re.split(r'(https?://|\n)', email)
+
+    if len(dumb_split) > 1:
+        maybe_subj = dumb_split[0]
+        maybe_msg = ''.join(dumb_split[1:])
+        if (len(maybe_subj) <= 100 and (len(maybe_subj) > len(maybe_msg))):
             subj = maybe_subj[:]
             msg = maybe_msg[:]
 
     # Try regex
-    m = re.search(subject_line, lower_trouble(email[:100]))
-    if m:
-        splitpoint = m.end() - 1
+    match = re.search(subject_line, lower_trouble(email[:100]))
+    if match:
+        splitpoint = match.end() - 1
         maybe_subj = email[:splitpoint]
         maybe_msg = email[splitpoint:]
-        if not (('\n' in maybe_subj) or (len(maybe_subj) <= 3)):
+        if not (('\n' in maybe_subj) or
+                (len(maybe_subj) <= 3) or
+                ('http' in maybe_subj)):
             subj = maybe_subj[:]
             msg = maybe_msg[:]
     else:
