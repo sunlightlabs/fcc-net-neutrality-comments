@@ -108,8 +108,9 @@ subject_line = re.compile(
             # all caps mashed next to regular capitalization
             r'[A-Z][A-Z][a-z]'
         r')'
-    r'|'
-        r'('
+)
+
+all_caps_subject_line = re.compile(
         # all caps sentences
             r'^'
             r'('
@@ -126,7 +127,6 @@ subject_line = re.compile(
                     # stopping characters
                     r'[\-.!)\'"]'
             r')+'
-        r')'
 )
 
 # extract_heading_fields = re.compile(
@@ -227,6 +227,15 @@ def parse_email(email):
         if not (('\n' in maybe_subj) or (len(maybe_subj) <= 3)):
             subj = maybe_subj[:]
             msg = maybe_msg[:]
+    else:
+        cap_match = re.search(all_caps_subject_line, email[:100])
+        if cap_match and not subj:
+            splitpoint = cap_match.end() - 1
+            maybe_subj = email[:splitpoint]
+            maybe_msg = email[splitpoint:]
+            if not (('\n' in maybe_subj) or (len(maybe_subj) <= 3)):
+                subj = maybe_subj[:]
+                msg = maybe_msg[:]
 
     return (subj, msg)
 
