@@ -1,4 +1,5 @@
-import AsciiDammit
+#import AsciiDammit
+import re
 
 map_chars = {u'&deg;': u' degree',
              u'&eacute;': u'e',
