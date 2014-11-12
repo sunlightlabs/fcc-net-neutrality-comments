@@ -23,6 +23,7 @@ def gposttl(utterance, identifier="no_id"):
     else:
         msg = str(error)
         code = str(p.returncode)
+        sys.stderr.write(utterance+'\n\n')
         raise Exception(': '.join([identifier, code, msg]))
 
 
