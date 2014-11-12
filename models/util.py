@@ -60,4 +60,4 @@ def clean_text(text):
         _text = text.replace(s, r)
     _text = re.sub(r'(&[a-z0-9#]+;)+|\s\s+', ' ', _text)
     #return AsciiDammit.asciiDammit(text)
-    return text
+    return _text
