@@ -60,6 +60,6 @@ def clean_text(text):
     for s, r in map_chars.iteritems():
         _text = text.replace(s, r)
     _text = re.sub(r'(https?|ftp):\/\/[^\s]+', ' ', _text)
-    _text = re.sub(r'(&[a-z0-9#]+;)+|\s\s+', ' ', _text)
+    _text = re.sub(r'(&[A-Za-z0-9#]+;)+|\s\s+', ' ', _text)
     #return AsciiDammit.asciiDammit(text)
     return _text
