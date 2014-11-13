@@ -5,6 +5,7 @@
 # it is specifically for the second dump of data, released on FIXME (date)
 
 import xmltodict
+#import regex as re
 import re
 import json
 import sys
@@ -51,9 +52,12 @@ number_and_date = re.compile(
                 r'|'
             # 0[123] followed by question marks
             r'(?:.0[123]\?\?+)'
+                r'|'
+            # 0[123] preceeded and followed by whitespace
+            r'(?:\s0[123]\s)'
         r')'
         # name (or whatever)
-        r'.*?'
+        r'.{,150}?'
         # date
         r'(?:'
             # most dates look like this
@@ -66,7 +70,7 @@ number_and_date = re.compile(
         r'(?:'
             r'\ \d{2}:\d{2}:\d{2}'
         r')*'
-    r')'
+    r')', re.DOTALL
 )
 
 # name_and_date = re.compile(
@@ -105,7 +109,7 @@ subject_line = re.compile(
     r'|'
         r'('
             # number or punct followed by letter
-            r'[0-9.!?)][A-Za-z]'
+            r'.(?![\^])[0-9.!?,)][A-Za-z]'
         r')'
     r'|'
         r'('
