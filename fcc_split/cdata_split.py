@@ -283,6 +283,5 @@ if __name__ == "__main__":
                         'email_subject': subj,
                         'dateRcpt': date}
                 write_json(data)
-                sys.stderr.write('.')
-        sys.stderr.write('...wrote {} files\n\n'.format(msg_id))
-
+        sys.stderr.write('...finished {f}, wrote {m} files\n\n'.format(f=file_id,
+                                                                       m=msg_id))
