@@ -268,6 +268,7 @@ if __name__ == "__main__":
         emails = []
         msg_id = 0
         file_id = str(i).zfill(3)
+        sys.stderr.write('reading {}\n'.format(file_id))
         raw_file = open_raw_file(file_id)
         for text in get_xml_texts(raw_file):
             for header, email in chunk_text(text):
@@ -282,3 +283,6 @@ if __name__ == "__main__":
                         'email_subject': subj,
                         'dateRcpt': date}
                 write_json(data)
+                sys.stderr.write('.')
+        sys.stderr.write('...wrote {} files\n\n'.format(msg_id))
+
