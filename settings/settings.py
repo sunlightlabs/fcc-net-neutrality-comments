@@ -5,7 +5,7 @@ PROJ_ROOT = os.path.join(os.path.abspath(os.path.dirname(__file__)),
 
 DATA_DIR = os.path.join(PROJ_ROOT, 'data')
 JSON_DIR = os.path.join(DATA_DIR, 'json')
-XML_DIR = os.path.join(DATA_DIR, 'json')
+XML_DIR = os.path.join(DATA_DIR, 'raw_xml')
 STATS_DIR = os.path.join(PROJ_ROOT, 'stats')
 RAW_DIR = os.path.join(JSON_DIR, 'raw')
 PROC_DIR = os.path.join(JSON_DIR, 'processed')
