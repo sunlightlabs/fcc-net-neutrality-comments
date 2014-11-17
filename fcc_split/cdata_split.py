@@ -17,8 +17,8 @@ sys.path.append(os.getcwd())
 
 import settings
 
-RAW_DIR = os.path.join(settings.DATA_DIR, 'part_two', 'raw_xml')
-JSON_DIR = os.path.join(settings.DATA_DIR, 'part_two', 'json', 'raw')
+RAW_DIR = os.path.join(settings.DATA_DIR, 'raw_xml')
+JSON_DIR = os.path.join(settings.DATA_DIR, 'json', 'raw')
 
 if not os.path.exists(JSON_DIR):
     os.mkdir(JSON_DIR)
