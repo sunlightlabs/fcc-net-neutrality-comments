@@ -50,7 +50,7 @@ logger.info('building matrix similarity')
 sim_matrix = MatrixSimilarity(tfidf_corpus_lsi, num_features=tfidf_corpus_lsi.num_terms)
 
 logger.info('persisting matrix similarity index')
-sim_matrix.save(os.path.join(settings.PERSIST_DIR, 'tfidf_corpus_lsi_matrix_similarity'))
+sim_matrix.save(os.path.join(settings.PERSIST_DIR, 'tfidf_corpus_lsi-200_matrix_similarity'))
 
 logger.info('survey of neighbor groupings')
 with open(os.path.join(settings.STATS_DIR, 'num_neighbors.csv', 'w')) as fout:

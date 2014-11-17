@@ -20,7 +20,7 @@ from libshorttext import classifier
 from AsciiDammit import asciiDammit
 
 logger.info('initiating textmodel')
-svm_model = classifier.TextModel('../svm_experts/models/fcc-experts.model')
+svm_model = classifier.TextModel('svm_experts/models/fcc-experts.model')
 
 logger.info('listing documents')
 flocs = [line.strip() for line in open(os.path.join(settings.PERSIST_DIR,

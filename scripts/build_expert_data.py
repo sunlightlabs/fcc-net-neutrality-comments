@@ -87,4 +87,4 @@ while count:
             else:
                 write_sentence(sentence, 'JOE', trainfile)
                 sentences = sent_tokenize(get_text(get_json(fnames[lfdoc_ix[0]])))
-            count -= 1
+            count -= 2
