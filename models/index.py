@@ -9,4 +9,4 @@ class InvertedIndex(object):
         self.token2docs = defaultdict(list)
         for docid, doc in enumerate(lazy_corpus):
             for token, count in doc:
-                self.token2docs[token].append((doc,count))
+                self.token2docs[token].append((docid,count))
