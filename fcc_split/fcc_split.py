@@ -5,6 +5,10 @@ import xmltodict, json, sys, os, itertools, re
 import mailbox
 import dateutil.tz, dateutil.parser
 
+sys.path.append(os.getcwd())
+
+from settings import RAW_DIR
+
 def chunkwise(t, size=2):
     it = iter(t)
     return itertools.izip(*[it]*size)
@@ -45,7 +49,7 @@ def unmangle_email(email_text):
     return messages
 
 def write_file(out):
-    outf = open(os.path.join(fdir, "%s.json" % out['id']), 'w')
+    outf = open(os.path.join(RAW_DIR, "%s.json" % out['id']), 'w')
     outf.write(json.dumps(out, indent=4))
     outf.close()
 
