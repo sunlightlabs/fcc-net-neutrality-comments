@@ -48,7 +48,7 @@ class PretaggedTokenizer(BaseTokenizer):
     def tokenize(self, tagged_text):
         tokens = []
         tagged_words = [tagged_word for tagged_word in
-                        tagged_text.split(' ') if tagged_word]
+                        tagged_text.split(' ') if self.regexp.match(tagged_word)]
         try:
             for tagged_word in tagged_words:
                 try:
