@@ -21,9 +21,6 @@ import settings
 RAW_DIR = os.path.join(settings.DATA_DIR, 'raw_xml')
 JSON_DIR = os.path.join(settings.DATA_DIR, 'json', 'raw')
 
-if not os.path.exists(JSON_DIR):
-    os.mkdir(JSON_DIR)
-
 # Lists of troublesome names
 
 trouble_names = [
