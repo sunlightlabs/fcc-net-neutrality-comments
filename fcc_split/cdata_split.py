@@ -5,6 +5,7 @@
 # it is specifically for the second dump of data, released on FIXME (date)
 
 import xmltodict
+from xml.parsers.expat import ExpatError
 #import regex as re
 import re
 import json
@@ -157,9 +158,20 @@ def write_json(out):
 
 # Parsers, etc
 def get_xml_texts(xml_file):
-    doc = xmltodict.parse(xml_file.read())
-    texts = [i['str'] for i in doc['doc']['arr'] if i['@name'] == 'text']
-    return texts
+    try:
+        doc = xmltodict.parse(xml_file.read())
+        texts = [i['str'] for i in doc['doc']['arr'] if i['@name'] == 'text']
+        return texts
+    except ExpatError:
+        from lxml import etree
+        xml_file.seek(0)
+        p = etree.XMLParser(huge_tree=True)
+        xml = etree.parse(xml_file, p)
+        xml_root = xml.getroot()
+        cdata = xml_root.xpath("arr[@name='text']/str")[0]
+        texts = [cdata.text, ]
+        return texts
+
 
 
 def split_first_entry(first_entry):
