@@ -1,7 +1,8 @@
 #import AsciiDammit
 import re
 
-map_chars = {u'&deg;': u' degree',
+map_chars = {u'\x0c': u" ",
+             u'&deg;': u' degree',
              u'&eacute;': u'e',
              u'&frasl;': u'bkslsh',
              u'&lsquo;': u"'",
@@ -11,7 +12,6 @@ map_chars = {u'&deg;': u' degree',
              u'&Otilde;': u"O",
              u'&pound;': u"pounds ",
              u'&#8226;': u"",
-             u'\x0c': u" ",
              u'\xc2\x97': u'-',
              u'\xc2\x91': u"'",
              u'\xc2\x92': u"'",
@@ -58,8 +58,7 @@ map_chars = {u'&deg;': u' degree',
 
 
 def clean_text(text):
-    for s, r in map_chars.iteritems():
-        _text = text.replace(s, r)
+    _text = reduce(lambda t, p: t.replace(*p), map_chars.items(), text)
     _text = re.sub(r'(https?|ftp):\/\/[^\s]+', ' ', _text)
     _text = re.sub(r'[^\s]{40,}', ' ', _text)
     _text = re.sub(r'(&[A-Za-z0-9#]+;)+|\s\s+', ' ', _text)
