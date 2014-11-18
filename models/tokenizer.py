@@ -47,8 +47,10 @@ class PretaggedTokenizer(BaseTokenizer):
 
     def tokenize(self, tagged_text):
         tokens = []
+        tagged_words = [tagged_word for tagged_word in
+                        tagged_text.split(' ') if tagged_word]
         try:
-            for tagged_word in tagged_text.split(' '):
+            for tagged_word in tagged_words:
                 try:
                     word, pos, lemma = self.regexp.findall(tagged_word)[0]
                     if lemma == '<unknown>':
