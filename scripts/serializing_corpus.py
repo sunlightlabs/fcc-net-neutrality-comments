@@ -35,6 +35,10 @@ from models import corpus
 from gensim import corpora
 from gensim.corpora import dictionary
 
+if len(sys.argv) > 1:
+    fname_suffix = sys.argv[1]
+else:
+    fname_suffix = ''
 
 # In[7]:
 
@@ -58,11 +62,15 @@ lj_corpus = corpus.LazyJSONCorpus(tokenizer=pt_tokenizer, dictionary=my_dict, pa
 
 # In[12]:
 
+document_index_fname = 'document_index' + fname_suffix
+
 #lj_corpus.glob_documents(glob_pattern)
-lj_corpus.documents = [line.strip() for line in open(os.path.join(settings.PERSIST_DIR, 'document_index'))]
+lj_corpus.documents = [line.strip() for line in open(os.path.join(settings.PERSIST_DIR, document_index_fname))]
 
 # In[16]:
-corpora.MmCorpus.serialize('persistence/corpus.mm', lj_corpus, my_dict)
+
+corpus_fname = 'corpus' + fname_suffix + '.mm'
+corpora.MmCorpus.serialize(os.path.join(settings.PERSIST_DIR, corpus_fname), lj_corpus, my_dict)
 
 
 
