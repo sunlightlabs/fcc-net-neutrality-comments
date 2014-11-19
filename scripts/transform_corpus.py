@@ -51,7 +51,7 @@ tfidf = models.TfidfModel(corpus)
 
 tfidf_corpus = tfidf[corpus]
 
-tfidf.save(os.path.join(settings.PERSIST_DIR, 'tfidf_model'))
+tfidf.save(os.path.join(settings.PERSIST_DIR, 'tfidf_model' + fname_suffix ))
 
 # In[11]:
 
