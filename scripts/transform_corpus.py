@@ -27,11 +27,19 @@ from gensim import corpora
 from gensim.corpora import dictionary
 from gensim import models
 
+if len(sys.argv) > 1:
+    fname_suffix = sys.argv[1]
+else:
+    fname_suffix = ''
+
 
 # In[6]:
 
+corpus_fname = 'corpus' + fname_suffix + '.mm'
+tfidf_corpus_fname = 'tfidf_corpus' + fname_suffix + '.mm'
+
 my_dict = dictionary.Dictionary.load(os.path.join(settings.PERSIST_DIR, 'my_dict'))
-corpus = corpora.MmCorpus(os.path.join(settings.PERSIST_DIR, 'corpus.mm'))
+corpus = corpora.MmCorpus(os.path.join(settings.PERSIST_DIR, corpus_fname))
 
 
 # In[8]:
@@ -47,7 +55,7 @@ tfidf.save(os.path.join(settings.PERSIST_DIR, 'tfidf_model'))
 
 # In[11]:
 
-corpora.MmCorpus.serialize(os.path.join(settings.PERSIST_DIR, 'tfidf_corpus.mm'),
+corpora.MmCorpus.serialize(os.path.join(settings.PERSIST_DIR, tfidf_corpus_fname),
                            tfidf_corpus)
 
 

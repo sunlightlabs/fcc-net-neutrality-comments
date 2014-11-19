@@ -65,7 +65,9 @@ lj_corpus = corpus.LazyJSONCorpus(tokenizer=pt_tokenizer, dictionary=my_dict, pa
 document_index_fname = 'document_index' + fname_suffix
 
 #lj_corpus.glob_documents(glob_pattern)
-lj_corpus.documents = [line.strip() for line in open(os.path.join(settings.PERSIST_DIR, document_index_fname))]
+document_loc_template = os.path.join(settings.PROC_DIR, '{}.json')
+
+lj_corpus.documents = [document_loc_template.format(line.strip()) for line in open(os.path.join(settings.PERSIST_DIR, document_index_fname))]
 
 # In[16]:
 
