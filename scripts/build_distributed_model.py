@@ -19,7 +19,7 @@ def do_lsi(num_topics, fname_suffix):
     logger.info('reading source corpus and id2word')
 
     tfidf_corpus = corpora.MmCorpus(os.path.join(settings.PERSIST_DIR,
-                                                 'tfidf_corpus{s}.mm'.format(
+                                                 'tfidf_corpus{}.mm'.format(
                                                      fname_suffix)))
 
     my_dict = corpora.Dictionary.load(os.path.join(settings.PERSIST_DIR,
