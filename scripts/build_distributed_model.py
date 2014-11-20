@@ -15,10 +15,13 @@ logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',
 logger = logging.getLogger(__name__)
 
 
-def do_lsi(num_topics):
+def do_lsi(num_topics, fname_suffix):
     logger.info('reading source corpus and id2word')
+
     tfidf_corpus = corpora.MmCorpus(os.path.join(settings.PERSIST_DIR,
-                                                 'tfidf_corpus.mm'))
+                                                 'tfidf_corpus{s}.mm'.format(
+                                                     fname_suffix)))
+
     my_dict = corpora.Dictionary.load(os.path.join(settings.PERSIST_DIR,
                                                    'my_dict'))
 
@@ -27,7 +30,8 @@ def do_lsi(num_topics):
                                 num_topics=num_topics, distributed=True)
 
     persist_model = os.path.join(settings.PERSIST_DIR,
-                                 'lsi_model-%d' % num_topics)
+                                 'lsi_model{s}-{t}'.format(
+                                     s=fname_suffix, t=num_topics))
     logger.info('persisting model in '+persist_model)
     lsi_model.save(persist_model)
 
@@ -35,16 +39,20 @@ def do_lsi(num_topics):
     tfidf_corpus_lsi = lsi_model[tfidf_corpus]
 
     persist_corpus = os.path.join(settings.PERSIST_DIR,
-                                  'tfidf_corpus_lsi-%d' % num_topics)
+                                  'tfidf_corpus_lsi{s}-{t}'.format(
+                                      s=fname_suffix, t=num_topics))
+
     logger.info('persisting transformed corpus in '+persist_corpus)
     corpora.MmCorpus.serialize(persist_corpus, tfidf_corpus_lsi)
     logger.info('finished LSI')
 
 
-def do_lda(num_topics):
+def do_lda(num_topics, fname_suffix):
     logger.info('reading source corpus and id2word')
     corpus = corpora.MmCorpus(os.path.join(settings.PERSIST_DIR,
-                                           'corpus.mm'))
+                                           'corpus{}.mm'.format(
+                                               fname_suffix)))
+
     my_dict = corpora.Dictionary.load(os.path.join(settings.PERSIST_DIR,
                                                    'my_dict'))
 
@@ -53,7 +61,9 @@ def do_lda(num_topics):
                                 num_topics=num_topics, distributed=True)
 
     persist_model = os.path.join(settings.PERSIST_DIR,
-                                 'lda_model-%d' % num_topics)
+                                 'lda_model{s}-{t}'.format(
+                                     s=fname_suffix, t=num_topics))
+
     logger.info('persisting model in '+persist_model)
     lda_model.save(persist_model)
 
@@ -61,16 +71,21 @@ def do_lda(num_topics):
     corpus_lda = lda_model[corpus]
 
     persist_corpus = os.path.join(settings.PERSIST_DIR,
-                                  'corpus_lda-%d' % num_topics)
+                                  'corpus_lda{s}-{t}'.format(
+                                      s=fname_suffix, t=num_topics))
+
     logger.info('persisting transformed corpus in '+persist_corpus)
     corpora.MmCorpus.serialize(persist_corpus, corpus_lda)
     logger.info('finished LDA')
 
 
 if __name__ == "__main__":
+
     modeltype = sys.argv[1].lower()
     num_topics = int(sys.argv[2])
+    fname_suffix = sys.argv[3] if len(sys.argv) > 3 else ''
+
     if modeltype == 'lda':
-        do_lda(num_topics)
+        do_lda(num_topics, fname_suffix)
     elif modeltype == 'lsi':
-        do_lsi(num_topics)
+        do_lsi(num_topics, fname_suffix)
