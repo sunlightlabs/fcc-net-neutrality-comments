@@ -80,12 +80,9 @@ id2token_df.columns = ['token', ]
 column_means = np.abs(lsi_model.projection.u).mean(axis=0)
 topic_maxes = (np.abs(lsi_model.projection.u) - column_means).max(axis=1)
 
-#fnames = [os.path.splitext(os.path.basename(fname))[0] for fname in
-#          glob(os.path.join(settings.PROC_DIR, '*.json'))]
-fnames = [os.path.splitext(os.path.basename(fname.strip()))[0] 
-          for fname in open(os.path.join(settings.PERSIST_DIR,
-                                         'document_index{}'.format(
-                                             fname_suffix)))]
+fnames = [fname.strip()[0] for fname in 
+          open(os.path.join(settings.PERSIST_DIR,
+                            'document_index{}'.format(fname_suffix)))]
 
 index_to_fname = dict(enumerate(fnames))
 fname_to_index = dict(((n, i) for i, n in enumerate(fnames)))
@@ -106,9 +103,9 @@ def get_keywords(doc_list):
             counts[term]['count'] += count
             counts[term]['doc_count'] += 1
     records = ({'token_id': k,
-		'node_freq': cd['count'],
-		'doc_count': cd['doc_count']}
-		for k, cd in counts.items())
+                'node_freq': cd['count'],
+                'doc_count': cd['doc_count']}
+               for k, cd in counts.items())
     node_freqs = pd.DataFrame(records)
     node_freqs.set_index('token_id', inplace=True)
     node_freqs = node_freqs[node_freqs.doc_count > (len(doc_ids) * 0.05)]
@@ -211,9 +208,10 @@ def main():
     rounds = ['cluster_r'+str(i) for i in xrange(11)]
 
     logger.info('reading cluster bookkeeping')
-    bookie = pd.read_csv(
-        open(os.path.join(settings.PERSIST_DIR,
-                          'cluster_bookeeping_kmeans.csv'), 'r'))
+    bookie = pd.read_csv(open(os.path.join(settings.PERSIST_DIR,
+                                           'cluster_bookeeping_kmeans.csv'),
+                              'r'),
+                         dtype={'doc_id':object})
     
     logger.info('making kanopy cluster table')
     add_level_names(bookie)
