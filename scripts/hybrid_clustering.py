@@ -27,29 +27,41 @@ from sklearn.cluster import MiniBatchKMeans
 import numpy as np
 import pandas as pd
 
+if len(sys.argv) > 4:
+    fname_suffix = sys.argv[4]
+else:
+    fname_suffix = ''
+
+
 min_branching = 2
 max_branching = int(sys.argv[1])
 max_depth = int(sys.argv[2])
 min_nodes = int(sys.argv[3])
 
 logger.info('deserializing tfidf_corpus_lsi')
-tfidf_corpus_lsi = corpora.MmCorpus(os.path.join(settings.PERSIST_DIR, 'tfidf_corpus_lsi-200'))
+tfidf_corpus_lsi = corpora.MmCorpus(os.path.join(settings.PERSIST_DIR,
+                                                 'tfidf_corpus_lsi{}-200'.format(
+                                                     fname_suffix)))
 
 logger.info('loading lsi model')
-lsi_model = lsimodel.LsiModel.load(os.path.join(settings.PERSIST_DIR, 'lsi_model-200'))
+lsi_model = lsimodel.LsiModel.load(os.path.join(settings.PERSIST_DIR, 'lsi_model{}-200'.format(
+                                                     fname_suffix)))
 
-fnames = [line.strip() for line in open(os.path.join(settings.PERSIST_DIR, 'document_index'))]
+fnames = [line.strip() for line in open(os.path.join(settings.PERSIST_DIR, 'document_index{}'.format(
+                                                     fname_suffix)))]
+
 doc_ids = pd.Series(map(lambda x: os.path.basename(x).split('.')[0], fnames),
                     dtype=object)
 
 #logger.info('building matrix similarity')
-#doc_topic = MatrixSimilarity(tfidf_corpus_lsi, num_features=tfidf_corpus_lsi.num_terms)
+doc_topic = MatrixSimilarity(tfidf_corpus_lsi, num_features=tfidf_corpus_lsi.num_terms)
 
 #logger.info('persisting matrix similarity index')
-#doc_topic.save(os.path.join(settings.PERSIST_DIR, 'tfidf_corpus_lsi-200_matrix_similarity'))
+doc_topic.save(os.path.join(settings.PERSIST_DIR, 'tfidf_corpus_lsi{}-200_matrix_similarity'.format(
+                                                     fname_suffix)))
 
-doc_topic = MatrixSimilarity.load(os.path.join(settings.PERSIST_DIR,
-                                               'tfidf_corpus_lsi-200_matrix_similarity'))
+#doc_topic = MatrixSimilarity.load(os.path.join(settings.PERSIST_DIR,
+#                                               'tfidf_corpus_lsi-200_matrix_similarity'))
 
 def cluster(group, level, nbranches):
     if len(group) < min_nodes:
