@@ -80,7 +80,7 @@ id2token_df.columns = ['token', ]
 column_means = np.abs(lsi_model.projection.u).mean(axis=0)
 topic_maxes = (np.abs(lsi_model.projection.u) - column_means).max(axis=1)
 
-fnames = [fname.strip()[0] for fname in 
+fnames = [fname.strip() for fname in 
           open(os.path.join(settings.PERSIST_DIR,
                             'document_index{}'.format(fname_suffix)))]
 
