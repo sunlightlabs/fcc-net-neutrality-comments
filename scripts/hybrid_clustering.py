@@ -105,7 +105,8 @@ while 1:
         break
     root_child_vars = np.array([get_sum_variance(sc) for sn, sc in bookie.groupby(root_cluster_model.labels_)])
     root_jumps = overall_variance - root_child_vars
-    root_mask = np.argwhere(np.where(root_jumps > 0.10, root_jumps, np.zeros(root_jumps.shape[0]))).flatten()
+    root_mask = np.argwhere(np.where((root_jumps > 0.10) & (root_jumps < overall_variance),
+                                     root_jumps, np.zeros(root_jumps.shape[0]))).flatten()
     if (len(root_mask) < root_benchmark):
         root_nbranches += 1
         if root_nbranches <= max_branching:
@@ -115,6 +116,7 @@ while 1:
                 raise Exception('no significant clusters found at root')
                 break
             else:
+                logger.warning("Warning, may want to increase max_branching")
                 root_cluster_labels = pd.Series(root_cluster_model.labels_)
                 root_cluster_centers = root_cluster_model.cluster_centers_
                 break
