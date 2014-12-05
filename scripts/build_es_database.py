@@ -25,7 +25,7 @@ action_template = {'_index': 'fcc_test',
                    '_id': None,
                    '_source': None}
 
-es = Elasticsearch(['localhost:9201', ])
+es = Elasticsearch(['localhost:9200', ])
 
 tree_data = json.load(open(os.path.join(settings.PROJ_ROOT,
                                         'cluster_viz',
