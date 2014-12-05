@@ -2,8 +2,6 @@ import os
 import json
 import sys
 
-#import pandas as pd
-#import numpy as np
 from elasticsearch import Elasticsearch
 from elasticsearch import helpers
 
@@ -22,6 +20,14 @@ logger = logging.getLogger('debug_log')
 
 es = Elasticsearch(['localhost:9200', ])
 
+mapping = json.load(open(os.path.join(settings.STATS_DIR,'es_mapping_part_two.json')))
+
+
+cluster_data = json.load(open(os.path.join(settings.PROJ_ROOT,
+                                           'cluster_viz',
+                                           'tree_data',
+                                           'MASTER_INVERSE.json'),'w'))
+
 
 def get_json_doc(doc_id):
     with open(os.path.join(settings.PROC_DIR,
@@ -32,11 +38,16 @@ def get_json_doc(doc_id):
 
 def build_es_action(doc_id, action_template):
     d = get_json_doc(doc_id)
-    d['clusters'] = []
+    d['clusters'] = cluster_data.get(doc_id, [])
     source = action_template.copy()
     source['_id'] = doc_id
     source['_source'] = d
     return source
+
+
+def create_index(index_name):
+    es.indices.create(index=index_name,
+                      body=mapping)
 
 
 def main(index_name, document_id_list):
@@ -63,4 +74,5 @@ if __name__ == "__main__":
     index_name, document_id_list = sys.argv[1:]
     if es.indices.exists(index_name):
         raise Exception("index already exists")
+    create_index(index_name)
     main(index_name, document_id_list)
