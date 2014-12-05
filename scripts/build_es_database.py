@@ -13,7 +13,7 @@ sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)),
 import settings
 
 import logging
-logging.basicConfig(filename='log/lsi_matrix.log',
+logging.basicConfig(filename='log/build_es_database.log',
                     format='%(asctime)s : %(levelname)s : %(message)s',
                     level=logging.INFO)
 
@@ -21,11 +21,6 @@ logging.basicConfig(filename='log/lsi_matrix.log',
 logger = logging.getLogger('debug_log')
 
 es = Elasticsearch(['localhost:9200', ])
-
-tree_data = json.load(open(os.path.join(settings.PROJ_ROOT,
-                                        'cluster_viz',
-                                        'tree_data',
-                                        'MASTER.json')))
 
 
 def get_json_doc(doc_id):
@@ -56,7 +51,7 @@ def main(index_name, document_id_list):
 
     bulk_insert = helpers.streaming_bulk(es,
                                          (build_es_action(
-                                          doc_id,action_template) 
+                                          doc_id, action_template)
                                           for doc_id in doc_ids))
 
     for success, source in bulk_insert:
