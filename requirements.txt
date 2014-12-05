@@ -16,3 +16,4 @@ PyYAML==3.1
 xmltodict
 boto
 pyquery
+elasticsearch>=1.0.0,<2.0.0
