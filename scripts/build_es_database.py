@@ -20,11 +20,6 @@ logging.basicConfig(filename='log/lsi_matrix.log',
 
 logger = logging.getLogger('debug_log')
 
-action_template = {'_index': 'fcc_test',
-                   '_type': 'comment',
-                   '_id': None,
-                   '_source': None}
-
 es = Elasticsearch(['localhost:9200', ])
 
 tree_data = json.load(open(os.path.join(settings.PROJ_ROOT,
@@ -40,7 +35,7 @@ def get_json_doc(doc_id):
     return jd
 
 
-def build_es_action(doc_id):
+def build_es_action(doc_id, action_template):
     d = get_json_doc(doc_id)
     d['clusters'] = []
     source = action_template.copy()
@@ -50,12 +45,18 @@ def build_es_action(doc_id):
 
 
 def main(index_name, document_id_list):
+    action_template = {'_index': index_name,
+                       '_type': 'comment',
+                       '_id': None,
+                       '_source': None}
+
     doc_ids = (line.strip() for line in
                open(os.path.join(settings.PERSIST_DIR,
                                  document_id_list)))
 
     bulk_insert = helpers.streaming_bulk(es,
-                                         (build_es_action(doc_id)
+                                         (build_es_action(
+                                          doc_id,action_template) 
                                           for doc_id in doc_ids))
 
     for success, source in bulk_insert:
@@ -65,7 +66,6 @@ def main(index_name, document_id_list):
 
 if __name__ == "__main__":
     index_name, document_id_list = sys.argv[1:]
-    action_template['_index'] = index_name
     if es.indices.exists(index_name):
         raise Exception("index already exists")
     main(index_name, document_id_list)
