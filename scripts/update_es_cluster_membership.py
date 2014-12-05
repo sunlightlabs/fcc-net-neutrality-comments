@@ -67,6 +67,6 @@ def main(index_name):
 
 if __name__ == "__main__":
     index_name = sys.argv[1]
-    if es.indices.exists(index_name):
-        raise Exception("index already exists")
+    if not es.indices.exists(index_name):
+        raise Exception("no index by that name")
     main(index_name)
