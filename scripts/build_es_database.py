@@ -65,6 +65,7 @@ def main(index_name, document_id_list):
 
 if __name__ == "__main__":
     index_name, document_id_list = sys.argv[1:]
+    action_template['_index'] = index_name
     if es.indices.exists(index_name):
         raise Exception("index already exists")
     main(index_name, document_id_list)
