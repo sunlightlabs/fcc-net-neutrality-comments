@@ -26,7 +26,7 @@ mapping = json.load(open(os.path.join(settings.STATS_DIR,'es_mapping_part_two.js
 cluster_data = json.load(open(os.path.join(settings.PROJ_ROOT,
                                            'cluster_viz',
                                            'tree_data',
-                                           'MASTER_INVERSE.json'),'w'))
+                                           'MASTER_INVERSE.json'),'r'))
 
 
 def get_json_doc(doc_id):
