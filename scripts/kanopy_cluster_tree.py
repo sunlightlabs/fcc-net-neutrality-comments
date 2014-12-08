@@ -35,7 +35,7 @@ NUM_LABELS = 5
 if len(sys.argv) > 1:
     fname_suffix = sys.argv[1]
 else:
-    fname_suffix = ''
+    fname_suffix = '_part_two'
 
 lsi_model = models.LsiModel.load(os.path.join(settings.PERSIST_DIR,
                                               'lsi_model{}-200'.format(
