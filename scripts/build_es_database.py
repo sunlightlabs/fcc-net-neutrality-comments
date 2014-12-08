@@ -27,6 +27,7 @@ mapping = json.load(open(os.path.join(settings.STATS_DIR,
 
 
 tree_data = json.load(open(os.path.join(settings.PROJ_ROOT,
+                                        'cluster_viz',
                                         'tree_data',
                                         'MASTER.json'), 'r'))
 
