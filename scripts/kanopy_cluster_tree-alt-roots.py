@@ -32,34 +32,44 @@ NODE_DOC_INDEX = {}
 
 NUM_LABELS = 5
 
+if len(sys.argv) > 1:
+    fname_suffix = sys.argv[1]
+else:
+    fname_suffix = '_part_two'
+
 lsi_model = models.LsiModel.load(os.path.join(settings.PERSIST_DIR,
-                                              'lsi_model-200'))
+                                              'lsi_model{}-200'.format(
+                                                  fname_suffix)))
 
 tfidf_corpus = corpora.MmCorpus(os.path.join(settings.PERSIST_DIR,
-                                             'tfidf_corpus.mm'))
+                                             'tfidf_corpus{}.mm'.format(
+                                                  fname_suffix)))
 
 corpus = corpora.MmCorpus(os.path.join(settings.PERSIST_DIR,
-                                       'corpus.mm'))
+                                       'corpus{}.mm'.format(
+                                           fname_suffix)))
 
 mydct = corpora.Dictionary.load(os.path.join(settings.PERSIST_DIR,
                                              'my_dict'))
 
-#term_corpus_counts = defaultdict(int)
-#
-#for doc in corpus:
-#    for term, count in doc:
-#        term_corpus_counts[term] += count
+term_corpus_counts_floc = os.path.join(settings.PERSIST_DIR, 'term_corpus_counts{}.csv'.format(fname_suffix))
 
-#term_corpus_counts = pd.DataFrame.from_dict(term_corpus_counts, orient='index')
-#term_corpus_counts.index.name = 'token_id'
-#term_corpus_counts.columns = ['freq']
+if not os.path.exists(term_corpus_counts_floc):
+    term_corpus_counts = defaultdict(int)
 
-#term_corpus_counts.to_csv(os.path.join(settings.PERSIST_DIR,
-#                                       'term_corpus_counts.csv'))
+    for doc in corpus:
+        for term, count in doc:
+            term_corpus_counts[term] += count
 
-term_corpus_counts = pd.read_csv(os.path.join(settings.PERSIST_DIR,
-                                             'term_corpus_counts.csv'))
-term_corpus_counts.set_index('token_id')
+    term_corpus_counts = pd.DataFrame.from_dict(term_corpus_counts, orient='index')
+    term_corpus_counts.index.name = 'token_id'
+    term_corpus_counts.columns = ['freq']
+
+    term_corpus_counts.to_csv(os.path.join(settings.PERSIST_DIR,
+                                           'term_corpus_counts.csv'))
+else:
+    term_corpus_counts = pd.read_csv()
+    term_corpus_counts.set_index('token_id')
 
 id2token = {v: k for k, v in mydct.token2id.iteritems()}
 
@@ -70,10 +80,9 @@ id2token_df.columns = ['token', ]
 column_means = np.abs(lsi_model.projection.u).mean(axis=0)
 topic_maxes = (np.abs(lsi_model.projection.u) - column_means).max(axis=1)
 
-#fnames = [os.path.splitext(os.path.basename(fname))[0] for fname in
-#          glob(os.path.join(settings.PROC_DIR, '*.json'))]
-fnames = [os.path.splitext(os.path.basename(fname.strip()))[0] 
-          for fname in open(os.path.join(settings.PERSIST_DIR, 'document_index'))]
+fnames = [fname.strip() for fname in 
+          open(os.path.join(settings.PERSIST_DIR,
+                            'document_index{}'.format(fname_suffix)))]
 
 index_to_fname = dict(enumerate(fnames))
 fname_to_index = dict(((n, i) for i, n in enumerate(fnames)))
@@ -94,9 +103,9 @@ def get_keywords(doc_list):
             counts[term]['count'] += count
             counts[term]['doc_count'] += 1
     records = ({'token_id': k,
-		'node_freq': cd['count'],
-		'doc_count': cd['doc_count']}
-		for k, cd in counts.items())
+                'node_freq': cd['count'],
+                'doc_count': cd['doc_count']}
+               for k, cd in counts.items())
     node_freqs = pd.DataFrame(records)
     node_freqs.set_index('token_id', inplace=True)
     node_freqs = node_freqs[node_freqs.doc_count > (len(doc_ids) * 0.05)]
@@ -199,9 +208,10 @@ def main():
     rounds = ['cluster_r'+str(i) for i in xrange(11)]
 
     logger.info('reading cluster bookkeeping')
-    bookie = pd.read_csv(
-        open(os.path.join(settings.PERSIST_DIR,
-                          'cluster_bookeeping_kmeans.csv'), 'r'))
+    bookie = pd.read_csv(open(os.path.join(settings.PERSIST_DIR,
+                                           'cluster_bookeeping_kmeans.csv'),
+                              'r'),
+                         dtype={'doc_id':object})
     
     logger.info('making kanopy cluster table')
     add_level_names(bookie)
@@ -253,10 +263,10 @@ def main():
         logger.info('finished root node: '+root_node['id'])
 
     logger.info('writing tree')
-    json.dump(tree, open('cluster_viz/assets/alt_tree.json', 'w'))
+    json.dump(tree, open('cluster_viz/assets/tree.json', 'w'))
 
     logger.info('writing tree_data')
-    json.dump(NODE_DOC_INDEX, open('cluster_viz/tree_data/alt_MASTER.json', 'w'),
+    json.dump(NODE_DOC_INDEX, open('cluster_viz/tree_data/MASTER.json', 'w'),
               indent=2)
 
 if __name__ == "__main__":
