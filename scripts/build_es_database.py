@@ -2,6 +2,8 @@ import os
 import json
 import sys
 
+from collections import defaultdict
+
 from elasticsearch import Elasticsearch
 from elasticsearch import helpers
 
@@ -20,13 +22,26 @@ logger = logging.getLogger('debug_log')
 
 es = Elasticsearch(['localhost:9200', ])
 
-mapping = json.load(open(os.path.join(settings.STATS_DIR,'es_mapping_part_two.json')))
+mapping = json.load(open(os.path.join(settings.STATS_DIR,
+                                      'es_mapping_part_two.json')))
 
 
-cluster_data = json.load(open(os.path.join(settings.PROJ_ROOT,
-                                           'cluster_viz',
-                                           'tree_data',
-                                           'MASTER_INVERSE.json'),'r'))
+tree_data = json.load(open(os.path.join(settings.PROJ_ROOT,
+                                        'tree_data',
+                                        'MASTER.json'), 'r'))
+
+cluster_data = defaultdict(list)
+
+for node_label, doc_ids in tree_data.iteritems():
+    for doc_id in doc_ids:
+        cluster_data[doc_id].append(node_label)
+
+json.dump(cluster_data, open(os.path.join(settings.PROJ_ROOT,
+                                          'cluster_viz',
+                                          'tree_data',
+                                          'MASTER_INVERSE.json'), 'w'))
+
+del tree_data
 
 
 def get_json_doc(doc_id):
