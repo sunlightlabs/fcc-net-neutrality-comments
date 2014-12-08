@@ -32,6 +32,8 @@ if len(sys.argv) > 4:
 else:
     fname_suffix = ''
 
+JUMP_THRESH = 0.10
+TOPIC_LIMIT = 42
 
 min_branching = 2
 max_branching = int(sys.argv[1])
@@ -72,7 +74,7 @@ def cluster(group, level, nbranches):
 
     mbk = MiniBatchKMeans(init='k-means++', n_clusters=nbranches, n_init=1,
                           init_size=1000, batch_size=1000)
-    mbk.fit(doc_topic.index[group['original_id']])
+    mbk.fit(doc_topic.index[group['original_id'],:TOPIC_LIMIT])
     return mbk
 
 
@@ -85,7 +87,7 @@ def index_freq_above(na, minval):
 
 
 def get_sum_variance(group, docs=doc_topic):
-    return np.sum(np.var(docs.index[group.index], axis=0))
+    return np.sum(np.var(docs.index[group.index,:TOPIC_LIMIT], axis=0))
 
 unclustered_gensim_id = pd.Series(xrange(doc_ids.shape[0]))
 
@@ -106,7 +108,7 @@ while 1:
         break
     root_child_vars = np.array([get_sum_variance(sc) for sn, sc in bookie.groupby(root_cluster_model.labels_)])
     root_jumps = overall_variance - root_child_vars
-    root_mask = np.argwhere(np.where((root_jumps > 0.10) & (root_jumps < overall_variance),
+    root_mask = np.argwhere(np.where((root_jumps > JUMP_THRESH) & (root_jumps < overall_variance),
                                      root_jumps, np.zeros(root_jumps.shape[0]))).flatten()
     if (len(root_mask) < root_benchmark):
         root_nbranches += 1
@@ -169,9 +171,13 @@ for level in xrange(1, max_depth+1):
             if not cluster_model:
                 _small_group = True
                 break
-            child_vars = np.array([get_sum_variance(sc) for sn, sc in group.groupby(cluster_model.labels_)])
+            child_vars = np.array([get_sum_variance(sc)
+                                   for sn, sc in
+                                   group.groupby(cluster_model.labels_)])
             _jumps = parent_var - child_vars
-            _mask = np.argwhere(np.where(_jumps > 0.10, _jumps, np.zeros(_jumps.shape[0]))).flatten()
+            _mask = np.argwhere(np.where(_jumps > JUMP_THRESH,
+                                         _jumps,
+                                         np.zeros(_jumps.shape[0]))).flatten()
             if (len(_mask) < _benchmark):
                 _nbranches += 1
                 if _nbranches <= max_branching:
