@@ -244,9 +244,9 @@ def main():
     #     cluster_names = json.load(fin)
 
     #root_nodes = ["0_0", "0_1", "0_2", "0_3"]
-    root_nodes = ["0_0", "0_2",
-                  "1_1-2", "1_1-1", "1_1-3",
-                  "2_1-0-1", "2_1-0-3", "2_1-0-0", "2_1-0-2"]
+    root_nodes = ["0_0",
+                  "1_1-1", "1_1-2", "1_1-3",
+                  "2_1-0-0", "2_1-0-1", "2_1-0-2", "2_1-0-3"]
 
     tree = filter(lambda x: x['id'] in root_nodes, all_nodes)
 
