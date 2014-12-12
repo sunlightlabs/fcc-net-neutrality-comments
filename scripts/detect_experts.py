@@ -24,7 +24,7 @@ svm_model = classifier.TextModel('svm_experts/models/fcc-experts.model')
 
 logger.info('listing documents')
 flocs = [line.strip() for line in open(os.path.join(settings.PERSIST_DIR,
-                                                    'document_index'), 'r')]
+                                                    'document_index_part_two'), 'r')]
 logger.info('... found {} documents'.format(len(flocs)))
 
 
@@ -40,7 +40,7 @@ def get_text(jd):
         return ""
 
 
-with open(os.path.join(settings.PERSIST_DIR, 'expert_predictions.csv'), 'w') as fout:
+with open(os.path.join(settings.PERSIST_DIR, 'expert_predictions_part_two.csv'), 'w') as fout:
     writer = csv.writer(fout)
     for i, floc in enumerate(flocs):
         fname = os.path.basename(floc)
