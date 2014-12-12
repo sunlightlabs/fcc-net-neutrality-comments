@@ -23,13 +23,13 @@ logger.info('initiating textmodel')
 svm_model = classifier.TextModel('svm_experts/models/fcc-experts.model')
 
 logger.info('listing documents')
-flocs = [line.strip() for line in open(os.path.join(settings.PERSIST_DIR,
+doc_ids = [line.strip() for line in open(os.path.join(settings.PERSIST_DIR,
                                                     'document_index_part_two'), 'r')]
-logger.info('... found {} documents'.format(len(flocs)))
+logger.info('... found {} documents'.format(len(doc_ids)))
 
 
 def get_json(filename):
-    return json.load(open(os.path.join(settings.RAW_DIR, filename)))
+    return json.load(open(os.path.join(settings.PROC_DIR, filename)))
 
 
 def get_text(jd):
@@ -42,8 +42,8 @@ def get_text(jd):
 
 with open(os.path.join(settings.PERSIST_DIR, 'expert_predictions_part_two.csv'), 'w') as fout:
     writer = csv.writer(fout)
-    for i, floc in enumerate(flocs):
-        fname = os.path.basename(floc)
+    for i, doc_id in enumerate(doc_ids):
+        fname = '{}.json'.format(doc_id)
         if not i % 1000:
             logger.info('predicted {} documents'.format(i))
         result = classifier.predict_single_text(get_text(get_json(fname)),
