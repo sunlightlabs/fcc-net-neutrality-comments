@@ -170,6 +170,7 @@
             .append("xhtml:div")
             .html('<button class="btn-sunlight"><i class="glyphicon glyphicon-list-alt"></i> <span class="button-label"></span></button>');
         var viewButton = viewButtonArea.selectAll('button');
+        viewButton.style('display', 'none')
 
 
         var node = svg.selectAll("circle,.tlabel");
@@ -204,9 +205,11 @@
             d3.selectAll('circle').classed('selected', false);
             if (focus.parent) {
                 d3.selectAll('circle#circle-' + d.id).classed('selected', true);
+                viewButton.style('display', '');
                 window.replaceHash(d.id);
             } else {
                 title.style('display', 'none');
+                viewButton.style('display', 'none');
                 window.replaceHash("");
             }
 
