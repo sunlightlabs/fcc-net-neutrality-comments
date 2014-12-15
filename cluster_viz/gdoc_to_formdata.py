@@ -6,7 +6,7 @@ csv_url = 'https://docs.google.com/spreadsheets/d/1MOHC07E024GvMvUFO57Ihxr0j2itM
 
 # ES setup
 from elasticsearch import Elasticsearch
-es = Elasticsearch(['localhost:9201',])
+es = Elasticsearch(['localhost:9200',])
 
 def node_phrase_query(node_id, key_phrase):
     qbody = {
