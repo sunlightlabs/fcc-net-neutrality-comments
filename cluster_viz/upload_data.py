@@ -2,8 +2,13 @@ import os, sys, subprocess, tempfile, gzip, cStringIO
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
 
+sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                             os.path.pardir))
+
+import settings
+
 conn = S3Connection()
-bucket = conn.get_bucket("openinternet.widgets.sunlightfoundation.com")
+bucket = conn.get_bucket(settings.S3_BUCKET)
 
 base = sys.argv[1]
 for j in os.listdir(base):

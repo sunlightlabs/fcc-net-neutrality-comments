@@ -13,13 +13,15 @@ def chunkwise(t, size=2):
     it = iter(t)
     return itertools.izip(*[it]*size)
 
-def unmangle_email(email_text):
+def unmangle_email(email_text, split_pattern):
     # strip out the occasional headers
     stripped = re.sub(r"\n?cimsreport_open internet [A-Z0-9a-z_-]+\.txt\[[A-Z0-9\s:/]+\]\n", "", email_text)
 
-    # next, split into individual email messages
-    split = re.split("\n?--+ Email ([\d,]+) --+\n", stripped)
+    # getting rid of the initial integer and dividing line
+    stripped = re.split(r'^\d+\n={87}', stripped)[-1]
 
+    # next, split into individual email messages
+    split = re.split(split_pattern, stripped)
     
     messages = []
     utc = dateutil.tz.tzutc()
@@ -103,7 +105,15 @@ def handle_doc(_, doc):
         # is this a crazy emails-concatenated-together one?
         if type(out['text']) is unicode and '--------- Email' in out['text'][:1000]:
             # yes
-            unmangled = unmangle_email(out['text'])
+            unmangled = unmangle_email(out['text'], "\n?--+ Email ([\d,]+) --+\n")
+            for message in unmangled:
+                mout = dict(out)
+                mout.update(message)
+                mout['id'] = '-'.join([out['id'], mout['id']])
+                write_file(mout)
+        elif type(out['text']) is unicode and '='*87 in out['text'][:1000]:
+            # yes
+            unmangled = unmangle_email(out['text'], "^={87}")
             for message in unmangled:
                 mout = dict(out)
                 mout.update(message)

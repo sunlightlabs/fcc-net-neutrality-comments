@@ -13,6 +13,8 @@ PERSIST_DIR = os.path.join(PROJ_ROOT, 'persistence')
 SVM_DIR = os.path.join(PROJ_ROOT, 'svm_experts')
 CLUSTER_DIR = os.path.join(PERSIST_DIR, 'clusters')
 
+S3_BUCKET = "openinternet-pt3.widgets.sunlightfoundation.com"
+
 svm_options = {
     'stemming': 1,
     'stopword': 0,
