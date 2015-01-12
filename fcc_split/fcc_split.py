@@ -1,9 +1,15 @@
 # this script transforms XML exports of FCC comments into directories of individual comments expressed as JSON
 # including recognizing comments that are emails aggregated together and splitting them back apart
 
-import xmltodict, json, sys, os, itertools, re
+import xmltodict
+import json
+import sys
+import os
+import itertools
+import re
 import mailbox
-import dateutil.tz, dateutil.parser
+import dateutil.tz
+import dateutil.parser
 
 sys.path.append(os.getcwd())
 
