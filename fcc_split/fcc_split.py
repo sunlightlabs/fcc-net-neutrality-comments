@@ -56,6 +56,43 @@ def unmangle_email(email_text, split_pattern):
 
     return messages
 
+def unmangle_email_two(email_text, split_pattern):
+    # strip out the occasional headers
+    stripped = re.sub(r"\n?cimsreport_open internet [A-Z0-9a-z_-]+\.txt\[[A-Z0-9\s:/]+\]\n", "", email_text)
+
+    # getting rid of the initial integer and dividing line
+    stripped = re.split(r'^\d+\n={87}', stripped)[-1]
+
+    # next, split into individual email messages
+    split = re.split(split_pattern, stripped)
+    
+    messages = []
+    utc = dateutil.tz.tzutc()
+
+    # then go through them pair-wise
+    for _number, message in zip(range(len(split)), split):
+        number = unicode(_number)
+        try:
+            parsed = mailbox.Message(message.encode('utf8'))
+
+            messages.append({
+                'id': number,
+                'applicant': parsed['From'].decode('utf8'),
+                'email_to': parsed['To'].decode('utf8'),
+                'email_subject': parsed['Subject'].decode('utf8'),
+                'dateRcpt': dateutil.parser.parse(parsed['Date']).replace(tzinfo=dateutil.tz.tzutc()).isoformat(), # are they really UTC? Who knows?
+                'text': parsed.get_payload().decode('utf8'),
+                'preprocessed': True
+            })
+        except:
+            messages.append({
+                'id': number,
+                'text': message,
+                'preprocessed': True
+            })
+
+    return messages
+
 def write_file(out):
     outf = open(os.path.join(RAW_DIR, "%s.json" % out['id']), 'w')
     outf.write(json.dumps(out, indent=4))
@@ -119,7 +156,7 @@ def handle_doc(_, doc):
                 write_file(mout)
         elif type(out['text']) is unicode and '='*87 in out['text'][:1000]:
             # yes
-            unmangled = unmangle_email(out['text'], "^={87}")
+            unmangled = unmangle_email_two(out['text'], "={87}")
             for message in unmangled:
                 mout = dict(out)
                 mout.update(message)
