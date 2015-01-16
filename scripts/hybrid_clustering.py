@@ -55,14 +55,18 @@ fnames = [line.strip() for line in open(os.path.join(settings.PERSIST_DIR, 'docu
 doc_ids = pd.Series(map(lambda x: os.path.basename(x).split('.')[0], fnames),
                     dtype=object)
 
-#logger.info('building matrix similarity')
-#doc_topic = MatrixSimilarity(tfidf_corpus_lsi, num_features=tfidf_corpus_lsi.num_terms)
+matrix_sim_loc = os.path.join(settings.PERSIST_DIR,
+                              'tfidf_corpus_lsi{}-200_matrix_similarity'.format(fname_suffix))
 
-#logger.info('persisting matrix similarity index')
-#doc_topic.save(os.path.join(settings.PERSIST_DIR, 'tfidf_corpus_lsi{}-200_matrix_similarity'.format(
-#                                                     fname_suffix)))
+if not os.path.exists(matrix_sim_loc):
+    logger.info('building matrix similarity')
+    doc_topic = MatrixSimilarity(tfidf_corpus_lsi, num_features=tfidf_corpus_lsi.num_terms)
 
-doc_topic = MatrixSimilarity.load(os.path.join(settings.PERSIST_DIR,
+    logger.info('persisting matrix similarity index')
+    doc_topic.save()
+else:
+    logger.info('matrix similarity already available. using that')
+    doc_topic = MatrixSimilarity.load(os.path.join(settings.PERSIST_DIR,
                                                'tfidf_corpus_lsi{}-200_matrix_similarity'.format(
                                                fname_suffix)))
 
