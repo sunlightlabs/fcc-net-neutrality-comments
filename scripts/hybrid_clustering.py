@@ -10,7 +10,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), os.path.pardir))
 from time import time
 
 import logging
-logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',
+logging.basicConfig(filename='log/hybrid_clustering.log', format='%(asctime)s : %(levelname)s : %(message)s',
                     level=logging.INFO)
 
 logger = logging.getLogger('log/hybrid_clustering.log')
