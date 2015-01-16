@@ -23,8 +23,9 @@ glob_pattern = os.path.join(settings.PROC_DIR, '*.json')
 #glob_pattern = os.path.join(settings.PROC_DIR, '60182*.json')
 lj_corpus.glob_documents(glob_pattern)
 with open(os.path.join(settings.PERSIST_DIR, 'document_index'), 'w') as fout:
-    for fn in iglob(glob_pattern):
-        fout.write(fn+'\n')
+    for floc in iglob(glob_pattern):
+        doc_id = os.path.basename(floc).split('.')[0]
+        fout.write(doc_id+'\n')
 
 my_dict = dictionary.Dictionary(lj_corpus)
 

@@ -13,7 +13,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), os.path.pardir))
 # In[3]:
 
 import logging
-logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+logging.basicConfig(filename='build_corpus_and_dictionary.log', format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
 
 # In[4]:
