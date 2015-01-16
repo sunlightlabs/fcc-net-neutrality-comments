@@ -12,7 +12,7 @@ sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), os.path
 # In[2]:
 
 import logging
-logging.basicConfig(filename='transform_corpus.log', format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+logging.basicConfig(filename='log/transform_corpus.log', format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
 
 # In[3]:
