@@ -63,7 +63,7 @@ if not os.path.exists(matrix_sim_loc):
     doc_topic = MatrixSimilarity(tfidf_corpus_lsi, num_features=tfidf_corpus_lsi.num_terms)
 
     logger.info('persisting matrix similarity index')
-    doc_topic.save()
+    doc_topic.save(matrix_sim_loc)
 else:
     logger.info('matrix similarity already available. using that')
     doc_topic = MatrixSimilarity.load(os.path.join(settings.PERSIST_DIR,
