@@ -66,9 +66,7 @@ if not os.path.exists(matrix_sim_loc):
     doc_topic.save(matrix_sim_loc)
 else:
     logger.info('matrix similarity already available. using that')
-    doc_topic = MatrixSimilarity.load(os.path.join(settings.PERSIST_DIR,
-                                               'tfidf_corpus_lsi{}-200_matrix_similarity'.format(
-                                               fname_suffix)))
+    doc_topic = MatrixSimilarity.load(matrix_sim_loc)
 
 def cluster(group, level, nbranches):
     if len(group) < min_nodes:
