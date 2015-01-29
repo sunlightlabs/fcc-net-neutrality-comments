@@ -57,6 +57,44 @@ def unmangle_email(email_text, split_pattern):
     return messages
 
 def unmangle_email_two(email_text, split_pattern):
+
+    def _parse_special(t):
+        p_from = re.compile(r'\nFrom:([^\n]*)', re.MULTILINE)
+        p_date = re.compile(r'\nDate:([^\n]*)', re.MULTILINE)
+        p_subj = re.compile(r'\nSubject:([^\n]*)', re.MULTILINE)
+
+        def _remove_name(s, name):
+            try:
+                signature = re.search(re.compile(re.escape(name)), s)
+                return s[:signature.start()]
+            except:
+                return s
+
+        def _parse_fields(s):
+            name = ''
+            date = ''
+            subj = ''
+            name_match = re.findall(p_from, s)
+            date_match = re.findall(p_date, s)
+            subj_match = re.findall(p_subj, s)
+
+            ct = s[:]
+            for p in [p_from, p_date, p_subj]:
+                ct = p.sub('',ct)
+            if name_match:
+                name = name_match[0].strip()
+                ct = _remove_name(ct, name)
+            if date_match:
+                try:
+                    date = dateutil.parser.parse(date_match[0].strip()).replace(tzinfo=dateutil.tz.tzutc()).isoformat()
+                except:
+                    date = None
+            if subj_match:
+                subj = subj_match[0].strip()
+            return {'name': name, 'date': date, 'subj': subj, 'text': ct}
+
+        return _parse_fields(t)
+
     # strip out the occasional headers
     stripped = re.sub(r"\n?cimsreport_open internet [A-Z0-9a-z_-]+\.txt\[[A-Z0-9\s:/]+\]\n", "", email_text)
 
@@ -85,11 +123,23 @@ def unmangle_email_two(email_text, split_pattern):
                 'preprocessed': True
             })
         except:
-            messages.append({
-                'id': number,
-                'text': message,
-                'preprocessed': True
-            })
+            try:
+                parsed = _parse_special(message)
+                messages.append({
+                    'id': number,
+                    'text': parsed['text'],
+                    'applicant': parsed.get('name', ''),
+                    'dateRcpt': parsed.get('date', ''),
+                    'email_subject': parsed.get('subj', ''),
+                    'preprocessed': True
+                })
+            except:
+                messages.append({
+                               'id': number,
+                                'text': message,
+                                'preprocessed': True
+                            })
+
 
     return messages
 
