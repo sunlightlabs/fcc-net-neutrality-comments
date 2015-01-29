@@ -65,10 +65,9 @@ if not os.path.exists(term_corpus_counts_floc):
     term_corpus_counts.index.name = 'token_id'
     term_corpus_counts.columns = ['freq']
 
-    term_corpus_counts.to_csv(os.path.join(settings.PERSIST_DIR,
-                                           'term_corpus_counts.csv'))
+    term_corpus_counts.to_csv(term_corpus_counts_floc)
 else:
-    term_corpus_counts = pd.read_csv()
+    term_corpus_counts = pd.read_csv(term_corpus_counts_floc)
     term_corpus_counts.set_index('token_id')
 
 id2token = {v: k for k, v in mydct.token2id.iteritems()}
