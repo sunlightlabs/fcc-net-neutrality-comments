@@ -89,7 +89,15 @@ fname_to_index = dict(((n, i) for i, n in enumerate(fnames)))
 
 def terms_for_docid(docid):
     ix = fname_to_index[docid]
-    terms = corpus.docbyoffset(corpus.index[ix])
+    try:
+        terms = corpus.docbyoffset(corpus.index[ix])
+    except:
+        print '='*80
+        print 'document not in index'
+        print 'docid: {}'.format(docid)
+        print 'ix: {}'.format(ix)
+        print '='*80
+        return []
     return [(t, w) for t, w in terms]
 
 
