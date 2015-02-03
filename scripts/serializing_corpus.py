@@ -60,6 +60,13 @@ pt_tokenizer = tokenizer.PretaggedTokenizer(stopword_list=None, filter_tags=punc
 lj_corpus = corpus.LazyJSONCorpus(tokenizer=pt_tokenizer, dictionary=my_dict, path_to_text='tagged')
 
 
+large_doc_loc = os.path.join(settings.PERSIST_DIR, 'large_documents')
+if os.path.exists(large_doc_loc):
+    with open(large_doc_loc) as large_doc_file:
+        large_documents = [line.strip() for line in large_doc_file]
+else:
+    large_documents = []
+
 # In[12]:
 
 document_index_fname = 'document_index' + fname_suffix
@@ -67,7 +74,10 @@ document_index_fname = 'document_index' + fname_suffix
 #lj_corpus.glob_documents(glob_pattern)
 document_loc_template = os.path.join(settings.PROC_DIR, '{}.json')
 
-lj_corpus.documents = [document_loc_template.format(line.strip()) for line in open(os.path.join(settings.PERSIST_DIR, document_index_fname))]
+if large_documents:
+    lj_corpus.documents = [document_loc_template.format(line.strip()) for line in open(os.path.join(settings.PERSIST_DIR, document_index_fname)) if line.strip() not in large_documents]
+else:
+    lj_corpus.documents = [document_loc_template.format(line.strip()) for line in open(os.path.join(settings.PERSIST_DIR, document_index_fname))]
 
 # In[16]:
 
