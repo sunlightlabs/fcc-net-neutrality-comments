@@ -1,4 +1,11 @@
 {
+  "settings": {
+      "index": {
+          "mapping": {
+              "ignore_malformed": true
+          }
+      }
+  },
   "mappings": {
     "comment": {
       "properties": {
