@@ -27,18 +27,18 @@ from sklearn.cluster import MiniBatchKMeans
 import numpy as np
 import pandas as pd
 
-if len(sys.argv) > 4:
-    fname_suffix = sys.argv[4]
+if len(sys.argv) > 5:
+    fname_suffix = sys.argv[5]
 else:
     fname_suffix = ''
 
 JUMP_THRESH = 0.10
-TOPIC_LIMIT = 42
 
 min_branching = 2
 max_branching = int(sys.argv[1])
 max_depth = int(sys.argv[2])
 min_nodes = int(sys.argv[3])
+TOPIC_LIMIT = int(sys.argv[4])
 
 logger.info('deserializing tfidf_corpus_lsi')
 tfidf_corpus_lsi = corpora.MmCorpus(os.path.join(settings.PERSIST_DIR,

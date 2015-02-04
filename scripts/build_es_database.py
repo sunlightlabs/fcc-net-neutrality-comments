@@ -84,7 +84,7 @@ def main(index_name, document_id_list):
     for success, source in bulk_insert:
         if not success:
             logger.warning("{d} not indexed\n{s}".format(
-                d=source['_id'], s=json.dumps(source, indent=2)))
+                d=source.get('_id', '???'), s=json.dumps(source, indent=2)))
 
 if __name__ == "__main__":
     index_name, document_id_list = sys.argv[1:]
