@@ -114,7 +114,10 @@ def get_keywords(doc_list):
                 'doc_count': cd['doc_count']}
                for k, cd in counts.items())
     node_freqs = pd.DataFrame(records)
-    node_freqs.set_index('token_id', inplace=True)
+    try:
+        node_freqs.set_index('token_id', inplace=True)
+    except KeyError:
+        return []
     node_freqs = node_freqs[node_freqs.doc_count > (len(doc_ids) * 0.05)]
     node_freqs = node_freqs.join(term_corpus_counts, how='left')
     node_freqs = node_freqs.join(id2token_df, how='left')
