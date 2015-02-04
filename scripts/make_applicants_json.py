@@ -1,7 +1,7 @@
 from glob import iglob
 import json
 import os
-flocs = iglob('data/json/raw/*.json')
+flocs = iglob('data/json/processed/*.json')
 applicants = {}
 for floc in flocs:
     with open(floc, 'r') as fin:

@@ -80,6 +80,7 @@ else:
     lj_corpus.documents = [document_loc_template.format(line.strip()) for line in open(os.path.join(settings.PERSIST_DIR, document_index_fname))]
 
 # In[16]:
+logging.info('serializing corpus with {} documents'.format(len(lj_corpus))) 
 
 corpus_fname = 'corpus' + fname_suffix + '.mm'
 corpora.MmCorpus.serialize(os.path.join(settings.PERSIST_DIR, corpus_fname), lj_corpus, my_dict)
